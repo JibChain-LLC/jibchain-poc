@@ -34,7 +34,7 @@ jobs:
           VERCEL_URL: jibchain-llc.github.io
           NEXT_PUBLIC_BASE_PATH: /jibchain-poc
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
-          NEW_API_TOPIC_URI: ${{ secrets.NEWS_API_TOPIC_URI }}
+          NEWS_API_TOPIC_URI: ${{ secrets.NEWS_API_TOPIC_URI }}
           WATSONX_AI_AUTH_TYPE: iam
           WATSONX_AI_APIKEY: ${{ secrets.WATSONX_AI_APIKEY }}
           WATSONX_AI_PROJECT_ID: ${{ secrets.WATSONX_AI_PROJECT_ID }}
