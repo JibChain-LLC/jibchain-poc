@@ -31,7 +31,7 @@ jobs:
 
       - name: Build Site
         env:
-          VERCEL_URL: jbukuts.github.io
+          VERCEL_URL: jibchain-llc.github.io
           NEXT_PUBLIC_BASE_PATH: /jibchain-poc
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           NEW_API_TOPIC_URI: ${{ secrets.NEWS_API_TOPIC_URI }}
