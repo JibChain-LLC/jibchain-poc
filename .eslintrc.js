@@ -1,7 +1,13 @@
 /** @type { import('eslint').Linter.Config }  */
 module.exports = {
-  extends: ['next/core-web-vitals', 'prettier'],
-  plugins: ['prettier'],
+  extends: [
+    'next/core-web-vitals',
+    'prettier',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:tailwindcss/recommended'
+  ],
+  plugins: ['prettier', '@typescript-eslint'],
+  parser: '@typescript-eslint/parser',
   rules: {
     indent: 'off',
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
@@ -12,7 +18,7 @@ module.exports = {
     'react/self-closing-comp': ['error', { component: true, html: false }],
     'react/no-array-index-key': 'off',
     'react/require-default-props': 'off',
-    'no-unused-vars': [
+    '@typescript-eslint/no-unused-vars': [
       'error',
       { destructuredArrayIgnorePattern: '^_', argsIgnorePattern: '^_' }
     ],

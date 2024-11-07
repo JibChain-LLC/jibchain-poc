@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Header } from '#/components/custom';
-import { ThemeProvider } from '#/components/theme-provider';
+import Header from '#/components/header';
+import ThemeProvider from '#/components/theme-provider';
 import { Toaster } from '#/components/ui/toaster';
 import { cn } from '#/lib/utils';
 
@@ -19,15 +19,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className='bg-background min-h-screen'>
+    <html
+      lang='en'
+      className='min-h-screen bg-background'
+      suppressHydrationWarning>
       <body
         className={cn(
           inter.className,
-          'grid grid-rows-[auto_1fr] min-h-screen'
+          'grid min-h-screen grid-rows-[auto_1fr]'
         )}>
         <ThemeProvider
           attribute='class'
-          defaultTheme='system'
+          defaultTheme='light'
           enableSystem
           disableTransitionOnChange>
           <Header />

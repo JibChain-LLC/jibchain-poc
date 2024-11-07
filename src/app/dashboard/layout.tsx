@@ -16,7 +16,7 @@ function SideNavItem(props: React.ComponentProps<typeof Link>) {
 
   const c = cn(
     isCurrent ? 'opacity-100' : 'opacity-65',
-    'text-sm border-b border-border p-3 uppercase font-semibold hover:bg-secondary transition-all'
+    'border-b border-border p-3 text-sm font-semibold uppercase transition-all hover:bg-secondary'
   );
 
   return (
@@ -28,10 +28,8 @@ function SideNavItem(props: React.ComponentProps<typeof Link>) {
 
 function SideNav() {
   return (
-    <nav className='border-r border-border h-[calc(100vh-4.5rem)] flex flex-col sticky top-[4.5rem]'>
+    <nav className='sticky top-[4.5rem] flex h-[calc(100vh-4.5rem)] flex-col border-r border-border'>
       <SideNavItem href={'/dashboard'}>Dashboard</SideNavItem>
-      <SideNavItem href={'/dashboard/risk-insights'}>Risk Insights</SideNavItem>
-      <SideNavItem href={'/dashboard/summaries'}>Summaries</SideNavItem>
     </nav>
   );
 }
@@ -40,7 +38,7 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props;
 
   return (
-    <div className='grid grid-cols-[200px_1fr] h-full'>
+    <div className='grid h-full grid-cols-[200px_1fr]'>
       <SideNav />
       <div>{children}</div>
     </div>

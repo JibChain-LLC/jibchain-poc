@@ -29,7 +29,7 @@ export interface Article {
     dataType: ER.DataType;
     title: string;
   };
-  authors: any[];
+  authors: unknown[];
   image: string;
   eventUri: string;
   sentiment: number;
