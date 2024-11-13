@@ -13,7 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '#/components/ui/dropdown-menu';
-import signOut from '#/lib/actions/user-sign-out';
 
 interface UserMenuProps {
   user: UserType;
@@ -22,6 +21,10 @@ interface UserMenuProps {
 export default function UserMenu(props: UserMenuProps) {
   const { user } = props;
   const router = useRouter();
+
+  const goTo = (route: string) => {
+    return () => router.push(route);
+  };
 
   return (
     <DropdownMenu>
@@ -34,12 +37,11 @@ export default function UserMenu(props: UserMenuProps) {
         <DropdownMenuLabel>{user.email ?? 'My Account'}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            onClick={() => router.push('/organization/profile')}>
+          <DropdownMenuItem onClick={goTo('/organization/profile')}>
             <User className='mr-2 size-4' />
             <span>Profile</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push('/organization')}>
+          <DropdownMenuItem onClick={goTo('/organization')}>
             <Users className='mr-2 size-4' />
             <span>Team</span>
           </DropdownMenuItem>
@@ -54,7 +56,7 @@ export default function UserMenu(props: UserMenuProps) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem onClick={goTo('/logout')}>
           <LogOut className='mr-2 size-4' />
           <span>Log out</span>
         </DropdownMenuItem>

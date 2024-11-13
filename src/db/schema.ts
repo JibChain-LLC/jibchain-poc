@@ -1,5 +1,14 @@
 // import { relations } from 'drizzle-orm';
-import { pgEnum, pgTable, text, uuid, varchar } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar
+} from 'drizzle-orm/pg-core';
 import { users } from './auth-schema';
 
 export enum RoleEnum {
@@ -21,6 +30,9 @@ export const organizations = pgTable('organizations', {
     .references(() => users.id, {
       onDelete: 'set null'
     })
+    .notNull(),
+  dateCreated: timestamp('date_created')
+    .default(sql`now()`)
     .notNull()
 });
 
@@ -38,6 +50,7 @@ export const roles = pgTable('roles', {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     }),
+  active: boolean('active').default(true).notNull(),
   role: roleEnum().default(RoleEnum.USER).notNull()
 });
 
@@ -61,7 +74,7 @@ export const invites = pgTable('invites', {
   inviterId: uuid('inviter_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-  role: roleEnum().default(RoleEnum.USER)
+  role: roleEnum().default(RoleEnum.USER).notNull()
 });
 
 export const summaries = pgTable('summaries', {

@@ -12,8 +12,6 @@ export async function GET(req: NextRequest) {
   const type = searchParams.get('type') as EmailOtpType | null;
   const next = searchParams.get('next') ?? '/';
 
-  console.log('STUFF', tokenHash, type);
-
   if (!tokenHash || !type) {
     return redirect('/error');
   }

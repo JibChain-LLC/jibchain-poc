@@ -1,5 +1,11 @@
-import SignUpForm from '#/components/sign-up-form';
 import 'server-only';
+
+import { type Metadata } from 'next';
+import SignUpForm from './_components/sign-up-form';
+
+export const metadata: Metadata = {
+  title: 'Sign Up'
+};
 
 export default async function SignUpPage() {
   return (

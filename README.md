@@ -32,7 +32,7 @@ npm ci
 
 > Ensure you Node version is >=18.8.0
 
-After that, you run the development server with:
+After that, you run the local development server with:
 
 ```bash
 npm run dev

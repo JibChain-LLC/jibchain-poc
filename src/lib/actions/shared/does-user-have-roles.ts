@@ -3,15 +3,23 @@ import { db } from '#/db';
 import { RoleEnum, roles } from '#/db/schema';
 
 interface DoesUserHaveRolesOpts {
-  rolesNeeded: RoleEnum[];
+  /**
+   * Roles to check for.
+   * If left empty will only check if they are a member of the organization
+   */
+  rolesNeeded?: RoleEnum[];
+  /** user to check access for */
   userId: string;
+  /** organization to check against */
   orgId: string;
 }
 
 /**
- * helper to ensure a given user has certain roles within an organization
+ * Helper to ensure a given user has certain roles within an organization
  */
-export default async function doesUserHaveRoles(opts: DoesUserHaveRolesOpts) {
+export default async function doesUserHaveRoles(
+  opts: DoesUserHaveRolesOpts
+): Promise<boolean> {
   const { orgId, userId, rolesNeeded } = opts;
 
   const userRoles = await db.$count(
@@ -19,7 +27,7 @@ export default async function doesUserHaveRoles(opts: DoesUserHaveRolesOpts) {
     and(
       eq(roles.orgId, orgId),
       eq(roles.userId, userId),
-      inArray(roles.role, rolesNeeded)
+      rolesNeeded ? inArray(roles.role, rolesNeeded) : undefined
     )
   );
 

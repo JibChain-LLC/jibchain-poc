@@ -1,42 +1,55 @@
 import { eq } from 'drizzle-orm';
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { withAuthUser } from '#/components/auth-wrapper';
+import AuthWrapper from '#/components/auth-wrapper';
 import { db } from '#/db';
-import { users } from '#/db/auth-schema';
 import { invites, organizations } from '#/db/schema';
+import NoUser from './_components/no-user';
+import NotUser from './_components/not-user';
+import SameUser from './_components/same-user';
 
-interface JoinPageProps {
+interface JoinOrgPageProps {
   searchParams: Promise<{ inviteId: string }>;
 }
 
-export default withAuthUser<JoinPageProps>(
-  async (props) => {
-    const { user, searchParams } = props;
-    const inviteId = (await searchParams).inviteId;
+export const metadata: Metadata = {
+  title: 'Join'
+};
 
-    const [invite] = await db
-      .select({
-        invite: invites,
-        org: organizations,
-        invitingUser: users
-      })
-      .from(invites)
-      .where(eq(invites.id, inviteId))
-      .innerJoin(organizations, eq(organizations.id, invites.orgId))
-      .innerJoin(users, eq(users.id, invites.inviterId));
+export default async function JoinOrgPage(props: JoinOrgPageProps) {
+  const { searchParams } = props;
+  const inviteId = (await searchParams).inviteId;
+  const [invite] = await db
+    .select({
+      invite: invites,
+      org: organizations
+    })
+    .from(invites)
+    .where(eq(invites.id, inviteId))
+    .innerJoin(organizations, eq(organizations.id, invites.orgId));
 
-    if (!invite) redirect('/');
+  if (!invite) return redirect('/');
 
-    console.log(invite);
-
-    return (
-      <div>
-        <p>
-          {invite.invitingUser.email} has invited you to join{' '}
-          <b>{invite.org.name}</b> organization
-        </p>
+  return (
+    <div className='flex size-full items-center justify-center'>
+      <div className='h-auto w-96 rounded-md border border-border'>
+        <div className='flex flex-col gap-2 border-b border-border p-4 text-center'>
+          <p>You have been invited to join</p>
+          <p className='text-4xl font-bold'>{invite.org.name}</p>
+          <p className='text-xs text-foreground/75'>org ref: {invite.org.id}</p>
+        </div>
+        <AuthWrapper fallback={<NoUser />}>
+          {(props) => {
+            const { user } = props;
+            const sameUser = user.email === invite.invite.email;
+            return sameUser ? (
+              <SameUser inviteId={invite.invite.id} />
+            ) : (
+              <NotUser email={user.email!} />
+            );
+          }}
+        </AuthWrapper>
       </div>
-    );
-  },
-  { redirectTo: '/' }
-);
+    </div>
+  );
+}
