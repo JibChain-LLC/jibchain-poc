@@ -80,11 +80,13 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-tailwindcss": "^3.17.5",
     "postcss": "^8.4.41",
+    "pre-commit": "^1.2.2",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "serve": "^14.2.3",
     "tailwindcss": "^3.4.10",
     "type-fest": "^4.26.1",
     "typescript": "^5"
-  }
+  },
+  "pre-commit": []
 }
