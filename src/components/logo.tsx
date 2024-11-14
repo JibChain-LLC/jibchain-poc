@@ -1,6 +1,4 @@
-interface LogoProps extends React.ComponentProps<'svg'> {}
-
-export default function Logo(props: LogoProps) {
+export default function Logo(props: React.ComponentProps<'svg'>) {
   return (
     <svg
       id='svg'
