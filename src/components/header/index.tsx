@@ -11,7 +11,6 @@ export default function Header() {
       <nav className='flex flex-row items-center gap-2'>
         <HeaderLink href={'/'}>Home</HeaderLink>
         <HeaderLink href={'/dashboard'}>Dashboard</HeaderLink>
-        <HeaderLink href={'/help'}>Help & Support</HeaderLink>
       </nav>
       <Logo className='h-12 w-auto fill-current' />
       <div className='ml-auto flex flex-row gap-2'>

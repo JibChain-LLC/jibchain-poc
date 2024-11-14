@@ -7,8 +7,8 @@ import { ActionRes } from '../types';
 
 export default async function userSignUp(
   opts: UserSignUpSchema
-): Promise<ActionRes<undefined>> {
-  const { email, password, firstName, lastName } = opts;
+): Promise<ActionRes> {
+  const { email, password, firstName, lastName, jobRole } = opts;
 
   const supabase = await createClient();
   const origin = (await headers()).get('origin');
@@ -19,7 +19,8 @@ export default async function userSignUp(
     options: {
       data: {
         firstName,
-        lastName
+        lastName,
+        jobRole
       },
       emailRedirectTo: new URL('/confirm', origin as string).toString()
     }

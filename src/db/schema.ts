@@ -26,11 +26,9 @@ export const roleEnum = pgEnum(
 export const organizations = pgTable('organizations', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 256 }).notNull(),
-  ownerId: uuid('owner_id')
-    .references(() => users.id, {
-      onDelete: 'set null'
-    })
-    .notNull(),
+  ownerId: uuid('owner_id').references(() => users.id, {
+    onDelete: 'set null'
+  }),
   dateCreated: timestamp('date_created')
     .default(sql`now()`)
     .notNull()
@@ -53,10 +51,6 @@ export const roles = pgTable('roles', {
   active: boolean('active').default(true).notNull(),
   role: roleEnum().default(RoleEnum.USER).notNull()
 });
-
-// export const rolesRelations = relations(roles, ({ one }) => ({
-//   user: one(users, { fields: [roles.userId], references: [users.id] })
-// }));
 
 export const invites = pgTable('invites', {
   id: uuid('id').primaryKey().defaultRandom(),

@@ -7,6 +7,7 @@ export const users = authSchema.table('users', {
   email: varchar('email'),
   lastSignIn: timestamp('last_sign_in_at'),
   userMetadata: jsonb('raw_user_meta_data').$type<{
+    jobRole: string;
     firstName: string;
     lastName: string;
   }>()

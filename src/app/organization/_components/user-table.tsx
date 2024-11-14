@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { User } from 'lucide-react';
 import { Avatar, AvatarFallback } from '#/components/ui/avatar';
@@ -20,14 +20,15 @@ interface UserTableProps {
 
 export default function UserTable(props: UserTableProps) {
   const { orgId, currentUserEmail } = props;
-  const { data: memberData } = useQuery({
-    queryKey: ['members', { orgId }],
-    queryFn: () => getOrgMembers({ orgId })
-  });
 
-  const { data: inviteData } = useQuery({
-    queryKey: ['invites', { orgId }],
-    queryFn: () => getInvites({ orgId })
+  const [memberQuery, inviteQuery] = useQueries({
+    queries: [
+      {
+        queryKey: ['members', { orgId }],
+        queryFn: () => getOrgMembers({ orgId })
+      },
+      { queryKey: ['invites', { orgId }], queryFn: () => getInvites({ orgId }) }
+    ]
   });
 
   return (
@@ -72,7 +73,7 @@ export default function UserTable(props: UserTableProps) {
             accessorKey: 'role',
             header: 'User Role'
           },
-          { id: 'orgRole', header: 'Role' },
+          { accessorKey: 'jobRole', header: 'Job Role' },
           {
             accessorKey: 'email',
             header: 'Email'
@@ -137,14 +138,14 @@ export default function UserTable(props: UserTableProps) {
           }
         ]}
         data={[
-          ...(memberData?.ok
-            ? memberData.data!.map((m) => ({
+          ...(memberQuery.data?.ok
+            ? memberQuery.data.data.map((m) => ({
                 ...m,
                 type: 'member' as const
               }))
             : []),
-          ...(inviteData?.ok
-            ? inviteData.data!.map((i) => ({
+          ...(inviteQuery.data?.ok
+            ? inviteQuery.data.data.map((i) => ({
                 ...i,
                 type: 'invite' as const
               }))

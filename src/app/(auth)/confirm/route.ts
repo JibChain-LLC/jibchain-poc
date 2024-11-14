@@ -4,7 +4,7 @@ import { type NextRequest } from 'next/server';
 import { createClient } from '#/lib/supabase/server';
 
 /**
- * Route for confirming user after sign up and creating their account
+ * Route for confirming user email after sign up
  */
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -12,9 +12,7 @@ export async function GET(req: NextRequest) {
   const type = searchParams.get('type') as EmailOtpType | null;
   const next = searchParams.get('next') ?? '/';
 
-  if (!tokenHash || !type) {
-    return redirect('/error');
-  }
+  if (!tokenHash || !type) return redirect('/error');
 
   const supabase = await createClient();
   const { error } = await supabase.auth.verifyOtp({
@@ -23,8 +21,5 @@ export async function GET(req: NextRequest) {
   });
 
   if (error) return redirect('/error');
-
-  // create org
-
   return redirect(next);
 }

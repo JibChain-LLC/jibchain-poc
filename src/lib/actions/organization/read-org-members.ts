@@ -54,7 +54,8 @@ export default async function getOrgMembers(
       return {
         ...rest,
         firstName: userMetadata?.firstName,
-        lastName: userMetadata?.lastName
+        lastName: userMetadata?.lastName,
+        jobRole: userMetadata?.jobRole
       };
     })
   };
