@@ -295,7 +295,7 @@ const ChartLegendContent = React.forwardRef<
                 <itemConfig.icon />
               ) : (
                 <div
-                  className='size-2 shrink-0 rounded-[2px]'
+                  className='h-2 w-2 shrink-0 rounded-[2px]'
                   style={{
                     backgroundColor: item.color
                   }}
