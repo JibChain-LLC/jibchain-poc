@@ -38,7 +38,7 @@ const ScenarioAccordionComponent = () => {
                 <div className='flex flex-col items-start gap-2 py-4 pl-6'>
                   <span className='text-xs text-gray-500'>{section.level}</span>
                   <h1
-                    className={`text-[24px] ${isActive ? 'font-bold text-black' : 'font-semibolnpmd text-gray-500'}`}>
+                    className={`text-[24px] ${isActive ? 'font-bold text-black' : ' text-gray-500'}`}>
                     {section.title}
                   </h1>
                 </div>

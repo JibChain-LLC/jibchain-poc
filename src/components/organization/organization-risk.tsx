@@ -12,7 +12,7 @@ const OrganizationRisk = () => {
   useEffect(() => {
     const totalRisk = chartData.reduce((acc, chart) => acc + chart.value, 0);
     setRiskStatus(totalRisk);
-  }, [chartData]);
+  }, []);//removed chartData
 
   return (
     <Card className='flex min-h-[165px] w-full items-center justify-between overflow-hidden rounded-b-none rounded-t-lg border-x border-y-0 border-gray-200 bg-white shadow-md'>
