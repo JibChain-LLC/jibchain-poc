@@ -173,7 +173,7 @@ const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
         id='chartdiv'
         style={{
           width: '100%',
-          height: supplier ? '180px' : '600px',
+          height: supplier ? '160px' : '600px',
           maxWidth: supplier ? '700px' : '1200px'
         }}></div>
 
