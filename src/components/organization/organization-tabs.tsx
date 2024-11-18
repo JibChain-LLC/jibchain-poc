@@ -66,7 +66,7 @@ const OrganizationTabs = () => {
           <Button
             key={index}
             onClick={() => handleAlertClick(alert.link)}
-            className={` w-full justify-between bg-white py-6 text-black hover:bg-gray-100 ${
+            className={`w-full justify-between bg-white py-6 text-black hover:bg-gray-100 ${
               activeAlert === `/dashboard${alert.link}`
                 ? 'border border-red-500 bg-red-50'
                 : ''
@@ -82,7 +82,7 @@ const OrganizationTabs = () => {
           <Button
             key={index}
             onClick={() => handleAlertClick(alert.link)}
-            className={` w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
+            className={`w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
               activeAlert === `/dashboard${alert.link}`
                 ? 'border border-[#8E4B10] bg-orange-50'
                 : ''
@@ -98,7 +98,7 @@ const OrganizationTabs = () => {
           <Button
             key={index}
             onClick={() => handleAlertClick(alert.link)}
-            className={` w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
+            className={`w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
               activeAlert === `/dashboard${alert.link}`
                 ? 'border border-[#046C4E] bg-green-50'
                 : ''

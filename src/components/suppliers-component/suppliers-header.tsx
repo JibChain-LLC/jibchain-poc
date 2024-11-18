@@ -42,7 +42,7 @@ const SuppliersHeader = () => {
         </Card>
       </div>
 
-      <Card className=' min-h-[280px] w-full border-none bg-white shadow-md'>
+      <Card className='min-h-[280px] w-full border-none bg-white shadow-md'>
         <CardContent className='space-y-4 p-0 md:p-6'>
           <div className='flex flex-wrap justify-between gap-4'>
             {suppliersData.map(({ label, value }) => (
@@ -58,7 +58,7 @@ const SuppliersHeader = () => {
         </div>
       </Card>
 
-      <Card className=' min-h-[280px] w-full border-none bg-white shadow-md'>
+      <Card className='min-h-[280px] w-full border-none bg-white shadow-md'>
         <CardContent className='space-y-4 p-6 text-black'>
           <h3 className='text-xl font-semibold'>At Risk Suppliers</h3>
           <p className='text-3xl font-bold'>65</p>
@@ -99,7 +99,7 @@ const SuppliersHeader = () => {
         </CardContent>
       </Card>
 
-      <Card className=' min-h-[280px] w-full border-none bg-white shadow-md'>
+      <Card className='min-h-[280px] w-full border-none bg-white shadow-md'>
         <CardContent className='space-y-4 p-6 text-black'>
           <div>
             <h3 className='text-gray-600'>Top Risk</h3>

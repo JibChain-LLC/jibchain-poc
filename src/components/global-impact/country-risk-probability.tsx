@@ -165,7 +165,7 @@ const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
         zoomOutButton.removeEventListener('click', () => chart.zoomOut());
       }
     };
-  }, [supplier]);//added supplier
+  }, [supplier]);
 
   return (
     <div style={{ position: 'relative', marginTop: '5px' }}>

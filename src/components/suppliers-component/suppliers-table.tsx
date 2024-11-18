@@ -144,7 +144,7 @@ const columns: ColumnDef<Invoice>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              className=' p-1 text-black'
+              className='p-1 text-black'
               onClick={(e) => e.stopPropagation()}>
               <MoreHorizontal />
             </Button>
