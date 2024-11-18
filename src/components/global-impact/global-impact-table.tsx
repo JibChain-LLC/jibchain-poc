@@ -12,18 +12,14 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table';
-import { ChevronDown, MoreHorizontal } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 import { Badge } from '#/components/ui/badge';
 import { Button } from '#/components/ui/button';
-import { Checkbox } from '#/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '#/components/ui/dropdown-menu';
 import { Input } from '#/components/ui/input';

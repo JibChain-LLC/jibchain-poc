@@ -1,5 +1,4 @@
-import { useRouter, redirect } from 'next/navigation';
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
   redirect(`/risk-alerts/ransomware-attack`);

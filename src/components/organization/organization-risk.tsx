@@ -4,12 +4,7 @@ import { Label, Pie, PieChart } from 'recharts';
 import { chartData } from '#/utils/utils';
 import { doughnutChartConfig } from '#/utils/utils';
 import { Card, CardContent } from '../ui/card';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent
-} from '../ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent} from '../ui/chart';
 
 const OrganizationRisk = () => {
   const [riskStatus, setRiskStatus] = useState(0);

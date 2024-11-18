@@ -1,11 +1,7 @@
-// import { Eye, ShieldCheck, ShieldHalf, Star } from 'lucide-react';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-// import { FaStar, FaEye, FaShieldAlt } from 'react-icons/fa';
 import Eye from '../../images/eye-icon.svg';
 import Shield from '../../images/shield-icon.svg';
 import Star from '../../images/star-icon.svg';
-// Define the types for the props
 interface VerticalScenarioBarProps {
   activeAccordion: string;
   contentHeights: { [key: string]: number };
@@ -26,6 +22,8 @@ const VerticalScenarioBar: React.FC<VerticalScenarioBarProps> = ({
   contentHeights
 }) => {
   const [iconPositions, setIconPositions] = useState<number[]>([]);
+  console.log('activeAccordion', activeAccordion);
+  console.log('iconPositions', iconPositions);
 
   useEffect(() => {
     const topOffset = 10;

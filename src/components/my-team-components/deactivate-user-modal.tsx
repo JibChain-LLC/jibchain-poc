@@ -9,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle
 } from '../ui/dialog';
-import UserDeactivated from './deactivated-confirmation-modal';
 
 export function DeactivateUserModal({ isOpen, onClose }: any) {
   // const [isDeactivatedModalOpen, setDeactivatedModalOpen] = useState(false);

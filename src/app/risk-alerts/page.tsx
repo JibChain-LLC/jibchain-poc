@@ -1,5 +1,4 @@
-import { redirect, useRouter } from 'next/navigation';
-import React from 'react';
+import { redirect } from 'next/navigation';
 
 const Dashboard = () => {
   redirect('/risk-alerts/ransomware-attack');

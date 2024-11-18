@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, {useRef, useState } from 'react';
 import { sectionsScenario } from '#/utils/utils';
 import { Accordion, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import AccordionSection from './scenario-accordion-component';
@@ -6,30 +6,13 @@ import VerticalScenarioBar from './scenario-bar';
 const ScenarioAccordionComponent = () => {
   const [openItem, setOpenItem] = useState<string>('item-1');
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [contentHeights, setContentHeights] = useState<{
+  const [contentHeights] = useState<{
     [key: string]: number;
   }>({});
 
   const handleToggle = (value: string) => {
     setOpenItem(value);
   };
-
-  // Calculate heights only when sections change or open item changes
-  // useEffect(() => {
-  //   const heights = sectionRefs.current.map((ref) =>
-  //     ref ? ref.scrollHeight : 0
-  //   );
-  //   const newContentHeights = heights.reduce(
-  //     (acc, height, index) => {
-  //       acc[`item-${index + 1}`] = height;
-  //       return acc;
-  //     },
-  //     {} as { [key: string]: number }
-  //   );
-
-  //   setContentHeights(newContentHeights);
-  // }, [sections, openItem]);
-
   return (
     <div className='flex min-h-[78vh] flex-row rounded-b-lg bg-white p-6'>
       <VerticalScenarioBar
