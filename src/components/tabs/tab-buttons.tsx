@@ -1,5 +1,6 @@
 // TabButtons.tsx
 import { usePathname } from 'next/navigation';
+import { NextRouter } from 'next/router';
 import { Tabs, TabsList, TabsTrigger } from '#/components/ui/tabs';
 
 interface Operation {
@@ -10,7 +11,7 @@ interface Operation {
 
 interface TabButtonsProps {
   operations: Operation[];
-  router: any;
+  router: NextRouter;
 }
 
 export default function TabButtons({ operations, router }: TabButtonsProps) {

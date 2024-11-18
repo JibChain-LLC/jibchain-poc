@@ -9,7 +9,15 @@ import {
   DialogTitle
 } from '../ui/dialog';
 
-export default function UserDeactivated({ isOpen, onClose }: any) {
+interface UserDeactivatedProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function UserDeactivated({
+  isOpen,
+  onClose
+}: UserDeactivatedProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className='sm:max-w-[600px] lg:w-[700px]'>

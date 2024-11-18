@@ -7,7 +7,12 @@ import {
   DialogTitle
 } from '../ui/dialog';
 
-export function ChangeRoleModal({ isOpen, onClose }: any) {
+interface ChangeRoleModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function ChangeRoleModal({ isOpen, onClose }: ChangeRoleModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className='sm:max-w-[600px] lg:w-[700px]'>

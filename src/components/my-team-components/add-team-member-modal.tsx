@@ -19,10 +19,20 @@ import {
   SelectValue
 } from '../ui/select';
 
-export function AddTeamMemberModal({ isOpen, onClose, onRoleSelect }: any) {
-  const [userRole, setUserRole] = useState('Owner');
+interface AddTeamMemberModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onRoleSelect?: (role: string) => void;
+}
 
-  const handleRoleChange = (role: any) => {
+export function AddTeamMemberModal({
+  isOpen,
+  onClose,
+  onRoleSelect
+}: AddTeamMemberModalProps) {
+  const [userRole, setUserRole] = useState<string>('Owner');
+
+  const handleRoleChange = (role: string) => {
     setUserRole(role);
     if (onRoleSelect) onRoleSelect(role);
   };

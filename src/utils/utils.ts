@@ -313,7 +313,7 @@ export const supplierRiskLevels = [
 ];
 
 export type Invoice = {
-  image: any;
+  image: string;
   supplier: string;
   riskStatus: 'Low' | 'Medium' | 'High';
   topRisk: string;

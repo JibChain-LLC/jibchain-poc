@@ -10,9 +10,17 @@ import {
   DialogTitle
 } from '../ui/dialog';
 
-export function DeactivateUserModal({ isOpen, onClose }: any) {
-  // const [isDeactivatedModalOpen, setDeactivatedModalOpen] = useState(false);
+interface DeactivateUserModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function DeactivateUserModal({
+  isOpen,
+  onClose
+}: DeactivateUserModalProps) {
   const [statusDeactivated, setStatusDeactivated] = useState<boolean>(true);
+
   const handleDeactivate = () => {
     setStatusDeactivated(false);
   };
@@ -47,43 +55,33 @@ export function DeactivateUserModal({ isOpen, onClose }: any) {
           </DialogContent>
         </Dialog>
       ) : (
-        <>
-          <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className='sm:max-w-[600px] lg:w-[700px]'>
-              <DialogHeader className='flex flex-row items-start justify-start gap-2'>
-                <Image
-                  src={Tick}
-                  alt='tick'
-                  className='mt-1 rounded-full bg-green-100 p-2'
-                  width={35}
-                  height={35}
-                />
-                <DialogTitle className='text-lg text-green-500'>
-                  User deactivated
-                </DialogTitle>
-              </DialogHeader>
+        <Dialog open={isOpen} onOpenChange={onClose}>
+          <DialogContent className='sm:max-w-[600px] lg:w-[700px]'>
+            <DialogHeader className='flex flex-row items-start justify-start gap-2'>
+              <Image
+                src={Tick}
+                alt='tick'
+                className='mt-1 rounded-full bg-green-100 p-2'
+                width={35}
+                height={35}
+              />
+              <DialogTitle className='text-lg text-green-500'>
+                User deactivated
+              </DialogTitle>
+            </DialogHeader>
 
-              <h2>Bonnie Green has been successfully deactivated.</h2>
+            <h2>Bonnie Green has been successfully deactivated.</h2>
 
-              <DialogFooter className='mt-1.5 flex w-full flex-row items-start justify-start'>
-                <Button
-                  onClick={onClose}
-                  className='bg-green-700 p-4 hover:bg-green-700'>
-                  Continue
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </>
+            <DialogFooter className='mt-1.5 flex w-full flex-row items-start justify-start'>
+              <Button
+                onClick={onClose}
+                className='bg-green-700 p-4 hover:bg-green-700'>
+                Continue
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )}
-
-      {/* <UserDeactivated
-        isOpen={isDeactivatedModalOpen}
-        onClose={() => {
-          setDeactivatedModalOpen(false);
-          onClose();
-        }}
-      /> */}
     </>
   );
 }

@@ -49,7 +49,7 @@ import { ChangeRoleModal } from './change-role-modal';
 import { DeactivateUserModal } from './deactivate-user-modal';
 
 export type Supplier = {
-  image: any;
+  image: string;
   user: string;
   userRole: 'Owner' | 'Admin' | 'Editor';
   role: string;

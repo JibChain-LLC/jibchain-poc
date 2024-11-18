@@ -14,8 +14,12 @@ import {
   SheetHeader,
   SheetTitle
 } from '../ui/sheet';
+interface SupplierModalProps {
+  isOpen: boolean;
+  setOpen: (value: boolean) => void;
+}
 
-const SupplierModal = ({ isOpen, setOpen }: any) => {
+const SupplierModal: React.FC<SupplierModalProps> = ({ isOpen, setOpen }) => {
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetContent className='z-50 w-full max-w-lg bg-white p-6 text-black sm:max-w-xl lg:max-w-[50%]'>
