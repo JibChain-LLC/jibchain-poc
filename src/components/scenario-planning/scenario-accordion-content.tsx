@@ -1,4 +1,4 @@
-import React, {useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { sectionsScenario } from '#/utils/utils';
 import { Accordion, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import AccordionSection from './scenario-accordion-component';

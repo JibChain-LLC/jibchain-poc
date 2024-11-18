@@ -124,81 +124,96 @@ const suppliers: Supplier[] = [
   }
 ];
 
-const columns: ColumnDef<Supplier>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false
-  },
-  {
-    accessorKey: 'image',
-    header: '',
-    cell: ({ row }) => (
-      <Image
-        src={row.getValue('image')}
-        alt={row.getValue('user')}
-        className='size-[30px] rounded-none'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false
-  },
-  {
-    accessorKey: 'user',
-    header: 'User',
-    cell: ({ row }) => <div className='capitalize'>{row.getValue('user')}</div>
-  },
-  {
-    accessorKey: 'userRole',
-    header: 'User Role',
-    cell: ({ row }) => {
-      const [userRole, setUserRole] = useState<string>(
-        row.getValue<string>('userRole')
-      );
+export function MyTeamTable() {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-      const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
-      const [newRole, setNewRole] = useState<string | null>(null);
+  const [roleChangeModal, setRoleChangeModal] = useState<{
+    isOpen: boolean;
+    rowId: string | null;
+    newRole: string | null;
+  }>({ isOpen: false, rowId: null, newRole: null });
 
-      const [isDeactivateModalOpen, setIsDeactivateModalOpen] = useState(false);
+  const [deactivateModal, setDeactivateModal] = useState<{
+    isOpen: boolean;
+    rowId: string | null;
+  }>({ isOpen: false, rowId: null });
 
-      const handleRoleChange = (selectedRole: string) => {
-        setNewRole(selectedRole);
-        if (selectedRole === 'Deactive') {
-          setIsDeactivateModalOpen(true); // Open the deactivation modal
-        } else {
-          setIsRoleModalOpen(true); // Open the role change modal
-        }
-      };
+  const handleRoleChange = (rowId: string, selectedRole: string) => {
+    if (selectedRole === 'Deactive') {
+      setDeactivateModal({ isOpen: true, rowId });
+    } else {
+      setRoleChangeModal({ isOpen: true, rowId, newRole: selectedRole });
+    }
+  };
 
-      const handleCloseChangeRoleDialog = () => {
-        setIsRoleModalOpen(false);
-        if (newRole && newRole !== 'Deactive') setUserRole(newRole);
-      };
+  const closeRoleChangeModal = () => {
+    setRoleChangeModal({ isOpen: false, rowId: null, newRole: null });
+  };
 
-      const handleCloseDeactivateDialog = () => {
-        setIsDeactivateModalOpen(false);
-      };
+  const closeDeactivateModal = () => {
+    setDeactivateModal({ isOpen: false, rowId: null });
+  };
 
-      return (
-        <>
-          <Select value={userRole} onValueChange={handleRoleChange}>
+  const columns: ColumnDef<Supplier>[] = [
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label='Select all'
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false
+    },
+    {
+      accessorKey: 'image',
+      header: '',
+      cell: ({ row }) => (
+        <Image
+          src={row.getValue('image')}
+          alt={row.getValue('user')}
+          className='size-[30px] rounded-none'
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false
+    },
+    {
+      accessorKey: 'user',
+      header: 'User',
+      cell: ({ row }) => (
+        <div className='capitalize'>{row.getValue('user')}</div>
+      )
+    },
+    {
+      accessorKey: 'userRole',
+      header: 'User Role',
+      cell: ({ row }) => {
+        const userRole = row.getValue<string>('userRole');
+
+        return (
+          <Select
+            value={userRole}
+            onValueChange={(value) => handleRoleChange(row.id, value)}>
             <SelectTrigger className='w-full max-w-[90px] border-gray-300 bg-white'>
               <SelectValue>{userRole}</SelectValue>
             </SelectTrigger>
@@ -215,114 +230,73 @@ const columns: ColumnDef<Supplier>[] = [
               </SelectItem>
             </SelectContent>
           </Select>
+        );
+      }
+    },
+    {
+      accessorKey: 'role',
+      header: 'Role',
+      cell: ({ row }) => <div>{row.getValue('role')}</div>
+    },
+    {
+      accessorKey: 'email',
+      header: 'Email',
+      cell: ({ row }) => <div className=''>{row.getValue('email')}</div>
+    },
+    {
+      accessorKey: 'lastLogin',
+      header: 'Last Login',
+      cell: ({ row }) => (
+        <div className='capitalize'>{row.getValue('lastLogin')}</div>
+      )
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => {
+        const status = row.getValue<string>('status');
+        const dotColor =
+          status === 'Inactive'
+            ? 'bg-red-500'
+            : status === 'Pending'
+              ? 'bg-yellow-500'
+              : 'bg-green-500';
 
-          {isRoleModalOpen && (
-            <ChangeRoleModal
-              isOpen={isRoleModalOpen}
-              onClose={handleCloseChangeRoleDialog}
-            />
-          )}
-          {isDeactivateModalOpen && (
-            <DeactivateUserModal
-              isOpen={isDeactivateModalOpen}
-              onClose={handleCloseDeactivateDialog}
-            />
-          )}
-        </>
-      );
+        return (
+          <div className='flex items-center'>
+            <span className={`mr-2 size-2 rounded-full ${dotColor}`}></span>
+            {status}
+          </div>
+        );
+      }
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className='bg-transparent p-1 text-black'>
+              <MoreHorizontal />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem onClick={() => handleEdit(row.original)}>
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDelete(row.original)}>
+              Delete
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => handleViewDetails(row.original)}>
+              View Details
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
     }
-  },
-  {
-    accessorKey: 'role',
-    header: 'Role',
-    cell: ({ row }) => <div>{row.getValue('role')}</div>
-  },
-  {
-    accessorKey: 'email',
-    header: 'Email',
-    cell: ({ row }) => <div className=''>{row.getValue('email')}</div>
-  },
-  {
-    accessorKey: 'lastLogin',
-    header: 'Last Login',
-    cell: ({ row }) => (
-      <div className='capitalize'>{row.getValue('lastLogin')}</div>
-    )
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => {
-      const status = row.getValue<string>('status');
-      const dotColor =
-        status === 'Inactive'
-          ? 'bg-red-500'
-          : status === 'Pending'
-            ? 'bg-yellow-500'
-            : 'bg-green-500';
-
-      return (
-        <div className='flex items-center'>
-          <span className={`mr-2 size-2 rounded-full ${dotColor}`}></span>
-          {status}
-        </div>
-      );
-    }
-  },
-  {
-    id: 'actions',
-    header: 'Actions',
-    cell: ({ row }) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button className='bg-trasnparent p-1 text-black'>
-            <MoreHorizontal />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => handleEdit(row.original)}>
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleDelete(row.original)}>
-            Delete
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => handleViewDetails(row.original)}>
-            View Details
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    )
-  }
-];
-
-function handleEdit(supplier: Supplier) {
-  // Implement edit functionality
-  console.log('Edit:', supplier);
-}
-
-function handleDelete(supplier: Supplier) {
-  // Implement delete functionality
-  console.log('Delete:', supplier);
-}
-
-function handleViewDetails(supplier: Supplier) {
-  // Implement view details functionality
-  console.log('View Details:', supplier);
-}
-
-export function MyTeamTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const openDialog = () => setIsDialogOpen(true);
-  const closeDialog = () => setIsDialogOpen(false);
+  ];
 
   const table = useReactTable({
     data: suppliers,
@@ -362,7 +336,7 @@ export function MyTeamTable() {
           </Button>
           <Button
             className='gap-2 bg-green-700 text-white hover:bg-green-600'
-            onClick={openDialog}>
+            onClick={() => setIsDialogOpen(true)}>
             <UserPlus /> Add New
           </Button>
         </div>
@@ -444,8 +418,35 @@ export function MyTeamTable() {
             </Button>
           </div>
         </div>
-        <AddTeamMemberModal isOpen={isDialogOpen} onClose={closeDialog} />
+        <AddTeamMemberModal
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+        />
       </div>
+      {roleChangeModal.isOpen && (
+        <ChangeRoleModal
+          isOpen={roleChangeModal.isOpen}
+          onClose={closeRoleChangeModal}
+        />
+      )}
+      {deactivateModal.isOpen && (
+        <DeactivateUserModal
+          isOpen={deactivateModal.isOpen}
+          onClose={closeDeactivateModal}
+        />
+      )}
     </>
   );
+}
+
+function handleEdit(supplier: Supplier) {
+  console.log('Edit:', supplier);
+}
+
+function handleDelete(supplier: Supplier) {
+  console.log('Delete:', supplier);
+}
+
+function handleViewDetails(supplier: Supplier) {
+  console.log('View Details:', supplier);
 }
