@@ -1,10 +1,10 @@
-import DashboardIcon from '#/components/icons/dashboard-icon';
+import { ShieldAlert, Globe, FileText } from 'lucide-react';
 import AlertIcon from '#/components/icons/alert-icon';
+import DashboardIcon from '#/components/icons/dashboard-icon';
 import SupplierIcon from '#/components/icons/supplier-icon';
 import TeamIcon from '#/components/icons/team-icon';
 import { ChartConfig } from '#/components/ui/chart';
 import MoneyImage from '#/images/money-image.jpg';
-import { ShieldAlert, Globe, FileText } from 'lucide-react';
 import smallLogo from '#/images/small.svg';
 
 export const roles = [

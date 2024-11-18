@@ -1,13 +1,13 @@
 'use client';
 
-import { Button } from '#/components/ui/button';
-import { Card, CardContent } from '../ui/card';
-import ShellImage from '#/images/shell.svg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Button } from '#/components/ui/button';
+import ShellImage from '#/images/shell.svg';
 import { buttons } from '#/utils/utils';
+import { Card, CardContent } from '../ui/card';
 
 export default function UserContent() {
   const pathname = usePathname();
@@ -24,14 +24,14 @@ export default function UserContent() {
   }, [pathname]);
 
   return (
-    <div className='flex flex-col min-w-[400px] max-w-[400px] bg-gray-100 h-screen p-6 ml-14'>
-      <div className='flex flex-col gap-4 w-full flex-grow'>
-        <Card className='w-full min-h-[100px] flex items-center bg-white border-none shadow-md'>
+    <div className='ml-14 flex h-screen min-w-[400px] max-w-[400px] flex-col bg-gray-100 p-6'>
+      <div className='flex w-full grow flex-col gap-4'>
+        <Card className='flex min-h-[100px] w-full items-center border-none bg-white shadow-md'>
           <CardContent className='flex items-center gap-12 p-4 text-black'>
             <Image
               src={ShellImage}
               alt='Shell Logo'
-              className='w-[100px] h-[100px] rounded-md object-cover'
+              className='size-[100px] rounded-md object-cover'
             />
             <div>
               <h2 className='text-xl font-bold'>Shell USA, Inc.</h2>
@@ -39,15 +39,15 @@ export default function UserContent() {
             </div>
           </CardContent>
         </Card>
-        <Card className='bg-white shadow-md border-t-0 border-gray-200 rounded-lg mt-4 flex-grow'>
-          <CardContent className='flex flex-col p-4 space-y-2'>
+        <Card className='mt-4 grow rounded-lg border-t-0 border-gray-200 bg-white shadow-md'>
+          <CardContent className='flex flex-col space-y-2 p-4'>
             {buttons.map((button) => (
               <Link key={button.label} href={button.href} passHref>
                 <Button
                   onClick={() => setSelectedButton(button.label)}
-                  className={`w-full text-left justify-start text-[18px] py-6 ${
+                  className={`w-full justify-start py-6 text-left text-[18px] ${
                     selectedButton === button.label
-                      ? 'bg-green-50 text-green-700 font-semibold border border-green-700'
+                      ? 'border border-green-700 bg-green-50 font-semibold text-green-700'
                       : 'bg-white text-gray-600'
                   }`}>
                   <span className='text-left'>{button.label}</span>

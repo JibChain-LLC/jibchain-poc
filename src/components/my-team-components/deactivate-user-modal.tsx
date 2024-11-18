@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import { useState } from 'react';
+import Tick from '../../images/tick-icon.svg';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -8,8 +10,6 @@ import {
   DialogTitle
 } from '../ui/dialog';
 import UserDeactivated from './deactivated-confirmation-modal';
-import Tick from '../../images/tick-icon.svg';
-import Image from 'next/image';
 
 export function DeactivateUserModal({ isOpen, onClose }: any) {
   // const [isDeactivatedModalOpen, setDeactivatedModalOpen] = useState(false);
@@ -32,16 +32,16 @@ export function DeactivateUserModal({ isOpen, onClose }: any) {
               organization?
             </h2>
 
-            <DialogFooter className='flex flex-row items-start justify-start w-full mt-1.5'>
+            <DialogFooter className='mt-1.5 flex w-full flex-row items-start justify-start'>
               <Button
                 type='button'
                 onClick={handleDeactivate}
-                className='bg-red-700 hover:bg-red-700 p-4'>
+                className='bg-red-700 p-4 hover:bg-red-700'>
                 Deactivate
               </Button>
               <Button
                 onClick={onClose}
-                className='border border-green-700 text-green-700 bg-white hover:bg-white'>
+                className='border border-green-700 bg-white text-green-700 hover:bg-white'>
                 Cancel
               </Button>
             </DialogFooter>
@@ -50,12 +50,12 @@ export function DeactivateUserModal({ isOpen, onClose }: any) {
       ) : (
         <>
           <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className='sm:max-w-[600px] lg:w-[700px] '>
-              <DialogHeader className='flex flex-row justify-start items-start gap-2'>
+            <DialogContent className='sm:max-w-[600px] lg:w-[700px]'>
+              <DialogHeader className='flex flex-row items-start justify-start gap-2'>
                 <Image
                   src={Tick}
                   alt='tick'
-                  className='p-2 mt-1 rounded-full bg-green-100 '
+                  className='mt-1 rounded-full bg-green-100 p-2'
                   width={35}
                   height={35}
                 />
@@ -66,10 +66,10 @@ export function DeactivateUserModal({ isOpen, onClose }: any) {
 
               <h2>Bonnie Green has been successfully deactivated.</h2>
 
-              <DialogFooter className='flex flex-row items-start justify-start w-full mt-1.5'>
+              <DialogFooter className='mt-1.5 flex w-full flex-row items-start justify-start'>
                 <Button
                   onClick={onClose}
-                  className='bg-green-700 hover:bg-green-700 p-4'>
+                  className='bg-green-700 p-4 hover:bg-green-700'>
                   Continue
                 </Button>
               </DialogFooter>

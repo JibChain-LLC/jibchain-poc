@@ -1,15 +1,15 @@
 'use client';
 
-import * as React from 'react';
 import { Printer } from 'lucide-react';
 
 import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import * as React from 'react';
 
+import GlobalImpact from '../global-impact/global-impact';
+import OverviewComponent from '../overview/overview';
+import ScenarioPlanning from '../scenario-planning/scenario-planning';
 import { Button } from '../ui/button';
 import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
-import OverviewComponent from '../overview/overview';
-import GlobalImpact from '../global-impact/global-impact';
-import ScenarioPlanning from '../scenario-planning/scenario-planning';
 
 interface TabProps {
   title: string;
@@ -26,17 +26,17 @@ const TabComponent: React.FC<TabProps> = ({
     {
       label: 'Overview',
       value: 'overview',
-      icon: <FileText className='mr-1 h-5 w-5' />
+      icon: <FileText className='mr-1 size-5' />
     },
     {
       label: 'Global Impact',
       value: 'global-impact',
-      icon: <Globe className='mr-1 h-5 w-5' />
+      icon: <Globe className='mr-1 size-5' />
     },
     {
       label: 'Scenario Planning',
       value: 'scenario-planning',
-      icon: <ShieldAlert className='mr-1 h-5 w-5' />
+      icon: <ShieldAlert className='mr-1 size-5' />
     }
   ]
 }) => {
@@ -56,8 +56,8 @@ const TabComponent: React.FC<TabProps> = ({
   };
 
   return (
-    <div className='bg-white rounded-t-md rounded-b-md shadow-sm'>
-      <div className='p-6 flex items-center justify-between'>
+    <div className='rounded-md bg-white shadow-sm'>
+      <div className='flex items-center justify-between p-6'>
         <div className='flex flex-col'>
           <span className='text-sm font-medium text-gray-500'>Risk Title</span>
           <div className='flex items-center gap-2'>
@@ -68,26 +68,26 @@ const TabComponent: React.FC<TabProps> = ({
           </div>
         </div>
         <div className='flex items-center gap-3'>
-          <Button className='bg-green-700 text-white hover:bg-green-600 px-4 py-2 rounded-md text-lg'>
-            <Printer className='mr-2 h-5 w-5' />
+          <Button className='rounded-md bg-green-700 px-4 py-2 text-lg text-white hover:bg-green-600'>
+            <Printer className='mr-2 size-5' />
             Export Report
           </Button>
-          <Button variant='ghost' className='text-gray-500 text-xl'>
+          <Button variant='ghost' className='text-xl text-gray-500'>
             ...
           </Button>
         </div>
       </div>
-      <Tabs value={currentTab} className='pt-4 px-4'>
-        <TabsList className='bg-transparent pb-2 border-b border-gray-300 w-full'>
-          <div className='flex w-full justify-evenly items-center'>
+      <Tabs value={currentTab} className='px-4 pt-4'>
+        <TabsList className='w-full border-b border-gray-300 bg-transparent pb-2'>
+          <div className='flex w-full items-center justify-evenly'>
             {operations.map((op, index) => (
               <TabsTrigger
                 key={index}
                 value={op.value}
-                className={`text-lg font-medium flex items-center rounded-none hover:bg-slate-100 ${
+                className={`flex items-center rounded-none text-lg font-medium hover:bg-slate-100 ${
                   currentTab === op.value
-                    ? 'text-green-700 border-b-2 border-green-700 w-full'
-                    : 'text-gray-500 w-full'
+                    ? 'w-full border-b-2 border-green-700 text-green-700'
+                    : 'w-full text-gray-500'
                 }`}
                 onClick={() => setCurrentTab(op.value)}>
                 {React.cloneElement(op.icon as React.ReactElement, {
@@ -101,7 +101,7 @@ const TabComponent: React.FC<TabProps> = ({
           </div>
         </TabsList>
       </Tabs>
-      <div className='2xl:h-[78.5vh] h-[75vh] shadow-lg overflow-y-auto'>
+      <div className='h-[75vh] overflow-y-auto shadow-lg 2xl:h-[78.5vh]'>
         {renderTabContent()}
         <div className='h-[20px]'></div>
       </div>

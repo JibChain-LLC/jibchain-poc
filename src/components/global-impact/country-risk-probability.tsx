@@ -1,9 +1,9 @@
 'use client';
-import { useLayoutEffect } from 'react';
 import * as am5 from '@amcharts/amcharts5';
 import * as am5map from '@amcharts/amcharts5/map';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import am5geodata_worldLow from '@amcharts/amcharts5-geodata/worldLow';
+import { useLayoutEffect } from 'react';
 
 interface CountryDataContext {
   id: string;
@@ -12,11 +12,11 @@ interface CountryDataContext {
 
 const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
   useLayoutEffect(() => {
-    let root = am5.Root.new('chartdiv');
+    const root = am5.Root.new('chartdiv');
 
     root.setThemes([am5themes_Animated.new(root)]);
 
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5map.MapChart.new(root, {
         projection: am5map.geoMercator(),
         panX: 'none',
@@ -29,7 +29,7 @@ const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
       root._logo.dispose();
     }
     // Create polygon series for the world map
-    let polygonSeries = chart.series.push(
+    const polygonSeries = chart.series.push(
       am5map.MapPolygonSeries.new(root, {
         geoJSON: am5geodata_worldLow,
         exclude: ['AQ'] // Exclude Antarctica
@@ -41,7 +41,7 @@ const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
     polygonSeries.mapPolygons.template.set('tooltipText', '{name}: {risk}');
 
     polygonSeries.mapPolygons.template.events.on('pointerover', function (ev) {
-      let target = ev.target;
+      const target = ev.target;
       if (target.dataItem?.dataContext && supplier) {
         const riskData = [
           { id: 'US', risk: 'High' }, // United States
@@ -73,7 +73,9 @@ const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
     });
 
     if (!supplier) {
-      let pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+      const pointSeries = chart.series.push(
+        am5map.MapPointSeries.new(root, {})
+      );
 
       const bubbleData = [
         {
@@ -103,7 +105,7 @@ const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
       ];
 
       pointSeries.bullets.push(() => {
-        let circle = am5.Circle.new(root, {
+        const circle = am5.Circle.new(root, {
           radius: 7,
           tooltipText: 'Risk Level',
           fill: am5.color(0xff0000)

@@ -2,9 +2,9 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 // import { FaStar, FaEye, FaShieldAlt } from 'react-icons/fa';
-import Star from '../../images/star-icon.svg';
-import Shield from '../../images/shield-icon.svg';
 import Eye from '../../images/eye-icon.svg';
+import Shield from '../../images/shield-icon.svg';
+import Star from '../../images/star-icon.svg';
 // Define the types for the props
 interface VerticalScenarioBarProps {
   activeAccordion: string;
@@ -39,7 +39,7 @@ const VerticalScenarioBar: React.FC<VerticalScenarioBarProps> = ({
   }, [contentHeights]);
 
   return (
-    <div className=' flex flex-col items-center mt-4 '>
+    <div className='mt-4 flex flex-col items-center'>
       {/* <Image src={icons[0].icon} alt='wewdw' className='p-2 z-50' /> */}
       {/* <div
         style={{

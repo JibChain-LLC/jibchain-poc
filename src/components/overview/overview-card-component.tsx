@@ -1,20 +1,20 @@
-import React from 'react';
-import { Card, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
+import React from 'react';
 import { overviewCardData } from '#/utils/utils';
+import { Card, CardHeader, CardTitle } from '../ui/card';
 
 const OverviewCardComponent = () => {
   return (
-    <div className='grid gap-6 lg:grid-cols-2 grid-cols-1 xl:grid-cols-3 bg-white rounded-none p-5'>
+    <div className='grid grid-cols-1 gap-6 rounded-none bg-white p-5 lg:grid-cols-2 xl:grid-cols-3'>
       {overviewCardData.map((item, i) => (
         <Card
-          className='bg-transparent border-none shadow-md hover:shadow-lg transition-all rounded-md'
+          className='rounded-md border-none bg-transparent shadow-md transition-all hover:shadow-lg'
           key={i}>
-          <CardHeader className='bg-transparent border-none p-0'>
-            <div className='flex flex-row justify-between w-full'>
-              <div className='flex items-center justify-between w-full bg-gray-100'>
+          <CardHeader className='border-none bg-transparent p-0'>
+            <div className='flex w-full flex-row justify-between'>
+              <div className='flex w-full items-center justify-between bg-gray-100'>
                 <div className='w-1/2'>
-                  <CardTitle className='text-xl font-medium text-black p-5'>
+                  <CardTitle className='p-5 text-xl font-medium text-black'>
                     <span className='flex flex-col'>
                       <span className='text-slate-700'>{item.title}</span>
                       <span className='text-[32px] font-bold'>
@@ -27,7 +27,7 @@ const OverviewCardComponent = () => {
                   <Image
                     src={item.icon}
                     alt={item.alt}
-                    className='opacity-40 max-w-full h-[150px] object-cover'
+                    className='h-[150px] max-w-full object-cover opacity-40'
                   />
                 </div>
               </div>

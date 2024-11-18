@@ -1,12 +1,12 @@
 'use client';
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
-import MiniLogo from '../../images/mini-logo.svg';
-import Logo from '../../images/logo.svg';
-import UserLogo from '../../images/user.svg';
 import Image from 'next/image';
-import { sidebarLinks } from '#/utils/utils';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { sidebarLinks } from '#/utils/utils';
+import Logo from '../../images/logo.svg';
+import MiniLogo from '../../images/mini-logo.svg';
+import UserLogo from '../../images/user.svg';
 
 export default function Sidebar() {
   const [isHovered, setIsHovered] = useState(false);
@@ -14,13 +14,13 @@ export default function Sidebar() {
 
   return (
     <div
-      className={`bg-[#01392c] min-h-screen ${
+      className={`min-h-screen bg-[#01392c] ${
         isHovered ? 'w-64' : 'w-20'
-      } fixed z-10 transition-all duration-200 flex flex-col items-center text-white p-4 overflow-hidden justify-between`}
+      } fixed z-10 flex flex-col items-center justify-between overflow-hidden p-4 text-white transition-all duration-200`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ left: isHovered ? 0 : 'unset' }}>
-      <div className='text-2xl font-bold w-full flex justify-center'>
+      <div className='flex w-full justify-center text-2xl font-bold'>
         <div className=''>
           {isHovered ? (
             <Image src={Logo} alt='Full Logo' />
@@ -30,7 +30,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <div className='flex flex-col gap-4 w-full items-center flex-grow justify-center'>
+      <div className='flex w-full grow flex-col items-center justify-center gap-4'>
         {sidebarLinks.map((item) => {
           const isActive = pathname.startsWith(item.link);
 
@@ -41,26 +41,25 @@ export default function Sidebar() {
                 setIsHovered(false);
               }}
               href={item.link}
-              className={`flex items-center gap-4 w-full h-[50px] p-2 rounded-md 
-               transition-colors`}>
+              className={`flex h-[50px] w-full items-center gap-4 rounded-md p-2 transition-colors`}>
               {item.icon && typeof item.icon === 'function' ? (
                 <item.icon isActive={isActive} />
               ) : (
                 <Image
                   src={item.icon}
                   alt=''
-                  className={`w-6 h-6 min-w-6 min-h-6 ${isActive ? 'text-[#fff]' : ''}`}
+                  className={`size-6 min-h-6 min-w-6 ${isActive ? 'text-white' : ''}`}
                 />
               )}
-              <span className='flex flex-row justify-between items-center w-full'>
+              <span className='flex w-full flex-row items-center justify-between'>
                 <span
                   className={`${
-                    isHovered ? 'opacity-100 ' : 'opacity-0'
-                  } text-sm transition-opacity duration-300 whitespace-nowrap`}>
+                    isHovered ? 'opacity-100' : 'opacity-0'
+                  } whitespace-nowrap text-sm transition-opacity duration-300`}>
                   {isHovered ? item.name : ''}
                 </span>
                 {isActive && (
-                  <span className='inline-block h-[70px] min-h-[1em] w-1 bg-green-500 -mr-4'></span>
+                  <span className='-mr-4 inline-block h-[70px] min-h-[1em] w-1 bg-green-500'></span>
                 )}
               </span>
             </Link>
@@ -69,11 +68,11 @@ export default function Sidebar() {
       </div>
 
       <Link href='/user' onClick={() => setIsHovered(false)}>
-        <div className='mt-auto flex items-center gap-4 p-2 w-full border-t border-gray-500 pt-4'>
+        <div className='mt-auto flex w-full items-center gap-4 border-t border-gray-500 p-2 pt-4'>
           <Image
             src={UserLogo}
             alt='User Profile'
-            className='w-8 h-8 rounded-full'
+            className='size-8 rounded-full'
           />
           <div
             className={`${
@@ -81,7 +80,7 @@ export default function Sidebar() {
             } transition-opacity duration-300 lg:block`}>
             {isHovered && (
               <>
-                <div className='font-bold text-white text-sm'>Jamie Smith</div>
+                <div className='text-sm font-bold text-white'>Jamie Smith</div>
                 <div className='text-xs text-white'>
                   Chief Operations Officer
                 </div>

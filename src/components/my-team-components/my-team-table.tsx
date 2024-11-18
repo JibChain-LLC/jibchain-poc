@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -14,6 +13,10 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import { ChevronDown, MoreHorizontal } from 'lucide-react';
+import { UserPlus } from 'lucide-react';
+import Image from 'next/image';
+import * as React from 'react';
+import { useState } from 'react';
 import { Badge } from '#/components/ui/badge';
 import { Button } from '#/components/ui/button';
 import { Checkbox } from '#/components/ui/checkbox';
@@ -26,7 +29,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '#/components/ui/dropdown-menu';
-import ShellImage from '#/images/shell.svg';
 import {
   Table,
   TableBody,
@@ -35,9 +37,8 @@ import {
   TableHeader,
   TableRow
 } from '#/components/ui/table';
+import ShellImage from '#/images/shell.svg';
 import smallLogo from '#/images/small.svg';
-import Image from 'next/image';
-import { UserPlus } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -45,7 +46,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '../ui/select';
-import { useState } from 'react';
 import { AddTeamMemberModal } from './add-team-member-modal';
 import { ChangeRoleModal } from './change-role-modal';
 import { DeactivateUserModal } from './deactivate-user-modal';
@@ -156,7 +156,7 @@ const columns: ColumnDef<Supplier>[] = [
       <Image
         src={row.getValue('image')}
         alt={row.getValue('user')}
-        className='w-[30px] h-[30px] rounded-none'
+        className='size-[30px] rounded-none'
       />
     ),
     enableSorting: false,
@@ -201,15 +201,15 @@ const columns: ColumnDef<Supplier>[] = [
       return (
         <>
           <Select value={userRole} onValueChange={handleRoleChange}>
-            <SelectTrigger className='w-full bg-white border-gray-300 max-w-[90px]'>
+            <SelectTrigger className='w-full max-w-[90px] border-gray-300 bg-white'>
               <SelectValue>{userRole}</SelectValue>
             </SelectTrigger>
-            <SelectContent className='bg-white text-black max-w-[200px]'>
+            <SelectContent className='max-w-[200px] bg-white text-black'>
               <SelectItem value='Owner'>Owner</SelectItem>
               <SelectItem value='Admin'>Admin</SelectItem>
               <SelectItem
                 value='Editor'
-                className='border-b-[1px] rounded-none border-gray-200'>
+                className='rounded-none border-b border-gray-200'>
                 Editor
               </SelectItem>
               <SelectItem value='Deactive' className='text-red-500'>
@@ -265,7 +265,7 @@ const columns: ColumnDef<Supplier>[] = [
 
       return (
         <div className='flex items-center'>
-          <span className={`w-2 h-2 rounded-full mr-2 ${dotColor}`}></span>
+          <span className={`mr-2 size-2 rounded-full ${dotColor}`}></span>
           {status}
         </div>
       );
@@ -277,7 +277,7 @@ const columns: ColumnDef<Supplier>[] = [
     cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className='p-1 bg-trasnparent text-black'>
+          <Button className='bg-trasnparent p-1 text-black'>
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
@@ -347,13 +347,13 @@ export function MyTeamTable() {
 
   return (
     <>
-      <p className='text-black text-[24px] font-bold py-6'>My Team</p>
-      <div className='text-black bg-white w-full flex md:flex-row flex-col items-center justify-between rounded-t-lg rounded-b-none p-6 shadow-md'>
-        <div className='flex md:flex-row flex-col items-center gap-2'>
+      <p className='py-6 text-[24px] font-bold text-black'>My Team</p>
+      <div className='flex w-full flex-col items-center justify-between rounded-b-none rounded-t-lg bg-white p-6 text-black shadow-md md:flex-row'>
+        <div className='flex flex-col items-center gap-2 md:flex-row'>
           <Image
             src={ShellImage}
             alt='Shell Logo'
-            className='w-[60px] h-[60px] rounded-md object-cover'
+            className='size-[60px] rounded-md object-cover'
           />
           <h2 className='text-xl font-bold'>Shell USA, Inc.</h2>
           <p className='text-gray-500'>Team members: 10</p>
@@ -363,13 +363,13 @@ export function MyTeamTable() {
             Deactivate All
           </Button>
           <Button
-            className='bg-green-700 text-white hover:bg-green-600 gap-2'
+            className='gap-2 bg-green-700 text-white hover:bg-green-600'
             onClick={openDialog}>
-            <UserPlus></UserPlus> Add New
+            <UserPlus /> Add New
           </Button>
         </div>
       </div>
-      <div className='border border-gray-200 border-t-0 rounded-t-none p-0.5 shadow-md rounded-b-lg'>
+      <div className='rounded-b-lg rounded-t-none border border-t-0 border-gray-200 p-0.5 shadow-md'>
         <Table className='rounded-lg'>
           <TableHeader className='bg-gray-100'>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -387,7 +387,7 @@ export function MyTeamTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='text-black bg-white'>
+          <TableBody className='bg-white text-black'>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -415,11 +415,11 @@ export function MyTeamTable() {
           </TableBody>
         </Table>
 
-        <div className='flex items-center justify-between space-x-2 py-4 bg-white border-t-[1px] p-2'>
+        <div className='flex items-center justify-between space-x-2 border-t bg-white p-2 py-4'>
           <div className='flex items-center text-black'>
             <p>Rows per page: </p>
             <Button
-              className='bg-transparent text-black mx-4'
+              className='mx-4 bg-transparent text-black'
               variant='outline'
               size='sm'
               onClick={() => table.nextPage()}
@@ -429,7 +429,7 @@ export function MyTeamTable() {
           </div>
           <div className='gap-6'>
             <Button
-              className='bg-transparent text-black hover:cursor-pointer hover:scale-110 mx-4'
+              className='mx-4 bg-transparent text-black hover:scale-110 hover:cursor-pointer'
               variant='outline'
               size='sm'
               onClick={() => table.previousPage()}
@@ -437,7 +437,7 @@ export function MyTeamTable() {
               Previous
             </Button>
             <Button
-              className='bg-transparent text-black '
+              className='bg-transparent text-black'
               variant='outline'
               size='sm'
               onClick={() => table.nextPage()}

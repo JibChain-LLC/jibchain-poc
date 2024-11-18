@@ -1,16 +1,16 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '../ui/button';
-import MoneyImage from '#/images/money-image.jpg';
 import Image from 'next/image';
+import React from 'react';
+import MoneyImage from '#/images/money-image.jpg';
 import { mitigationBestPractices } from '#/utils/utils';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 const OverviewSummaryComponent = () => {
   const content = [
     {
       title: 'Mitigation Best Practices',
       body: (
-        <p className='mt-4 text-base text-gray-700 max-w-[850px]'>
+        <p className='mt-4 max-w-[850px] text-base text-gray-700'>
           The Verizon 2025 Data Breach involved in 24% of all breaches. The
           report also notes a 13% increase in ransomware incidents compared to
           the previous year, Investigations Report indicates that ransomware has
@@ -21,7 +21,7 @@ const OverviewSummaryComponent = () => {
     {
       title: 'Justification',
       body: (
-        <p className='mt-4 text-base text-gray-700 max-w-[850px]'>
+        <p className='mt-4 max-w-[850px] text-base text-gray-700'>
           The Verizon 2025 Data Breach involved in 24% of all breaches. The
           report also notes a 13% increase in ransomware incidents compared to
           the previous year, Investigations Report indicates that ransomware has
@@ -32,9 +32,9 @@ const OverviewSummaryComponent = () => {
   ];
 
   return (
-    <div className='flex justify-between xl:flex-row flex-col bg-white p-4'>
-      <Card className='bg-white border border-gray-200 shadow-none rounded-none border-none max-w-[850px] w-full'>
-        <CardHeader className='py-3 px-4'>
+    <div className='flex flex-col justify-between bg-white p-4 xl:flex-row'>
+      <Card className='w-full max-w-[850px] rounded-none border border-none border-gray-200 bg-white shadow-none'>
+        <CardHeader className='px-4 py-3'>
           <CardTitle className='text-sm font-semibold text-gray-400'>
             Summary
           </CardTitle>
@@ -43,18 +43,18 @@ const OverviewSummaryComponent = () => {
           <p className='text-[25px] text-gray-700'>
             Ransomware attacks continue to evolve and target organizations
             across various sectors. <br />
-            <Button className='text-green-700 bg-white hover:bg-green-600 hover:text-white border border-green-700 text-[14px] p-5'>
+            <Button className='border border-green-700 bg-white p-5 text-[14px] text-green-700 hover:bg-green-600 hover:text-white'>
               Read Articles
             </Button>
           </p>
           <Image
             src={MoneyImage}
             alt='img'
-            className='max-w-[850px] w-full h-[200px] rounded-lg my-4'
+            className='my-4 h-[200px] w-full max-w-[850px] rounded-lg'
           />
           {content.map((section, index) => (
             <div key={index} className='mt-6'>
-              <h4 className='font-semibold text-gray-400 text-sm'>
+              <h4 className='text-sm font-semibold text-gray-400'>
                 {section.title}
               </h4>
               {section.body}
@@ -63,17 +63,17 @@ const OverviewSummaryComponent = () => {
         </CardContent>
       </Card>
 
-      <Card className='bg-white border border-gray-200 shadow-md rounded-md min-w-[400px] h-fit p-3'>
-        <CardHeader className='bg-none py-3 px-4'>
-          <CardTitle className='text-md font-semibold text-gray-500'>
+      <Card className='h-fit min-w-[400px] rounded-md border border-gray-200 bg-white p-3 shadow-md'>
+        <CardHeader className='bg-none px-4 py-3'>
+          <CardTitle className='font-semibold text-gray-500'>
             Potential Impact Areas
           </CardTitle>
         </CardHeader>
-        <CardContent className='p-4 space-y-6 flex flex-col items-start text-black'>
+        <CardContent className='flex flex-col items-start space-y-6 p-4 text-black'>
           {mitigationBestPractices.map((item, index) => (
-            <div key={index} className='flex justify-center items-start w-full'>
-              <item.icon className='mr-1 h-5 w-5 text-green-600' />
-              <p className='border-b-[1px] border-gray-200 w-full pb-3'>
+            <div key={index} className='flex w-full items-start justify-center'>
+              <item.icon className='mr-1 size-5 text-green-600' />
+              <p className='w-full border-b border-gray-200 pb-3'>
                 {item.label}
               </p>
             </div>

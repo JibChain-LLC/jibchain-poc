@@ -1,8 +1,8 @@
 'use client';
 
-import Tabs from '#/components/tabs/tabs';
 import { usePathname } from 'next/navigation';
 import React from 'react';
+import Tabs from '#/components/tabs/tabs';
 
 const Alerts = () => {
   const pathname = usePathname();

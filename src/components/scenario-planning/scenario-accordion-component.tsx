@@ -17,29 +17,29 @@ export default function AccordionSection({
   cost
 }: AccordionSectionProps) {
   return (
-    <AccordionContent className='text-sm text-gray-600 flex flex-col lg:flex-row items-stretch gap-10 px-8 lg:px-16'>
-      <Card className='flex flex-col items-start md:items-center bg-white px-4 md:w-full lg:w-[250px] h-fit text-nowrap'>
-        <div className='p-6 md:w-full  border-b shadow-none'>
-          <h2 className='font-semibold text-gray-700 text-[14px] md:text-[16px] lg:text-[14px]'>
+    <AccordionContent className='flex flex-col items-stretch gap-10 px-8 text-sm text-gray-600 lg:flex-row lg:px-16'>
+      <Card className='flex h-fit flex-col items-start text-nowrap bg-white px-4 md:w-full md:items-center lg:w-[250px]'>
+        <div className='border-b p-6 shadow-none md:w-full'>
+          <h2 className='text-[14px] font-semibold text-gray-700 md:text-[16px] lg:text-[14px]'>
             Confidence Level
           </h2>
-          <p className='text-black text-[18px] md:text-[20px] lg:text-[22px] font-semibold mt-2'>
+          <p className='mt-2 text-[18px] font-semibold text-black md:text-[20px] lg:text-[22px]'>
             {confidenceLevel}
           </p>
         </div>
-        <div className='p-6 border-b shadow-none md:w-full'>
-          <h2 className='font-semibold text-gray-700 text-[14px] md:text-[16px] lg:text-[14px]'>
+        <div className='border-b p-6 shadow-none md:w-full'>
+          <h2 className='text-[14px] font-semibold text-gray-700 md:text-[16px] lg:text-[14px]'>
             Time to Implement
           </h2>
-          <p className='text-black text-[18px] md:text-[20px] lg:text-[22px] font-semibold mt-2'>
+          <p className='mt-2 text-[18px] font-semibold text-black md:text-[20px] lg:text-[22px]'>
             {implementationTime}
           </p>
         </div>
-        <div className='p-6 border-b shadow-none md:w-full'>
-          <h2 className='font-semibold text-gray-700 text-[14px] md:text-[16px] lg:text-[14px]'>
+        <div className='border-b p-6 shadow-none md:w-full'>
+          <h2 className='text-[14px] font-semibold text-gray-700 md:text-[16px] lg:text-[14px]'>
             Cost to Implement
           </h2>
-          <p className='text-black text-[18px] md:text-[20px] lg:text-[22px] font-semibold mt-2'>
+          <p className='mt-2 text-[18px] font-semibold text-black md:text-[20px] lg:text-[22px]'>
             {cost}
           </p>
         </div>
@@ -47,17 +47,17 @@ export default function AccordionSection({
 
       <div className='flex flex-col items-start gap-2 md:w-full lg:w-2/3'>
         <div className='mb-4'>
-          <h2 className='font-semibold text-gray-800 text-[16px] mb-2'>
+          <h2 className='mb-2 text-[16px] font-semibold text-gray-800'>
             Scenario
           </h2>
-          <p className='text-gray-700 text-[16px] md:text-[18px]'>{scenario}</p>
+          <p className='text-[16px] text-gray-700 md:text-[18px]'>{scenario}</p>
         </div>
 
         <div>
-          <h2 className='font-semibold text-gray-800 text-[16px] mb-2'>
+          <h2 className='mb-2 text-[16px] font-semibold text-gray-800'>
             Mitigation Strategy
           </h2>
-          <p className='text-gray-700 text-[16px] md:text-[18px]'>{strategy}</p>
+          <p className='text-[16px] text-gray-700 md:text-[18px]'>{strategy}</p>
         </div>
       </div>
     </AccordionContent>

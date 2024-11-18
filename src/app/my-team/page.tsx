@@ -1,9 +1,9 @@
-import { MyTeamTable } from '#/components/my-team-components/my-team-table';
 import React from 'react';
+import { MyTeamTable } from '#/components/my-team-components/my-team-table';
 
 const MyTeam = () => {
   return (
-    <div className='bg-gray-100 p-6 min-h-screen ml-14'>
+    <div className='ml-14 min-h-screen bg-gray-100 p-6'>
       <MyTeamTable />
     </div>
   );

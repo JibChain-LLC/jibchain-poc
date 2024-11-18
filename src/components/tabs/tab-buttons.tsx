@@ -1,6 +1,6 @@
 // TabButtons.tsx
-import { Tabs, TabsList, TabsTrigger } from '#/components/ui/tabs';
 import { usePathname } from 'next/navigation';
+import { Tabs, TabsList, TabsTrigger } from '#/components/ui/tabs';
 
 interface Operation {
   label: string;
@@ -31,7 +31,7 @@ export default function TabButtons({ operations, router }: TabButtonsProps) {
             <TabsTrigger
               key={index}
               value={op.value}
-              className='data-[state=active]:bg-black data-[state=active]:text-white bg-white'
+              className='bg-white data-[state=active]:bg-black data-[state=active]:text-white'
               onClick={() => handleTabChange(op.value)}>
               {op.label}
             </TabsTrigger>

@@ -1,29 +1,29 @@
 'use client';
 import Image from 'next/image';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import ProfileImage from '#/images/shell.svg';
 import { formOrganizationFields } from '#/utils/utils';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 export default function OrganizationComponent() {
   return (
-    <div className='bg-gray-100 max-h-screen overflow-y-auto w-full p-6'>
-      <div className='xl:p-32 p-4 bg-white text-black min-h-[95vh] shadow-md rounded-md'>
-        <h1 className='text-2xl font-bold mb-4'>Shell USA, Inc.</h1>
-        <div className='flex lg:flex-row flex-col gap-2'>
+    <div className='max-h-screen w-full overflow-y-auto bg-gray-100 p-6'>
+      <div className='min-h-[95vh] rounded-md bg-white p-4 text-black shadow-md xl:p-32'>
+        <h1 className='mb-4 text-2xl font-bold'>Shell USA, Inc.</h1>
+        <div className='flex flex-col gap-2 lg:flex-row'>
           <div className='flex flex-col gap-2'>
             <p className='min-w-[120px]'>Company Logo</p>
             <Image
               src={ProfileImage}
               alt='Company Logo'
-              className='w-[80px] h-[80px]'
+              className='size-[80px]'
             />
           </div>
-          <div className='relative gap-2 w-full'>
+          <div className='relative w-full gap-2'>
             <Input type='file' id='avatar-input' className='hidden' />
             <label
               htmlFor='avatar-input'
-              className='border-2 border-dashed border-gray-300 rounded-md p-4 cursor-pointer hover:border-gray-500 h-[140px] text-black flex flex-col items-center justify-center'>
+              className='flex h-[140px] cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 p-4 text-black hover:border-gray-500'>
               <span className='text-center'>
                 Click to upload or drag and drop
               </span>
@@ -35,7 +35,7 @@ export default function OrganizationComponent() {
         </div>
 
         <form className='mt-8'>
-          <div className='grid grid-cols-1 xl:grid-cols-2 gap-4'>
+          <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
             {formOrganizationFields.map((field) => (
               <div
                 key={field.id}
@@ -55,7 +55,7 @@ export default function OrganizationComponent() {
               <Image
                 src={ProfileImage}
                 alt='Owner Profile'
-                className='w-[40px] h-[40px] rounded-full'
+                className='size-[40px] rounded-full'
               />
               <div>
                 <p className='font-bold'>Jamie Smith</p>
@@ -63,7 +63,7 @@ export default function OrganizationComponent() {
               </div>
             </div>
           </div>
-          <div className='flex gap-4 mt-4'>
+          <div className='mt-4 flex gap-4'>
             <Button className='bg-green-700 text-white hover:bg-green-600'>
               Save Changes
             </Button>

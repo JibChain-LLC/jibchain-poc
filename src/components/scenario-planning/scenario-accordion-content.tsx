@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { sectionsScenario } from '#/utils/utils';
 import { Accordion, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import AccordionSection from './scenario-accordion-component';
 import VerticalScenarioBar from './scenario-bar';
-import { sectionsScenario } from '#/utils/utils';
 const ScenarioAccordionComponent = () => {
   const [openItem, setOpenItem] = useState<string>('item-1');
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -31,7 +31,7 @@ const ScenarioAccordionComponent = () => {
   // }, [sections, openItem]);
 
   return (
-    <div className='p-6 bg-white flex flex-row rounded-b-lg min-h-[78vh]'>
+    <div className='flex min-h-[78vh] flex-row rounded-b-lg bg-white p-6'>
       <VerticalScenarioBar
         activeAccordion={openItem}
         contentHeights={contentHeights}
@@ -51,7 +51,7 @@ const ScenarioAccordionComponent = () => {
               className={`rounded-2xl ${isActive ? 'bg-gray-100' : 'hover:bg-gray-100'} mt-4 w-full`}
               onClick={() => handleToggle(itemValue)}>
               <AccordionTrigger
-                className={`text-sm font-normal p-2 ${isActive ? 'text-black font-bold' : 'text-gray-500'} w-full`}>
+                className={`p-2 text-sm font-normal ${isActive ? 'font-bold text-black' : 'text-gray-500'} w-full`}>
                 <div className='flex flex-col items-start gap-2 py-4 pl-6'>
                   <span className='text-xs text-gray-500'>{section.level}</span>
                   <h1

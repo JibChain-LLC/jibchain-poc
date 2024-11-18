@@ -1,22 +1,22 @@
-import React from 'react';
-import { Card, CardContent } from '../ui/card';
-import { Progress } from '../ui/progress';
 import Image from 'next/image';
+import React from 'react';
 import ShellImage from '#/images/shell.svg';
-import CountryRiskProbability from '../global-impact/country-risk-probability';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
+import CountryRiskProbability from '../global-impact/country-risk-probability';
+import { Card, CardContent } from '../ui/card';
+import { Progress } from '../ui/progress';
 
 const SuppliersHeader = () => {
   return (
-    <div className='gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full'>
-      <div className='flex flex-col gap-4 w-auto'>
-        <Card className='w-full min-h-[100px] flex items-center bg-white border-none shadow-md'>
+    <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+      <div className='flex w-auto flex-col gap-4'>
+        <Card className='flex min-h-[100px] w-full items-center border-none bg-white shadow-md'>
           <CardContent className='flex items-center gap-12 p-4 text-black'>
             <Image
               src={ShellImage}
               alt='Shell Logo'
-              className='w-[100px] h-[100px] rounded-md object-cover'
+              className='size-[100px] rounded-md object-cover'
             />
             <div>
               <h2 className='text-xl font-bold'>Shell USA, Inc.</h2>
@@ -24,29 +24,29 @@ const SuppliersHeader = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className='w-full min-h-[165px] flex items-center justify-between bg-white border-none shadow-md'>
-          <CardContent className='p-4 flex flex-col items-center'>
+        <Card className='flex min-h-[165px] w-full items-center justify-between border-none bg-white shadow-md'>
+          <CardContent className='flex flex-col items-center p-4'>
             <div>
               <p className='text-gray-600'>Overall risk status</p>
-              <p className='text-orange-500 text-[32px] font-semibold'>
+              <p className='text-[32px] font-semibold text-orange-500'>
                 Medium
               </p>
             </div>
           </CardContent>
-          <CardContent className='p-4 flex flex-col items-center'>
+          <CardContent className='flex flex-col items-center p-4'>
             <div className='text-left'>
               <p className='text-gray-600'>Active risks</p>
-              <p className='font-semibold text-[32px] text-orange-500'>20</p>
+              <p className='text-[32px] font-semibold text-orange-500'>20</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card className='w-full min-h-[280px] max-h-auto bg-white border-none shadow-md'>
-        <CardContent className='md:p-6 p-0 space-y-4'>
+      <Card className='max-h-auto min-h-[280px] w-full border-none bg-white shadow-md'>
+        <CardContent className='space-y-4 p-0 md:p-6'>
           <div className='flex flex-wrap justify-between gap-4'>
             {suppliersData.map(({ label, value }) => (
-              <div key={label} className='flex flex-col md:px-0 px-6'>
+              <div key={label} className='flex flex-col px-6 md:px-0'>
                 <h3 className='text-gray-600'>{label}</h3>
                 <p className='text-[42px] font-normal text-black'>{value}</p>
               </div>
@@ -58,8 +58,8 @@ const SuppliersHeader = () => {
         </div>
       </Card>
 
-      <Card className='w-full min-h-[280px] max-h-auto bg-white border-none shadow-md'>
-        <CardContent className='p-6 space-y-4 text-black'>
+      <Card className='max-h-auto min-h-[280px] w-full border-none bg-white shadow-md'>
+        <CardContent className='space-y-4 p-6 text-black'>
           <h3 className='text-xl font-semibold'>At Risk Suppliers</h3>
           <p className='text-3xl font-bold'>65</p>
           <div className='flex flex-row justify-between gap-4 pt-8'>
@@ -67,14 +67,14 @@ const SuppliersHeader = () => {
               ({ label, value, count, indicatorColor }) => (
                 <div
                   key={label}
-                  className='flex justify-between items-center space-y-2'>
+                  className='flex items-center justify-between space-y-2'>
                   <span className='flex flex-col'>
                     <span className='flex flex-row items-center'>
                       <span
-                        className={`w-2 h-2 rounded-full ${indicatorColor} mr-2`}></span>
+                        className={`size-2 rounded-full ${indicatorColor} mr-2`}></span>
                       {label}
                     </span>
-                    <span className='flex flex-col '>
+                    <span className='flex flex-col'>
                       <span className='text-[22px] font-bold'>{value}%</span>{' '}
                       <span>{count}</span>
                     </span>
@@ -83,7 +83,7 @@ const SuppliersHeader = () => {
               )
             )}
           </div>
-          <div className='relative w-full h-6 rounded-md bg-gray-200 mt-4 flex overflow-hidden'>
+          <div className='relative mt-4 flex h-6 w-full overflow-hidden rounded-md bg-gray-200'>
             {supplierRiskLevels.map(({ value, indicatorColor }, index) => (
               <Progress
                 key={index}
@@ -99,14 +99,14 @@ const SuppliersHeader = () => {
         </CardContent>
       </Card>
 
-      <Card className='w-full min-h-[280px] max-h-auto bg-white border-none shadow-md'>
-        <CardContent className='p-6 space-y-4 text-black'>
+      <Card className='max-h-auto min-h-[280px] w-full border-none bg-white shadow-md'>
+        <CardContent className='space-y-4 p-6 text-black'>
           <div>
             <h3 className='text-gray-600'>Top Risk</h3>
             <p className='text-xl font-bold'>Ransomware Attack</p>
           </div>
           <div>
-            <p className='font-normal text-sm'>
+            <p className='text-sm font-normal'>
               <span className='font-bold'>9% </span>of total suppliers impacted
             </p>
             <div className='flex items-center justify-between'>
@@ -115,12 +115,12 @@ const SuppliersHeader = () => {
                 value={9}
                 className='h-1 bg-gray-200'
               />
-              <span className='text-sm text-gray-600 ml-2'>22/243</span>
+              <span className='ml-2 text-sm text-gray-600'>22/243</span>
             </div>
           </div>
         </CardContent>
-        <CardContent className='p-6 space-y-4'>
-          <p className='text-sm text-gray-600 mt-4'>Increase since last week</p>
+        <CardContent className='space-y-4 p-6'>
+          <p className='mt-4 text-sm text-gray-600'>Increase since last week</p>
           <p className='text-red-500'>1.45% ↑</p>
         </CardContent>
       </Card>

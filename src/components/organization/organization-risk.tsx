@@ -1,5 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { Label, Pie, PieChart } from 'recharts';
+import { chartData } from '#/utils/utils';
+import { doughnutChartConfig } from '#/utils/utils';
 import { Card, CardContent } from '../ui/card';
 import {
   ChartConfig,
@@ -7,9 +10,6 @@ import {
   ChartTooltip,
   ChartTooltipContent
 } from '../ui/chart';
-import { Label, Pie, PieChart } from 'recharts';
-import { chartData } from '#/utils/utils';
-import { doughnutChartConfig } from '#/utils/utils';
 
 const OrganizationRisk = () => {
   const [riskStatus, setRiskStatus] = useState(0);
@@ -20,17 +20,17 @@ const OrganizationRisk = () => {
   }, [chartData]);
 
   return (
-    <Card className='w-full min-h-[165px] flex items-center justify-between bg-white border-x-[1px] border-y-0 shadow-md rounded-t-lg rounded-b-none border-gray-200 overflow-hidden'>
-      <CardContent className='p-4 flex flex-col items-center'>
+    <Card className='flex min-h-[165px] w-full items-center justify-between overflow-hidden rounded-b-none rounded-t-lg border-x border-y-0 border-gray-200 bg-white shadow-md'>
+      <CardContent className='flex flex-col items-center p-4'>
         <div>
           <p className='text-gray-600'>Your overall risk status is</p>
-          <p className='text-orange-500 text-[32px] font-semibold'>Medium</p>
+          <p className='text-[32px] font-semibold text-orange-500'>Medium</p>
         </div>
       </CardContent>
       <CardContent className='flex-1 pb-0'>
         <ChartContainer
           config={doughnutChartConfig}
-          className='mx-auto aspect-square min-h-[130px] flex justify-center items-center'>
+          className='mx-auto flex aspect-square min-h-[130px] items-center justify-center'>
           <PieChart>
             <ChartTooltip
               cursor={false}
@@ -55,13 +55,13 @@ const OrganizationRisk = () => {
                         <tspan
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className='text-black text-xl font-bold'>
+                          className='text-xl font-bold text-black'>
                           {riskStatus}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
-                          className='text-gray-500 text-base'>
+                          className='text-base text-gray-500'>
                           Total
                         </tspan>
                       </text>

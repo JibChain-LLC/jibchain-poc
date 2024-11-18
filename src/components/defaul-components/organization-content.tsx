@@ -4,12 +4,12 @@ import OrganizationTabs from '../organization/organization-tabs';
 
 export default function OrganizationContent() {
   return (
-    <div className='flex flex-col h-full min-w-[400px] max-w-[400px] bg-gray-100 overflow-auto p-6 ml-12'>
-      <div className='flex flex-col gap-6 w-auto'>
+    <div className='ml-12 flex h-full min-w-[400px] max-w-[400px] flex-col overflow-auto bg-gray-100 p-6'>
+      <div className='flex w-auto flex-col gap-6'>
         <OrganizationCard />
         <OrganizationRisk />
       </div>
-      <div className='flex flex-col h-full items-center bg-white overflow-x-hidden shadow-md border-x-[1px] border-gray-200 border-y-0 rounded-t-none rounded-b-lg  p-4'>
+      <div className='flex h-full flex-col items-center overflow-x-hidden rounded-b-lg rounded-t-none border-x border-y-0 border-gray-200 bg-white p-4 shadow-md'>
         <OrganizationTabs />
       </div>
     </div>

@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -14,6 +13,8 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import { ChevronDown, MoreHorizontal } from 'lucide-react';
+import Image from 'next/image';
+import * as React from 'react';
 import { Badge } from '#/components/ui/badge';
 import { Button } from '#/components/ui/button';
 import { Checkbox } from '#/components/ui/checkbox';
@@ -35,10 +36,9 @@ import {
   TableHeader,
   TableRow
 } from '#/components/ui/table';
-import Image from 'next/image';
-import SupplierModal from './supplier-modal';
 import { Invoice } from '#/utils/utils';
 import { supplierTableInvoices } from '#/utils/utils';
+import SupplierModal from './supplier-modal';
 
 const columns: ColumnDef<Invoice>[] = [
   {
@@ -72,7 +72,7 @@ const columns: ColumnDef<Invoice>[] = [
       <Image
         src={row.getValue('image')}
         alt={row.getValue('supplier')}
-        className='w-14 h-14 rounded-none'
+        className='size-14 rounded-none'
       />
     ),
     enableSorting: false,
@@ -123,7 +123,7 @@ const columns: ColumnDef<Invoice>[] = [
 
       return (
         <div className='flex items-center'>
-          <span className={`w-2 h-2 rounded-full mr-2 ${dotColor}`}></span>
+          <span className={`mr-2 size-2 rounded-full ${dotColor}`}></span>
           {impactOperation}
         </div>
       );
@@ -144,7 +144,7 @@ const columns: ColumnDef<Invoice>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              className='p-1 bg-trasnparent text-black'
+              className='bg-trasnparent p-1 text-black'
               onClick={(e) => e.stopPropagation()}>
               <MoreHorizontal />
             </Button>
@@ -230,7 +230,7 @@ export function SuppliersTable() {
             <Button
               variant='outline'
               className='ml-auto bg-transparent text-black'>
-              Columns <ChevronDown className='ml-2 h-4 w-4' />
+              Columns <ChevronDown className='ml-2 size-4' />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
@@ -249,7 +249,7 @@ export function SuppliersTable() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className='border border-gray-200 rounded-lg p-0.5'>
+      <div className='rounded-lg border border-gray-200 p-0.5'>
         <Table className='rounded-lg'>
           <TableHeader className='bg-gray-100'>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -267,7 +267,7 @@ export function SuppliersTable() {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='text-black bg-white'>
+          <TableBody className='bg-white text-black'>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
@@ -302,9 +302,9 @@ export function SuppliersTable() {
           isOpen={isModalOpen}
           setOpen={() => setIsModalOpen(!isModalOpen)}
         />
-        <div className='flex items-center justify-end space-x-2 py-4 bg-white border-t-[1px] p-2 '>
+        <div className='flex items-center justify-end space-x-2 border-t bg-white p-2 py-4'>
           <Button
-            className='bg-transparent text-black hover:cursor-pointer hover:scale-110'
+            className='bg-transparent text-black hover:scale-110 hover:cursor-pointer'
             variant='outline'
             size='sm'
             onClick={() => table.previousPage()}
@@ -312,7 +312,7 @@ export function SuppliersTable() {
             Previous
           </Button>
           <Button
-            className='bg-transparent text-black '
+            className='bg-transparent text-black'
             variant='outline'
             size='sm'
             onClick={() => table.nextPage()}

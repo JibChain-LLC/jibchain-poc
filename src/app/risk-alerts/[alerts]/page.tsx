@@ -26,7 +26,7 @@ export async function generateStaticParams() {
 
 export default function Page() {
   return (
-    <div className='flex h-screen relative overflow-y-hidden'>
+    <div className='relative flex h-screen overflow-y-hidden'>
       <OrganizationContent />
       <Alerts />
     </div>

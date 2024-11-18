@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import { useState } from 'react';
+import Plus from '../../images/plus-icon.svg';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -16,8 +18,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '../ui/select';
-import Plus from '../../images/plus-icon.svg';
-import Image from 'next/image';
 
 export function AddTeamMemberModal({ isOpen, onClose, onRoleSelect }: any) {
   const [userRole, setUserRole] = useState('Owner');
@@ -35,7 +35,7 @@ export function AddTeamMemberModal({ isOpen, onClose, onRoleSelect }: any) {
             Invite a new team member
           </DialogTitle>
         </DialogHeader>
-        <div className='flex flex-row items-start justify-between gap-4 '>
+        <div className='flex flex-row items-start justify-between gap-4'>
           {/* Email Input */}
           <div className='w-full'>
             <Input
@@ -51,27 +51,27 @@ export function AddTeamMemberModal({ isOpen, onClose, onRoleSelect }: any) {
           <div className='w-full max-w-[130px]'>
             <Select value={userRole} onValueChange={handleRoleChange}>
               <SelectTrigger
-                className='w-full bg-white border-gray-300'
+                className='w-full border-gray-300 bg-white'
                 id='role'>
                 <SelectValue>{userRole}</SelectValue>
               </SelectTrigger>
-              <SelectContent className='bg-white text-black max-w-[200px]'>
+              <SelectContent className='max-w-[200px] bg-white text-black'>
                 <SelectItem value='Admin'>Admin</SelectItem>
                 <SelectItem value='Owner'>Owner</SelectItem>
                 <SelectItem
                   value='Editor'
-                  className='border-b-[1px] rounded-none border-gray-200'>
+                  className='rounded-none border-b border-gray-200'>
                   Editor
                 </SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
-        <DialogFooter className='flex items-start justify-start w-full  mt-1.5'>
+        <DialogFooter className='mt-1.5 flex w-full items-start justify-start'>
           <Button
             type='submit'
             onClick={onClose}
-            className='bg-[#046C4E] flex items-center gap-2 hover:bg-[#046C4E] p-4'>
+            className='flex items-center gap-2 bg-[#046C4E] p-4 hover:bg-[#046C4E]'>
             <Image src={Plus} alt='de' />
             Invite
           </Button>

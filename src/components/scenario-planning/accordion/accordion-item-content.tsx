@@ -35,49 +35,49 @@ export default function AccordionItemContent({
 
   return (
     <AccordionItem value={value}>
-      <AccordionTrigger className='text-sm font-normal p-2 text-gray-700'>
-        <div className='flex flex-col items-start gap-2 ml-2'>
+      <AccordionTrigger className='p-2 text-sm font-normal text-gray-700'>
+        <div className='ml-2 flex flex-col items-start gap-2'>
           <span className='text-xs text-gray-500'>{level}</span>
           <h1 className='text-[24px] font-semibold text-black'>{title}</h1>
         </div>
       </AccordionTrigger>
-      <AccordionContent className='p-4  text-gray-600'>
+      <AccordionContent className='p-4 text-gray-600'>
         <div className='flex flex-col items-start justify-around gap-10'>
           <div>
-            <h2 className='font-semibold my-2 text-[18px]'>Scenario</h2>
+            <h2 className='my-2 text-[18px] font-semibold'>Scenario</h2>
             <p className='text-[16px] font-semibold'>{scenario}</p>
           </div>
           <div>
-            <h2 className='font-semibold my-2 text-[18px]'>
+            <h2 className='my-2 text-[18px] font-semibold'>
               Mitigation Strategy
             </h2>
-            <p className='text-[16px] mb-5 text-black font-semibold'>
+            <p className='mb-5 text-[16px] font-semibold text-black'>
               {strategy}
             </p>
           </div>
         </div>
-        <div className='flex flex-row items-center justify-between mt-4'>
+        <div className='mt-4 flex flex-row items-center justify-between'>
           <div className='flex flex-col items-start gap-2'>
-            <h2 className='font-semibold text-[14px]'>Confidence Level</h2>
+            <h2 className='text-[14px] font-semibold'>Confidence Level</h2>
             <h1 className='text-[24px] font-semibold text-black'>
               {confidenceLevel}
             </h1>
-            <h2 className='font-semibold text-[14px]'>See Case Study</h2>
+            <h2 className='text-[14px] font-semibold'>See Case Study</h2>
           </div>
           <div className='flex flex-col items-start gap-2'>
-            <h2 className='font-semibold text-[14px]'>
+            <h2 className='text-[14px] font-semibold'>
               Estimated Time To Implement
             </h2>
-            <h1 className='text-[24px] text-black font-semibold'>
+            <h1 className='text-[24px] font-semibold text-black'>
               {implementationTime}
             </h1>
             <h1>{''}</h1>
           </div>
           <div className='flex flex-col items-start gap-2'>
-            <h2 className='font-semibold text-[14px]'>
+            <h2 className='text-[14px] font-semibold'>
               Estimated Cost To Implement
             </h2>
-            <h1 className='text-[24px] text-black font-semibold'>{cost}</h1>
+            <h1 className='text-[24px] font-semibold text-black'>{cost}</h1>
           </div>
           <h1>{''}</h1>
         </div>

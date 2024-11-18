@@ -12,7 +12,7 @@ const TeamIcon: React.FC<TeamComponentProps> = ({ isActive = false }) => {
 
   return (
     <div
-      className='flex items-center justify-center scale-125 rounded-md cursor-pointer transition-all duration-300 ml-2'
+      className='ml-2 flex scale-125 cursor-pointer items-center justify-center rounded-md transition-all duration-300'
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
       <svg

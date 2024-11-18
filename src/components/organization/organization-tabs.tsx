@@ -1,14 +1,14 @@
 'use client';
+import { ChevronRight } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import {
   criticalRiskAlerts,
   lowRiskAlerts,
   mediumRiskAlerts
 } from '#/utils/utils';
 import { Button } from '../ui/button';
-import { useRouter, usePathname } from 'next/navigation';
-import { ChevronRight } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 const OrganizationTabs = () => {
   const [activeTab, setActiveTab] = useState('High');
@@ -34,29 +34,29 @@ const OrganizationTabs = () => {
       <TabsList className='bg-transparent pb-8'>
         <TabsTrigger
           value='High'
-          className={`border-b-[1px] rounded-none ${activeTab === 'High' ? 'border-red-500' : ''}`}>
+          className={`rounded-none border-b ${activeTab === 'High' ? 'border-red-500' : ''}`}>
           <span
-            className={`${activeTab === 'High' ? 'text-red-500 hover:text-red-500 duration-150 flex flex-col' : 'hover:text-red-500 duration-150 flex flex-col'}`}>
+            className={`${activeTab === 'High' ? 'flex flex-col text-red-500 duration-150 hover:text-red-500' : 'flex flex-col duration-150 hover:text-red-500'}`}>
             High Threat
-            <span className='text-[29px] p-1'>3</span>
+            <span className='p-1 text-[29px]'>3</span>
           </span>
         </TabsTrigger>
         <TabsTrigger
           value='Medium'
-          className={`border-b-[1px] rounded-none ${activeTab === 'Medium' ? 'border-[#8E4B10]' : ''}`}>
+          className={`rounded-none border-b ${activeTab === 'Medium' ? 'border-[#8E4B10]' : ''}`}>
           <span
-            className={`${activeTab === 'Medium' ? 'text-[#8E4B10] hover:text-[#8E4B10] duration-150 flex flex-col' : 'hover:text-[#8E4B10] duration-150 flex flex-col'}`}>
+            className={`${activeTab === 'Medium' ? 'flex flex-col text-[#8E4B10] duration-150 hover:text-[#8E4B10]' : 'flex flex-col duration-150 hover:text-[#8E4B10]'}`}>
             Med. Threat
-            <span className='text-[29px] p-1'>7</span>
+            <span className='p-1 text-[29px]'>7</span>
           </span>
         </TabsTrigger>
         <TabsTrigger
           value='Low'
-          className={`border-b-[1px] rounded-none ${activeTab === 'Low' ? 'border-[#046C4E]' : ''}`}>
+          className={`rounded-none border-b ${activeTab === 'Low' ? 'border-[#046C4E]' : ''}`}>
           <span
-            className={`${activeTab === 'Low' ? 'text-[#046C4E] hover:text-[#046C4E] duration-150 flex flex-col' : 'hover:text-[#046C4E] duration-150 flex flex-col'}`}>
+            className={`${activeTab === 'Low' ? 'flex flex-col text-[#046C4E] duration-150 hover:text-[#046C4E]' : 'flex flex-col duration-150 hover:text-[#046C4E]'}`}>
             Low Threat
-            <span className='text-[29px] p-1'>10</span>
+            <span className='p-1 text-[29px]'>10</span>
           </span>
         </TabsTrigger>
       </TabsList>
@@ -66,13 +66,13 @@ const OrganizationTabs = () => {
           <Button
             key={index}
             onClick={() => handleAlertClick(alert.link)}
-            className={`w-full justify-between py-6 text-md bg-white text-black hover:bg-gray-100 ${
+            className={`text-md w-full justify-between bg-white py-6 text-black hover:bg-gray-100 ${
               activeAlert === `/dashboard${alert.link}`
                 ? 'border border-red-500 bg-red-50'
                 : ''
             }`}>
             {alert.label}
-            <ChevronRight className='h-4 w-4' />
+            <ChevronRight className='size-4' />
           </Button>
         ))}
       </TabsContent>
@@ -82,13 +82,13 @@ const OrganizationTabs = () => {
           <Button
             key={index}
             onClick={() => handleAlertClick(alert.link)}
-            className={`w-full justify-between py-6 text-md bg-white text-black hover:bg-gray-100${
+            className={`text-md w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
               activeAlert === `/dashboard${alert.link}`
                 ? 'border border-[#8E4B10] bg-orange-50'
                 : ''
             }`}>
             {alert.label}
-            <ChevronRight className='h-4 w-4' />
+            <ChevronRight className='size-4' />
           </Button>
         ))}
       </TabsContent>
@@ -98,13 +98,13 @@ const OrganizationTabs = () => {
           <Button
             key={index}
             onClick={() => handleAlertClick(alert.link)}
-            className={`w-full justify-between py-6 text-md bg-white text-black hover:bg-gray-100${
+            className={`text-md w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
               activeAlert === `/dashboard${alert.link}`
                 ? 'border border-[#046C4E] bg-green-50'
                 : ''
             }`}>
             {alert.label}
-            <ChevronRight className='h-4 w-4' />
+            <ChevronRight className='size-4' />
           </Button>
         ))}
       </TabsContent>

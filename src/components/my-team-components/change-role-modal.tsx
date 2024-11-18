@@ -20,16 +20,16 @@ export function ChangeRoleModal({ isOpen, onClose }: any) {
           Editor
         </h2>
 
-        <DialogFooter className='flex flex-row items-start justify-start w-full  mt-1.5'>
+        <DialogFooter className='mt-1.5 flex w-full flex-row items-start justify-start'>
           <Button
             type='submit'
             onClick={onClose}
-            className='bg-[#046C4E] flex items-center gap-2 hover:bg-[#046C4E] p-4'>
+            className='flex items-center gap-2 bg-[#046C4E] p-4 hover:bg-[#046C4E]'>
             Change Role
           </Button>
           <Button
             onClick={onClose}
-            className=' border border-green-700 text-green-700 bg-white hover:bg-white'>
+            className='border border-green-700 bg-white text-green-700 hover:bg-white'>
             Cancel
           </Button>
         </DialogFooter>
