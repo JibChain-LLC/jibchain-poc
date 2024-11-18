@@ -6,6 +6,7 @@ import { User } from 'lucide-react';
 import { Avatar, AvatarFallback } from '#/components/ui/avatar';
 import { Badge } from '#/components/ui/badge';
 import { DataTable } from '#/components/ui/data-table';
+import { RoleEnum } from '#/db/schema';
 import getInvites from '#/lib/actions/invite/read-invite-list';
 import getOrgMembers from '#/lib/actions/organization/read-org-members';
 import { cn } from '#/lib/utils';
@@ -15,11 +16,15 @@ import MemberActions from './member-actions';
 
 interface UserTableProps {
   currentUserEmail: string;
+  currentUserRoles: RoleEnum[];
   orgId: string;
 }
 
+const ADMIN_SET = new Set([RoleEnum.ADMIN, RoleEnum.OWNER]);
+
 export default function UserTable(props: UserTableProps) {
-  const { orgId, currentUserEmail } = props;
+  const { orgId, currentUserEmail, currentUserRoles } = props;
+  const hasAdminPriv = currentUserRoles.some((r) => ADMIN_SET.has(r));
 
   const [memberQuery, inviteQuery] = useQueries({
     queries: [
@@ -35,7 +40,7 @@ export default function UserTable(props: UserTableProps) {
     <div className='flex flex-col gap-3'>
       <div className='flex flex-row items-end justify-between'>
         <p className='text-2xl font-bold'>Members</p>
-        <InviteDialog orgId={orgId} />
+        {hasAdminPriv && <InviteDialog orgId={orgId} />}
       </div>
       <DataTable
         columns={[

@@ -19,6 +19,7 @@ import {
   SheetTrigger
 } from '#/components/ui/sheet';
 import { useToast } from '#/components/ui/use-toast';
+import useUserMetadata from '#/hooks/use-user-metadata';
 import removeUserFromOrg from '#/lib/actions/organization/delete-user-from-org';
 import { Member } from '#/lib/actions/organization/read-org-members';
 import updateRole from '#/lib/actions/organization/update-user-role';
@@ -29,6 +30,7 @@ export default function MemberActions(
   const { email, id, orgId, active } = props;
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const userData = useUserMetadata();
 
   const { mutate: toggleActivation } = useMutation({
     mutationFn: async () => {
@@ -38,11 +40,12 @@ export default function MemberActions(
     },
     onError: (data) => {
       toast({
+        variant: 'destructive',
         title: 'Failed to deactivate user',
         description: data.message
       });
     },
-    onSettled: async () => {
+    onSuccess: async () => {
       toast({
         title: 'User deactivated'
       });
@@ -99,7 +102,10 @@ export default function MemberActions(
           <DropdownMenuItem
             className='flex flex-col items-start gap-1'
             onClick={() => removeUser()}>
-            Remove member
+            <p>
+              {id === userData?.id ? 'Leave organization' : 'Remove member'}
+            </p>
+            <p className='text-xs'>Remove user from organization.</p>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
