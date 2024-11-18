@@ -16,8 +16,7 @@ export function ChangeRoleModal({ isOpen, onClose }: any) {
         </DialogHeader>
 
         <h2 className=''>
-          You're About to change <strong>Bonnie's</strong> role from Admin to
-          Editor
+          {`You're About to change Bonnie's role from Admin to Editor`}
         </h2>
 
         <DialogFooter className='mt-1.5 flex w-full flex-row items-start justify-start'>
