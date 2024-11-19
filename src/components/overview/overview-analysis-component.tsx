@@ -102,10 +102,10 @@ const OverviewAnalysisComponent = () => {
         </ChartContainer>
       </CardContent>
       <div className='flex w-full flex-col items-center justify-center gap-2 text-sm'>
-        <div className='flex items-center gap-2 leading-none text-muted-foreground'>
+        <div className='flex items-center gap-2 leading-none'>
           Event Duration
         </div>
-        <div className='flex items-center gap-4 leading-none text-muted-foreground'>
+        <div className='flex items-center gap-4 leading-none'>
           <span className='size-2 rounded-full bg-green-700'></span>
           <span className='text-green-700'>Customer Trust</span>
           <span className='size-2 rounded-full bg-red-700'></span>

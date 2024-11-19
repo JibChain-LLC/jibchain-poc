@@ -44,9 +44,9 @@ export default withAuthUser(
 
     return (
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <div className='flex flex-col gap-4 p-4'>
+        <div className='flex flex-col gap-4'>
           <p className='text-5xl font-bold'>{org?.name}</p>
-          <p className='w-fit rounded-sm border border-border bg-muted/50 px-1 py-0.5 font-mono'>
+          <p className='w-fit rounded-md border px-1 py-0.5 font-mono'>
             {currentOrgId}
           </p>
           <div className='flex flex-col gap-5'>

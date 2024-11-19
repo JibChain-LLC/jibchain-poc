@@ -26,17 +26,17 @@ export default async function JoinOrgPage(props: JoinOrgPageProps) {
     })
     .from(invites)
     .where(eq(invites.id, inviteId))
-    .innerJoin(organizations, eq(organizations.id, invites.orgId));
+    .innerJoin(organizations, eq(organizations.id, invites.orgId))
+    .catch(() => []);
 
   if (!invite) return redirect('/');
 
   return (
     <div className='flex size-full items-center justify-center'>
-      <div className='h-auto w-96 rounded-md border border-border'>
-        <div className='flex flex-col gap-2 border-b border-border p-4 text-center'>
+      <div className='h-auto w-96 rounded-md border'>
+        <div className='flex flex-col gap-2 border-b p-4 text-center'>
           <p>You have been invited to join</p>
           <p className='text-4xl font-bold'>{invite.org.name}</p>
-          <p className='text-xs text-foreground/75'>org ref: {invite.org.id}</p>
         </div>
         <AuthWrapper fallback={<NoUser />}>
           {(props) => {

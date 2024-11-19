@@ -86,8 +86,7 @@ export default function MemberActions(
         <DropdownMenuContent align='end'>
           <SheetTrigger asChild>
             <DropdownMenuItem className='flex flex-col items-start gap-1'>
-              <p>Manager access</p>
-              <p className='text-xs text-foreground/75'>Alter user role.</p>
+              Manager access
             </DropdownMenuItem>
           </SheetTrigger>
 
@@ -95,18 +94,12 @@ export default function MemberActions(
           <DropdownMenuItem
             className='flex flex-col items-start gap-1'
             onClick={() => toggleActivation()}>
-            <p>{active ? 'Deactivate' : 'Activate'}</p>
-            <p className='text-xs text-foreground/75'>
-              Change user activation.
-            </p>
+            {active ? 'Deactivate' : 'Activate'}
           </DropdownMenuItem>
           <DropdownMenuItem
             className='flex flex-col items-start gap-1'
             onClick={() => removeUser()}>
-            <p>Remove member</p>
-            <p className='text-xs text-foreground/75'>
-              Remove user from organization.
-            </p>
+            Remove member
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

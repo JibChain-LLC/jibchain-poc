@@ -18,8 +18,8 @@ export default withAuthUser(
 
     return (
       <div className='flex size-full items-center justify-center'>
-        <div className='w-fit max-w-96 rounded-md border border-border text-center'>
-          <p className='border-b border-border p-4 text-2xl font-bold'>
+        <div className='w-fit max-w-96 rounded-md border text-center'>
+          <p className='border-b p-4 text-2xl font-bold'>
             You currently are not a member of any organization
           </p>
           <div className='flex flex-col gap-3 p-4'>

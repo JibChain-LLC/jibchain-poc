@@ -1,8 +1,9 @@
+import { Bell } from 'flowbite-react-icons/solid';
+import { Grid } from 'flowbite-react-icons/solid';
+import { Truck } from 'flowbite-react-icons/solid';
+import { UsersGroup } from 'flowbite-react-icons/solid';
+
 import { ShieldAlert, Globe, FileText } from 'lucide-react';
-import AlertIcon from '#/components/icons/alert-icon';
-import DashboardIcon from '#/components/icons/dashboard-icon';
-import SupplierIcon from '#/components/icons/supplier-icon';
-import TeamIcon from '#/components/icons/team-icon';
 import { ChartConfig } from '#/components/ui/chart';
 import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
@@ -60,10 +61,10 @@ export const formUserFields = [
 ];
 
 export const sidebarLinks = [
-  { name: 'Dashboard', icon: DashboardIcon, link: '/dashboard' },
-  { name: 'Risk Alerts', icon: AlertIcon, link: '/risk-alerts' },
-  { name: 'Suppliers', icon: SupplierIcon, link: '/suppliers' },
-  { name: 'My Team', icon: TeamIcon, link: '/my-team' }
+  { name: 'Dashboard', icon: Grid, link: '/dashboard' },
+  { name: 'Risk Alerts', icon: Bell, link: '/risk-alerts' },
+  { name: 'Suppliers', icon: Truck, link: '/suppliers' },
+  { name: 'My Team', icon: UsersGroup, link: '/organization' }
 ];
 export const chartData = [
   { status: 'Risk', value: 3, fill: '#FF5722' },

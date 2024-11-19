@@ -20,45 +20,59 @@ const config = {
     },
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))'
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))'
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))'
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))'
+        green: {
+          '50': '#F3FAF7',
+          '100': '#DEF7EC',
+          '200': '#BCF0DA',
+          '300': '#84E1BC',
+          '400': '#31C48D',
+          '500': '#0E9F6E',
+          '600': '#057A55',
+          '700': '#046C4E',
+          '800': '#03543F',
+          '900': '#014737'
         }
+        // border: 'var(--border)',
+        // input: 'hsl(var(--input))',
+        // ring: 'hsl(var(--ring))',
+        // background: 'var(--background)',
+        // foreground: 'var(--foreground)',
+        // primary: {
+        //   DEFAULT: 'var(--primary)',
+        //   foreground: 'var(--primary-foreground)',
+        //   hover: 'var(--primary-hover)'
+        // },
+        // secondary: {
+        //   DEFAULT: 'hsl(var(--secondary))',
+        //   foreground: 'hsl(var(--secondary-foreground))'
+        // },
+        // destructive: {
+        //   DEFAULT: 'var(--destructive)',
+        //   foreground: 'var(--destructive-foreground)',
+        //   hover: 'var(--destructive-hover)'
+        // },
+        // muted: {
+        //   DEFAULT: 'hsl(var(--muted))',
+        //   foreground: 'hsl(var(--muted-foreground))'
+        // },
+        // accent: {
+        //   DEFAULT: 'hsl(var(--accent))',
+        //   foreground: 'hsl(var(--accent-foreground))'
+        // },
+        // popover: {
+        //   DEFAULT: 'hsl(var(--popover))',
+        //   foreground: 'hsl(var(--popover-foreground))'
+        // },
+        // card: {
+        //   DEFAULT: 'hsl(var(--card))',
+        //   foreground: 'hsl(var(--card-foreground))'
+        // }
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)'
-      },
+      // borderRadius: {
+      //   lg: 'var(--radius)',
+      //   md: 'calc(var(--radius) - 2px)',
+      //   sm: 'calc(var(--radius) - 4px)'
+      // },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

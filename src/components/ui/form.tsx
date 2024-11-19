@@ -137,7 +137,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn('text-sm text-muted-foreground', className)}
+      className={cn('text-muted-foreground text-sm', className)}
       {...props}
     />
   );
@@ -159,7 +159,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn('text-sm font-medium text-destructive', className)}
+      className={cn('text-destructive text-sm font-medium', className)}
       {...props}>
       {body}
     </p>
@@ -180,7 +180,7 @@ const FormRootError = React.forwardRef<
     <p
       ref={ref}
       className={cn(
-        'rounded-sm border border-destructive bg-destructive/15 p-3 text-sm font-medium text-destructive',
+        'border-destructive bg-destructive/15 text-destructive rounded-sm border p-3 text-sm font-medium',
         className
       )}
       {...props}>

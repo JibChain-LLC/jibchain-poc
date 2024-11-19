@@ -60,19 +60,13 @@ export default function InviteActions(props: { id: string }) {
           <DropdownMenuItem
             onClick={handleDeleteInvite}
             className='flex flex-col items-start gap-1'>
-            <p>Cancel invitation</p>
-            <p className='text-xs text-foreground/75'>
-              Revoke this invitation.
-            </p>
+            Cancel invitation
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className='flex flex-col items-start gap-1'
             disabled>
-            <p>Resend invitation</p>
-            <p className='text-xs text-foreground/75'>
-              Invites expire after 24 hours.
-            </p>
+            Resend invitation
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
