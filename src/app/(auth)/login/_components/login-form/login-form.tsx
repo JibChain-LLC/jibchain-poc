@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Button } from '#/components/ui/button';
+import { Card, CardContent } from '#/components/ui/card';
 import {
   Form,
   FormControl,
@@ -44,57 +45,73 @@ export default function LoginForm() {
   });
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((d) => signInSubmit(d))}
-        className='flex w-80 flex-col gap-3 rounded-md border-2 p-4'>
-        <h1 className='text-2xl font-bold'>Login</h1>
-        <FormField
-          control={form.control}
-          name='email'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email Address</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type='email'
-                  placeholder='username@email.com'
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='password'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} type='password' placeholder='******' />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {form.formState.errors.root && (
-          <FormMessage>{form.formState.errors.root.message}</FormMessage>
-        )}
-        <Button type='submit' className='mt-5 w-full' disabled={isPending}>
-          {!isPending ? (
-            'Log in'
-          ) : (
-            <>
-              Logging in <LoaderCircle className='animate-spin' />
-            </>
-          )}
-        </Button>
-        <Link href={'/signup'} className='text-center text-sm hover:underline'>
-          Don&apos;t have an account yet?
-        </Link>
-      </form>
-    </Form>
+    <Card>
+      <CardContent className='px-6 py-8'>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit((d) => signInSubmit(d))}
+            className='flex w-[32rem] flex-col gap-6'>
+            <div className='flex flex-col gap-1 text-center'>
+              <p className='text-2xl font-bold'>Welcome Back</p>
+              <p className='text-sm font-medium text-gray-500'>
+                Don&apos;t have an account?{' '}
+                <Link
+                  href={'/signup'}
+                  className='text-green-700 hover:underline'>
+                  Sign up
+                </Link>
+              </p>
+            </div>
+
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type='email'
+                      placeholder='name@example.com'
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type='password'
+                      placeholder='••••••••••'
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {form.formState.errors.root && (
+              <FormMessage>{form.formState.errors.root.message}</FormMessage>
+            )}
+            <Button type='submit' className='mt-5 w-full' disabled={isPending}>
+              {!isPending ? (
+                'Sign in'
+              ) : (
+                <>
+                  Logging in <LoaderCircle className='animate-spin' />
+                </>
+              )}
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }

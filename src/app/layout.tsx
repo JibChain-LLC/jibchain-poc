@@ -3,8 +3,6 @@ import 'server-only';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Header from '#/components/header';
-import ThemeProvider from '#/components/theme-provider';
 import { Toaster } from '#/components/ui/toaster';
 import { cn } from '#/lib/utils';
 import Providers from './providers';
@@ -24,26 +22,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang='en'
-      className='min-h-screen bg-background'
-      suppressHydrationWarning>
-      <body
-        className={cn(
-          inter.className,
-          'grid min-h-screen grid-rows-[auto_1fr]'
-        )}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='light'
-          enableSystem
-          disableTransitionOnChange>
-          <Header />
-          <div id='main-content'>
-            <Providers>{children}</Providers>
-          </div>
-          <Toaster />
-        </ThemeProvider>
+    <html lang='en' className='min-h-screen'>
+      <body className={cn(inter.className, 'min-h-screen bg-gray-50')}>
+        <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   );
