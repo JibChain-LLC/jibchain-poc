@@ -43,7 +43,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from '../ui/select';
+} from '../../../../components/ui/select';
 import { AddTeamMemberModal } from './add-team-member-modal';
 import { ChangeRoleModal } from './change-role-modal';
 import { DeactivateUserModal } from './deactivate-user-modal';

@@ -39,3 +39,5 @@ docker/
 logs/
 # supabase/
 training/
+
+*storybook.log

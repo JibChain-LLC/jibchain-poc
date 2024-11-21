@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import Tick from '../../images/tick-icon.svg';
-import { Button } from '../ui/button';
+import { Button } from '#/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '../ui/dialog';
+} from '#/components/ui/dialog';
+import Tick from '#/images/tick-icon.svg';
 
 interface DeactivateUserModalProps {
   isOpen: boolean;

@@ -37,7 +37,9 @@ export default withAuthUser(
                 <p>or</p>
               </>
             )}
-            <Link href='create' className='font-bold hover:underline'>
+            <Link
+              href='/organization/create'
+              className='font-bold hover:underline'>
               Create a new organization
             </Link>
           </div>

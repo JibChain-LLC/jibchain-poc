@@ -1,5 +1,5 @@
 import React from 'react';
-import { MyTeamTable } from '#/components/my-team-components/my-team-table';
+import { MyTeamTable } from './_components/my-team-table';
 
 const MyTeam = () => {
   return (

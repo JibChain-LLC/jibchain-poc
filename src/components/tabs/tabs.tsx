@@ -2,17 +2,18 @@
 
 import * as React from 'react';
 import TabComponent from '#/components/tabs/tab-component';
+import { Card, CardContent } from '../ui/card';
 
 export default function Tabs() {
   return (
-    <div className='w-full'>
-      <div className='bg-gray-100 px-2 py-6 lg:px-1 lg:py-6'>
+    <Card className='max-h-[calc(100vh-2.5rem)]'>
+      <CardContent className='h-full p-8 pb-0'>
         <TabComponent
           threatPercentage={75}
           title='Ransomware Attack'
           threatLevel='High'
         />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

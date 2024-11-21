@@ -1,115 +1,96 @@
 'use client';
-import { ChevronRight } from 'lucide-react';
-import { useRouter, usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
+import { cn } from '#/lib/utils';
 import {
   criticalRiskAlerts,
   lowRiskAlerts,
   mediumRiskAlerts
 } from '#/utils/utils';
-import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
-const OrganizationTabs = () => {
-  const [activeTab, setActiveTab] = useState('High');
-  const [activeAlert, setActiveAlert] = useState('');
-  const router = useRouter();
-  const pathname = usePathname();
+function CustomTabTrigger({
+  title,
+  amount
+}: {
+  title: string;
+  amount: number;
+}) {
+  return (
+    <div className='flex flex-col gap-0'>
+      <span className='text-xs font-medium leading-tight'>{title}</span>
+      <span className='text-3xl font-semibold leading-tight'>{amount}</span>
+    </div>
+  );
+}
 
-  useEffect(() => {
-    setActiveAlert(pathname);
-  }, [pathname]);
-
-  const handleAlertClick = (link: string) => {
-    const fullPath = `/risk-alerts${link}`;
-    setActiveAlert(fullPath);
-    router.push(fullPath);
-  };
+function NavLink(
+  props: React.ComponentProps<typeof Link> & { isActive?: boolean }
+) {
+  const { children, className, isActive, ...rest } = props;
 
   return (
-    <Tabs
-      value={activeTab}
-      onValueChange={setActiveTab}
-      className='w-auto bg-transparent'>
-      <TabsList className='bg-transparent pb-8'>
-        <TabsTrigger
-          value='High'
-          className={`rounded-none border-b ${activeTab === 'High' ? 'border-red-500' : ''}`}>
-          <span
-            className={`${activeTab === 'High' ? 'flex flex-col text-red-500 duration-150 hover:text-red-500' : 'flex flex-col duration-150 hover:text-red-500'}`}>
-            High Threat
-            <span className='p-1 text-[29px]'>3</span>
-          </span>
+    <Link
+      {...rest}
+      className={cn(
+        'border border-transparent border-b-gray-100 px-2.5 py-3 text-base font-normal transition-colors hover:rounded-md hover:bg-gray-100',
+        isActive &&
+          'pointer-events-none rounded-md border-gray-300 bg-gray-100',
+        className
+      )}>
+      {children}
+    </Link>
+  );
+}
+
+export default function OrganizationTabs() {
+  const pathname = usePathname();
+
+  return (
+    <Tabs defaultValue='high' className='w-full'>
+      <TabsList className='grid h-auto w-full grid-cols-3'>
+        <TabsTrigger value='high' variant={'destructive'}>
+          <CustomTabTrigger title='High Threat' amount={3} />
         </TabsTrigger>
-        <TabsTrigger
-          value='Medium'
-          className={`rounded-none border-b ${activeTab === 'Medium' ? 'border-[#8E4B10]' : ''}`}>
-          <span
-            className={`${activeTab === 'Medium' ? 'flex flex-col text-[#8E4B10] duration-150 hover:text-[#8E4B10]' : 'flex flex-col duration-150 hover:text-[#8E4B10]'}`}>
-            Med. Threat
-            <span className='p-1 text-[29px]'>7</span>
-          </span>
+        <TabsTrigger value='med' variant={'warning'}>
+          <CustomTabTrigger title='Med. Threat' amount={7} />
         </TabsTrigger>
-        <TabsTrigger
-          value='Low'
-          className={`rounded-none border-b ${activeTab === 'Low' ? 'border-[#046C4E]' : ''}`}>
-          <span
-            className={`${activeTab === 'Low' ? 'flex flex-col text-[#046C4E] duration-150 hover:text-[#046C4E]' : 'flex flex-col duration-150 hover:text-[#046C4E]'}`}>
-            Low Threat
-            <span className='p-1 text-[29px]'>10</span>
-          </span>
+        <TabsTrigger value='low'>
+          <CustomTabTrigger title='Low Threat' amount={10} />
         </TabsTrigger>
       </TabsList>
-
-      <TabsContent value='High' className='overflow-y-auto'>
+      <TabsContent value='high' className='flex flex-col'>
         {criticalRiskAlerts.map((alert, index) => (
-          <Button
+          <NavLink
+            href={`/risk-alerts${alert.link}`}
             key={index}
-            onClick={() => handleAlertClick(alert.link)}
-            className={`w-full justify-between bg-white py-6 text-black hover:bg-gray-100 ${
-              activeAlert === `/dashboard${alert.link}`
-                ? 'border border-red-500 bg-red-50'
-                : ''
-            }`}>
+            isActive={pathname.endsWith(alert.link)}>
             {alert.label}
-            <ChevronRight className='size-4' />
-          </Button>
+          </NavLink>
         ))}
       </TabsContent>
-
-      <TabsContent value='Medium' className='overflow-y-auto'>
+      <TabsContent value='med' className='flex flex-col'>
         {mediumRiskAlerts.map((alert, index) => (
-          <Button
+          <NavLink
+            href={`/risk-alerts${alert.link}`}
             key={index}
-            onClick={() => handleAlertClick(alert.link)}
-            className={`w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
-              activeAlert === `/dashboard${alert.link}`
-                ? 'border border-[#8E4B10] bg-orange-50'
-                : ''
-            }`}>
+            isActive={pathname.endsWith(alert.link)}>
             {alert.label}
-            <ChevronRight className='size-4' />
-          </Button>
+          </NavLink>
         ))}
       </TabsContent>
-
-      <TabsContent value='Low' className='overflow-y-auto'>
+      <TabsContent value='low' className='flex flex-col'>
         {lowRiskAlerts.map((alert, index) => (
-          <Button
+          <NavLink
+            href={`/risk-alerts${alert.link}`}
             key={index}
-            onClick={() => handleAlertClick(alert.link)}
-            className={`w-full justify-between bg-white py-6 text-black hover:bg-gray-100${
-              activeAlert === `/dashboard${alert.link}`
-                ? 'border border-[#046C4E] bg-green-50'
-                : ''
-            }`}>
+            isActive={pathname.endsWith(alert.link)}>
             {alert.label}
-            <ChevronRight className='size-4' />
-          </Button>
+          </NavLink>
         ))}
       </TabsContent>
     </Tabs>
   );
-};
-
-export default OrganizationTabs;
+}

@@ -1,13 +1,13 @@
 import Image from 'next/image';
-import Tick from '../../images/tick-icon.svg';
-import { Button } from '../ui/button';
+import { Button } from '#/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '../ui/dialog';
+} from '#/components/ui/dialog';
+import Tick from '../../images/tick-icon.svg';
 
 interface UserDeactivatedProps {
   isOpen: boolean;

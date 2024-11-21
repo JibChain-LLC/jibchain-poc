@@ -101,7 +101,7 @@ export default function UserTable(props: UserTableProps) {
                     className={cn(
                       'size-3 rounded-full',
                       active === undefined
-                        ? 'bg-foreground/50'
+                        ? 'bg-gray-300/50'
                         : active
                           ? 'bg-green-700'
                           : 'bg-red-700'

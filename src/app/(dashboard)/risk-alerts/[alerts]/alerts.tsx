@@ -17,12 +17,7 @@ const Alerts = () => {
         <Tabs />;
     }
   };
-  return (
-    <div className='w-full'>
-      {/* <Sidebar /> */}
-      {renderTabComponent()}
-    </div>
-  );
+  return <>{renderTabComponent()}</>;
 };
 
 export default Alerts;

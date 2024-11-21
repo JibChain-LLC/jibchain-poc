@@ -1,15 +1,14 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import Plus from '../../images/plus-icon.svg';
-import { Button } from '../ui/button';
+import { Button } from '#/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from '../ui/dialog';
-import { Input } from '../ui/input';
+} from '#/components/ui/dialog';
+import { Input } from '#/components/ui/input';
 
 import {
   Select,
@@ -17,7 +16,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from '../ui/select';
+} from '#/components/ui/select';
+import Plus from '#/images/plus-icon.svg';
 
 interface AddTeamMemberModalProps {
   isOpen: boolean;

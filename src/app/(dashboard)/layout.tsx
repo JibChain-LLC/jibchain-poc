@@ -22,7 +22,7 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
   const { firstName, lastName, jobRole } = user.user_metadata;
 
   return (
-    <div className='relative flex h-screen'>
+    <div className='flex min-h-screen'>
       <Sidebar fullName={`${firstName} ${lastName}`} jobRole={jobRole} />
       <div className='ml-16 w-full px-8 py-5'>{children}</div>
     </div>

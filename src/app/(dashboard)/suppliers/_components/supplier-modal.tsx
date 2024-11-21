@@ -1,11 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Shell from '../../images/shell.svg';
-import ThumbsUp from '../../images/thumbs-up.svg';
-import Star from '../../images/yellow-star-icon.svg';
-import { Button } from '../ui/button';
-import { Card } from '../ui/card';
+import { Button } from '#/components/ui/button';
+import { Card } from '#/components/ui/card';
 import {
   Sheet,
   SheetContent,
@@ -13,7 +10,10 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle
-} from '../ui/sheet';
+} from '#/components/ui/sheet';
+import Shell from '#/images/shell.svg';
+import ThumbsUp from '#/images/thumbs-up.svg';
+import Star from '#/images/yellow-star-icon.svg';
 interface SupplierModalProps {
   isOpen: boolean;
   setOpen: (value: boolean) => void;

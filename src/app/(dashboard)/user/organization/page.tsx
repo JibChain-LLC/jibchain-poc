@@ -1,6 +1,6 @@
 import React from 'react';
-import UserContent from '#/components/defaul-components/user-content';
-import OrganizationComponent from '#/components/organication-components/organization-component';
+import UserContent from '../_components/user-content';
+import OrganizationComponent from './_components/organization-component';
 
 const UserOrganization = () => {
   return (

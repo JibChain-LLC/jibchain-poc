@@ -2,8 +2,8 @@
 import Image from 'next/image';
 import ProfileImage from '#/images/shell.svg';
 import { formOrganizationFields } from '#/utils/utils';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+import { Button } from '../../../../../components/ui/button';
+import { Input } from '../../../../../components/ui/input';
 
 export default function OrganizationComponent() {
   return (

@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle } from '../ui/card';
 
 const OverviewCardComponent = () => {
   return (
-    <div className='grid grid-cols-1 gap-6 rounded-none bg-white p-5 lg:grid-cols-2 xl:grid-cols-3'>
+    <div className='grid grid-cols-1 gap-6 rounded-none p-5 lg:grid-cols-2 xl:grid-cols-3'>
       {overviewCardData.map((item, i) => (
         <Card
           className='rounded-md border-none bg-transparent shadow-md transition-all hover:shadow-lg'

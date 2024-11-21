@@ -1,6 +1,6 @@
 'use client';
 
-import { Printer } from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 
 import { ShieldAlert, Globe, FileText } from 'lucide-react';
 import * as React from 'react';
@@ -8,6 +8,7 @@ import * as React from 'react';
 import GlobalImpact from '../global-impact/global-impact';
 import OverviewComponent from '../overview/overview';
 import ScenarioPlanning from '../scenario-planning/scenario-planning';
+import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
 
@@ -56,54 +57,43 @@ const TabComponent: React.FC<TabProps> = ({
   };
 
   return (
-    <div className='rounded-md bg-white shadow-sm'>
-      <div className='flex items-center justify-between p-6'>
-        <div className='flex flex-col'>
-          <span className='text-sm font-medium text-gray-500'>Risk Title</span>
-          <div className='flex items-center gap-2'>
-            <h1 className='text-2xl font-bold text-black'>{title}</h1>
-            <div className='rounded bg-red-100 px-3 py-1 text-sm font-semibold text-red-700'>
-              {threatLevel}: {threatPercentage}%
-            </div>
+    <div className='flex h-full flex-col'>
+      <div className='mb-6 flex items-center justify-between'>
+        <div className='flex flex-col gap-1.5'>
+          <div className='flex flex-row items-center gap-1.5'>
+            <span className='text-xs font-semibold text-gray-500'>
+              Live view:
+            </span>
+            <Badge variant={'destructive'}>
+              {threatLevel} Threat: {threatPercentage}%
+            </Badge>
           </div>
+          <p className='text-2xl font-semibold leading-tight text-gray-950'>
+            {title}
+          </p>
         </div>
         <div className='flex items-center gap-3'>
-          <Button className='rounded-md bg-green-700 px-4 py-2 text-lg text-white hover:bg-green-600'>
-            <Printer className='mr-2 size-5' />
-            Export Report
-          </Button>
           <Button variant='ghost' className='text-xl text-gray-500'>
-            ...
+            <MoreHorizontal />
           </Button>
+          <Button>Download Report</Button>
         </div>
       </div>
-      <Tabs value={currentTab} className='px-4 pt-4'>
-        <TabsList className='w-full border-b border-gray-300 bg-transparent pb-2'>
-          <div className='flex w-full items-center justify-evenly'>
-            {operations.map((op, index) => (
-              <TabsTrigger
-                key={index}
-                value={op.value}
-                className={`flex items-center rounded-none text-lg font-medium hover:bg-slate-100 ${
-                  currentTab === op.value
-                    ? 'w-full border-b-2 border-green-700 text-green-700'
-                    : 'w-full text-gray-500'
-                }`}
-                onClick={() => setCurrentTab(op.value)}>
-                {React.cloneElement(op.icon as React.ReactElement, {
-                  className: `mr-1 h-5 w-5 ${
-                    currentTab === op.value ? 'text-green-700' : 'text-gray-500'
-                  }`
-                })}
-                {op.label}
-              </TabsTrigger>
-            ))}
-          </div>
+      <Tabs value={currentTab} className='w-full'>
+        <TabsList className='grid h-auto w-full grid-cols-3'>
+          {operations.map((op, index) => (
+            <TabsTrigger
+              key={index}
+              value={op.value}
+              onClick={() => setCurrentTab(op.value)}>
+              {React.cloneElement(op.icon as React.ReactElement)}
+              {op.label}
+            </TabsTrigger>
+          ))}
         </TabsList>
       </Tabs>
-      <div className='h-[75vh] overflow-y-auto shadow-lg 2xl:h-[78.5vh]'>
+      <div className='overflow-y-auto after:sticky after:bottom-0 after:block after:h-10 after:w-full after:bg-white after:content-[""] after:[mask-image:linear-gradient(0deg,#000_0%,transparent_100%)]'>
         {renderTabContent()}
-        <div className='h-[20px]'></div>
       </div>
     </div>
   );

@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Label, Pie, PieChart } from 'recharts';
 import { chartData } from '#/utils/utils';
 import { doughnutChartConfig } from '#/utils/utils';
-import { Card, CardContent } from '../ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
+import { ChartContainer } from '../ui/chart';
 
 const OrganizationRisk = () => {
   const [riskStatus, setRiskStatus] = useState(0);
@@ -15,61 +14,59 @@ const OrganizationRisk = () => {
   }, []);
 
   return (
-    <Card className='flex min-h-[165px] w-full items-center justify-between overflow-hidden rounded-b-none rounded-t-lg border-x border-y-0 border-gray-200 bg-white shadow-md'>
-      <CardContent className='flex flex-col items-center p-4'>
-        <div>
-          <p className='text-gray-600'>Your overall risk status is</p>
-          <p className='text-[32px] font-semibold text-orange-500'>Medium</p>
-        </div>
-      </CardContent>
-      <CardContent className='flex-1 pb-0'>
-        <ChartContainer
-          config={doughnutChartConfig}
-          className='mx-auto flex aspect-square min-h-[130px] items-center justify-center'>
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey='value'
-              nameKey='status'
-              innerRadius={45}
-              outerRadius={55}
-              strokeWidth={0}>
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
-                    return (
-                      <text
+    <div className='flex min-h-[165px] w-full items-center justify-between'>
+      <div>
+        <p className='text-xs font-medium leading-tight text-gray-600'>
+          Overall Risk Status:
+        </p>
+        <p className='text-2xl font-semibold leading-tight text-orange-600'>
+          Medium
+        </p>
+      </div>
+
+      <ChartContainer
+        config={doughnutChartConfig}
+        className='flex aspect-square min-h-[108px] items-center justify-center'>
+        <PieChart>
+          <Pie
+            data={chartData}
+            dataKey='value'
+            nameKey='status'
+            innerRadius={44}
+            outerRadius={54}
+            strokeWidth={0}>
+            <Label
+              position={'center'}
+              content={({ viewBox }) => {
+                if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                  return (
+                    <text
+                      x={viewBox.cx}
+                      y={viewBox.cy}
+                      textAnchor='middle'
+                      dominantBaseline='middle'>
+                      <tspan
                         x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor='middle'
-                        dominantBaseline='middle'>
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy}
-                          className='text-xl font-bold text-black'>
-                          {riskStatus}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className='text-base text-gray-500'>
-                          Total
-                        </tspan>
-                      </text>
-                    );
-                  }
-                  return null;
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+                        y={(viewBox.cy || 0) - 6}
+                        className='fill-gray-900 text-2xl font-semibold leading-none'>
+                        {riskStatus}
+                      </tspan>
+                      <tspan
+                        x={viewBox.cx}
+                        y={(viewBox.cy || 0) + 12}
+                        className='fill-gray-500 text-xs font-medium leading-tight'>
+                        Total Risks
+                      </tspan>
+                    </text>
+                  );
+                }
+                return null;
+              }}
+            />
+          </Pie>
+        </PieChart>
+      </ChartContainer>
+    </div>
   );
 };
 

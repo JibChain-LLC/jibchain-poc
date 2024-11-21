@@ -23,10 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' className='min-h-screen'>
-      <body className={cn(inter.className, 'bg-gray-50')}>
-        <div id='main-content'>
-          <Providers>{children}</Providers>
-        </div>
+      <body className={cn(inter.className, 'min-h-screen bg-gray-50')}>
+        <Providers>{children}</Providers>
         <Toaster />
       </body>
     </html>

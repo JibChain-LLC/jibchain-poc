@@ -1,4 +1,3 @@
-import OrganizationContent from '#/components/defaul-components/organization-content';
 import Alerts from './alerts';
 
 export async function generateStaticParams() {
@@ -25,10 +24,5 @@ export async function generateStaticParams() {
 }
 
 export default function Page() {
-  return (
-    <div className='relative flex h-screen overflow-y-hidden'>
-      <OrganizationContent />
-      <Alerts />
-    </div>
-  );
+  return <Alerts />;
 }

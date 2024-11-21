@@ -3,9 +3,9 @@ import React from 'react';
 import ShellImage from '#/images/shell.svg';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
-import CountryRiskProbability from '../global-impact/country-risk-probability';
-import { Card, CardContent } from '../ui/card';
-import { Progress } from '../ui/progress';
+import CountryRiskProbability from '../../../../components/global-impact/country-risk-probability';
+import { Card, CardContent } from '../../../../components/ui/card';
+import { Progress } from '../../../../components/ui/progress';
 
 const SuppliersHeader = () => {
   return (

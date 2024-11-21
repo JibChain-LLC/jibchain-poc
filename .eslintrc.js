@@ -4,12 +4,21 @@ module.exports = {
     'next/core-web-vitals',
     'prettier',
     'plugin:@typescript-eslint/recommended',
-    'plugin:tailwindcss/recommended'
+    'plugin:tailwindcss/recommended',
+    'plugin:storybook/recommended'
   ],
   plugins: ['prettier', '@typescript-eslint'],
   parser: '@typescript-eslint/parser',
+  settings: {
+    tailwindcss: {
+      callees: ['classnames', 'clsx', 'cn', 'cva'],
+      config: 'tailwind.config.ts',
+      removeDuplicates: true
+    }
+  },
   rules: {
     indent: 'off',
+    'tailwindcss/no-custom-classname': ['error', {}],
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'spaced-comment': ['error', 'always'],
     'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.tsx'] }],
