@@ -36,7 +36,7 @@ jobs:
         run: npm run build:storybook
 
       - name: nojekyll
-        run: touch ./out/.nojekyll
+        run: touch ./storybook-static/.nojekyll
 
       - name: Deploy Static Site
         uses: JamesIves/github-pages-deploy-action@v4
