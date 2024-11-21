@@ -13,7 +13,6 @@ defaults:
 jobs:
   linting:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,3 +22,15 @@ jobs:
 
       - name: Lint 
         run: npm run lint
+
+  storybook-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Dry Build Storybook 
+        run: npm run build:storybook

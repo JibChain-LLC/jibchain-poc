@@ -19,7 +19,8 @@
     "drizzle:migrate": "npx drizzle-kit migrate",
     "drizzle:studio": "npx drizzle-kit studio --port 3001 --verbose",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build:storybook": "storybook build",
+    "serve:storybook": "serve storybook-static/"
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.10.7",
