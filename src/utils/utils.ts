@@ -7,6 +7,7 @@ import { ShieldAlert, Globe, FileText } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
+import CompanyLogo from "../images/company-logo.svg"
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -379,4 +380,15 @@ export const supplierTableInvoices: Invoice[] = [
     impactOperation: 'High',
     region: 'EU'
   }
+];
+export const topRisk = [
+  { percentage: '1.45%', trend: 'up', label: 'Ransomware Attack' },
+  { percentage: '1.35%', trend: 'up', label: 'Internal Security Failures' },
+  { percentage: '1.45%', trend: 'down', label: 'Natural Disaster' },
+];
+
+export const atRiskSuppliers = [
+{ logo: CompanyLogo, name: 'Vandhana Enterprises', impact: 'High' },
+{ logo: CompanyLogo, name: 'National Lumber', impact: 'High' },
+{ logo: CompanyLogo, name: 'Next Generation Financial', impact: 'Medium' },
 ];
