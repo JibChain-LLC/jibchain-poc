@@ -1,0 +1,81 @@
+'use client';
+import React, { useState } from 'react';
+import { cn } from '#/lib/utils';
+import { sectionsScenario } from '#/utils/utils';
+import { Accordion, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import ScenarioDetails from './scenario-details';
+
+const ScenarioAccordion = () => {
+  const [openItem, setOpenItem] = useState<string>('item-1');
+
+  return (
+    <div className='flex min-h-[78vh] flex-col rounded-b-lg bg-white p-6'>
+      <Accordion
+        type='single'
+        collapsible={false}
+        value={openItem}
+        onValueChange={(value) => setOpenItem(value || openItem)}
+        className='size-full'>
+        {sectionsScenario.map((section, index) => {
+          const itemValue = `item-${index + 1}`;
+          const isActive = openItem === itemValue;
+          const isLastItem = index === sectionsScenario.length - 1;
+
+          return (
+            <AccordionItem
+              key={index}
+              value={itemValue}
+              className='mb-6 flex h-full flex-row items-start gap-4 overflow-clip rounded-2xl pt-2'>
+              <div className='relative flex h-full flex-col items-center'>
+                <div
+                  className={cn(
+                    'mt-6 flex items-center justify-center rounded-full p-3',
+                    isActive ? 'bg-green-100' : 'bg-gray-100'
+                  )}>
+                  <section.icon className='size-4' />
+                </div>
+                {!isLastItem && (
+                  <div className='absolute left-1/2 top-full h-screen w-[2px] bg-gray-300'></div>
+                )}
+              </div>
+
+              <div
+                className={cn(
+                  'flex-1 rounded-lg px-3',
+                  isActive ? 'bg-gray-100 py-1' : 'hover:bg-gray-100'
+                )}>
+                <AccordionTrigger
+                  className={cn(
+                    'flex items-center rounded-full p-2 text-sm font-normal',
+                    isActive ? 'font-bold text-black' : 'text-gray-500'
+                  )}>
+                  <div className='flex flex-col items-start gap-2 py-4'>
+                    <span className='text-xs text-gray-500'>
+                      {section.level}
+                    </span>
+                    <h1
+                      className={cn(
+                        'text-[24px]',
+                        isActive ? 'font-bold text-black' : 'text-gray-500'
+                      )}>
+                      {section.title}
+                    </h1>
+                  </div>
+                </AccordionTrigger>
+                <ScenarioDetails
+                  scenario={section.scenario}
+                  strategy={section.strategy}
+                  confidenceLevel={section.confidenceLevel}
+                  implementationTime={section.implementationTime}
+                  cost={section.cost}
+                />
+              </div>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
+    </div>
+  );
+};
+
+export default ScenarioAccordion;

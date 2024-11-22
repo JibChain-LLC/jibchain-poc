@@ -3,7 +3,7 @@ import { Grid } from 'flowbite-react-icons/solid';
 import { Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
 
-import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import { ShieldAlert, Globe, FileText, Eye, Shield, Star } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
@@ -147,6 +147,7 @@ export const sectionsScenario = [
   {
     title: 'Aspirational',
     level: 'Level 3',
+    icon: Star,
     scenario:
       'Ransomware attacks will become nearly obsolete due to advancements in quantum encryption and AI-Driven threat detection systems making it extremely difficult for attackers to infiltrate systems undetected. Patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities.',
     strategy:
@@ -158,6 +159,7 @@ export const sectionsScenario = [
   {
     title: 'Exploratory',
     level: 'Level 2',
+    icon: Shield,
     scenario:
       'Lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
     strategy:
@@ -169,6 +171,7 @@ export const sectionsScenario = [
   {
     title: 'Redemption',
     level: 'Level 1',
+    icon: Eye,
     scenario:
       'The lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
     strategy:
