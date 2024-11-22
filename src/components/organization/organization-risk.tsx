@@ -4,6 +4,7 @@ import { Label, Pie, PieChart } from 'recharts';
 import { chartData } from '#/utils/utils';
 import { doughnutChartConfig } from '#/utils/utils';
 import { ChartContainer } from '../ui/chart';
+import TimeFilter from '../defaul-components/time-frame';
 
 const OrganizationRisk = () => {
   const [riskStatus, setRiskStatus] = useState(0);
@@ -14,7 +15,9 @@ const OrganizationRisk = () => {
   }, []);
 
   return (
-    <div className='flex min-h-[165px] w-full items-center justify-between'>
+    <div className='flex flex-col items-center justify-center '>
+      <TimeFilter status={true}/>
+     <div className='flex min-h-[165px] w-full items-center justify-between '>
       <div>
         <p className='text-xs font-medium leading-tight text-gray-600'>
           Overall Risk Status:
@@ -23,7 +26,6 @@ const OrganizationRisk = () => {
           Medium
         </p>
       </div>
-
       <ChartContainer
         config={doughnutChartConfig}
         className='flex aspect-square min-h-[108px] items-center justify-center'>
@@ -66,6 +68,7 @@ const OrganizationRisk = () => {
           </Pie>
         </PieChart>
       </ChartContainer>
+     </div>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { supplierRiskLevels } from '#/utils/utils';
 import CountryRiskProbability from '../../../../components/global-impact/country-risk-probability';
 import { Card, CardContent } from '../../../../components/ui/card';
 import { Progress } from '../../../../components/ui/progress';
+import TimeFrame from '#/components/defaul-components/time-frame';
 
 const SuppliersHeader = () => {
   return (
@@ -24,23 +25,26 @@ const SuppliersHeader = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className='flex min-h-[165px] w-full items-center justify-between border-none bg-white shadow-md'>
-          <CardContent className='flex flex-col items-center p-4'>
-            <div>
-              <p className='text-gray-600'>Overall risk status</p>
-              <p className='text-[32px] font-semibold text-orange-500'>
-                Medium
-              </p>
-            </div>
-          </CardContent>
-          <CardContent className='flex flex-col items-center p-4'>
-            <div className='text-left'>
-              <p className='text-gray-600'>Active risks</p>
-              <p className='text-[32px] font-semibold text-orange-500'>20</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+        <Card className="flex flex-col min-h-[165px] w-full items-center justify-center border-none bg-white shadow-md">
+           <div className="w-full px-3">
+            <TimeFrame status={true} />
+           </div>             
+               <div className="flex w-full justify-between">
+                 <CardContent className="flex flex-col items-center p-4">
+                   <div>
+                     <p className="text-gray-600">Overall risk status</p>
+                     <p className="text-[32px] font-semibold text-orange-500">Medium</p>
+                   </div>
+                 </CardContent>
+                 <CardContent className="flex flex-col items-center p-4">
+                   <div className="text-left">
+                     <p className="text-gray-600">Active risks</p>
+                     <p className="text-[32px] font-semibold text-orange-500">20</p>
+                   </div>
+                 </CardContent>
+               </div>
+             </Card>
+           </div>
 
       <Card className='min-h-[280px] w-full border-none bg-white shadow-md'>
         <CardContent className='space-y-4 p-0 md:p-6'>
