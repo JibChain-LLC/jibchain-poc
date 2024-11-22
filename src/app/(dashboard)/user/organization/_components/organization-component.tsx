@@ -7,8 +7,8 @@ import { Input } from '../../../../../components/ui/input';
 
 export default function OrganizationComponent() {
   return (
-    <div className='max-h-screen w-full overflow-y-auto bg-gray-100 p-6'>
-      <div className='min-h-[95vh] rounded-md bg-white p-4 text-black shadow-md xl:p-32'>
+    <div className='max-h-screen w-full overflow-y-auto bg-transparent pb-10 '>
+      <div className='min-h-[95vh] bg-white xl:p-32 lg:p-12 p-6 rounded-lg text-black shadow-md'>
         <h1 className='mb-4 text-2xl font-bold'>Shell USA, Inc.</h1>
         <div className='flex flex-col gap-2 lg:flex-row'>
           <div className='flex flex-col gap-2'>

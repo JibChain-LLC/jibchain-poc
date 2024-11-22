@@ -21,7 +21,7 @@ export default function AccountPage() {
 
   return (
     <div className=''>
-      <div className='min-h-[95vh] rounded-md bg-white p-4 text-black shadow-md xl:p-32'>
+      <div className='min-h-[96vh] rounded-md bg-white p-4 text-black shadow-md xl:p-32 '>
         <h1 className='mb-4 text-2xl font-bold'>Jamie Smith</h1>
         <div className='flex flex-col gap-2 lg:flex-row'>
           <div className='flex flex-col gap-2'>
