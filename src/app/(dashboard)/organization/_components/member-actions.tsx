@@ -1,33 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { MoreVertical } from 'lucide-react';
-import { Button } from '#/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '#/components/ui/dropdown-menu';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger
-} from '#/components/ui/sheet';
+import { DropdownMenuItem } from '#/components/ui/dropdown-menu';
 import { useToast } from '#/components/ui/use-toast';
 import useUserMetadata from '#/hooks/use-user-metadata';
 import removeUserFromOrg from '#/lib/actions/organization/delete-user-from-org';
 import { Member } from '#/lib/actions/organization/read-org-members';
 import updateRole from '#/lib/actions/organization/update-user-role';
+import ControlledDropdown from './controlled-dropdown';
 
 export default function MemberActions(
   props: Omit<Member, 'lastSignIn'> & { orgId: string }
 ) {
-  const { email, id, orgId, active } = props;
+  const { id, orgId, active } = props;
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const userData = useUserMetadata();
@@ -79,48 +62,19 @@ export default function MemberActions(
   });
 
   return (
-    <Sheet>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='float-end size-8 p-0'>
-            <MoreVertical />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
-          <SheetTrigger asChild>
-            <DropdownMenuItem className='flex flex-col items-start gap-1'>
-              Manager access
-            </DropdownMenuItem>
-          </SheetTrigger>
-
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className='flex flex-col items-start gap-1'
-            onClick={() => toggleActivation()}>
-            {active ? 'Deactivate' : 'Activate'}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className='flex flex-col items-start gap-1'
-            onClick={() => removeUser()}>
-            <p>
-              {id === userData?.id ? 'Leave organization' : 'Remove member'}
-            </p>
-            <p className='text-xs'>Remove user from organization.</p>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Manager user access</SheetTitle>
-          <SheetDescription>Alter {email}&apos;s role.</SheetDescription>
-        </SheetHeader>
-        <div></div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type='submit'>Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+    <div className='flex justify-end'>
+      <ControlledDropdown align='end'>
+        <DropdownMenuItem
+          className='flex flex-col items-start gap-1'
+          onClick={() => toggleActivation()}>
+          {active ? 'Deactivate' : 'Activate'}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className='flex flex-col items-start gap-1'
+          onClick={() => removeUser()}>
+          {id === userData?.id ? 'Leave organization' : 'Remove member'}
+        </DropdownMenuItem>
+      </ControlledDropdown>
+    </div>
   );
 }

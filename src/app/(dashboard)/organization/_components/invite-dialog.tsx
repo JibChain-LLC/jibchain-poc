@@ -2,7 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { LoaderCircle, Plus, UserPlus } from 'lucide-react';
+import { UserAdd } from 'flowbite-react-icons/solid';
+import { LoaderCircle, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '#/components/ui/button';
@@ -11,7 +12,6 @@ import {
   DialogContent,
   DialogTrigger,
   DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogHeader
 } from '#/components/ui/dialog';
@@ -20,7 +20,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
@@ -84,17 +83,14 @@ export default function InviteDialog(props: { orgId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size='sm'>
-          <UserPlus />
+        <Button>
+          <UserAdd />
           Add New
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Invite a new team member</DialogTitle>
-          <DialogDescription>
-            Enter user&apos;s email and select their role.
-          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit((d) => mutate(d))}>
@@ -104,12 +100,11 @@ export default function InviteDialog(props: { orgId: string }) {
                 name='email'
                 render={({ field }) => (
                   <FormItem className='flex-1'>
-                    <FormLabel>Email Address</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         type='email'
-                        placeholder='Email Address'
+                        placeholder="Enter user's email address"
                       />
                     </FormControl>
                     <FormMessage />
@@ -121,7 +116,6 @@ export default function InviteDialog(props: { orgId: string }) {
                 name='role'
                 render={({ field }) => (
                   <FormItem className='w-36'>
-                    <FormLabel>Role</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}>
