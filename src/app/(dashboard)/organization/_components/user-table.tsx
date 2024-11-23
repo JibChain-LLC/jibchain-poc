@@ -37,7 +37,8 @@ export default function UserTable(props: UserTableProps) {
     ]
   });
 
-  const roleSet = new Set(currentUserRoles);
+  const hasAdminPriv =
+    ADMIN_SET.intersection(new Set(currentUserRoles)).size >= 1;
 
   return (
     <DataTable
@@ -58,9 +59,7 @@ export default function UserTable(props: UserTableProps) {
               </span>
             </p>
           </div>
-          <div className='flex'>
-            <InviteDialog orgId={orgId} />
-          </div>
+          {hasAdminPriv && <InviteDialog orgId={orgId} />}
         </div>
       )}
       pagination={{ manual: false, pageSize: 10 }}
@@ -97,9 +96,8 @@ export default function UserTable(props: UserTableProps) {
           accessorKey: 'role',
           header: 'User Role',
           cell: ({ row }) =>
-            ADMIN_SET.intersection(roleSet).size >= 1 ? (
+            hasAdminPriv ? (
               <ChangeRoleSelect
-                disabled
                 orgId={orgId}
                 type={row.original.type}
                 id={row.original.id}
@@ -179,6 +177,7 @@ export default function UserTable(props: UserTableProps) {
               <InviteActions id={row.original.id} />
             ) : (
               <MemberActions
+                hasAdminPriv={hasAdminPriv}
                 orgId={orgId}
                 id={row.original.id}
                 active={row.original.active}
