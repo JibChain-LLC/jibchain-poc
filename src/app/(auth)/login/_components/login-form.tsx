@@ -32,7 +32,11 @@ export default function LoginForm() {
     }
   });
 
-  const { mutate: signInSubmit, isPending } = useMutation({
+  const {
+    mutate: signInSubmit,
+    isPending,
+    isSuccess
+  } = useMutation({
     mutationFn: async (data: UserLoginSchema) => {
       const res = await signInUser({ ...data });
       if (!res.ok) throw new Error(res.message);
@@ -62,18 +66,17 @@ export default function LoginForm() {
                 </Link>
               </p>
             </div>
-
             <FormField
               control={form.control}
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email Address</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type='email'
-                      placeholder='name@example.com'
+                      placeholder='username@email.com'
                     />
                   </FormControl>
                   <FormMessage />
@@ -100,8 +103,11 @@ export default function LoginForm() {
             {form.formState.errors.root && (
               <FormMessage>{form.formState.errors.root.message}</FormMessage>
             )}
-            <Button type='submit' className='mt-5 w-full' disabled={isPending}>
-              {!isPending ? (
+            <Button
+              type='submit'
+              className='mt-5 w-full'
+              disabled={isPending || isSuccess}>
+              {!isPending && !isSuccess ? (
                 'Sign in'
               ) : (
                 <>

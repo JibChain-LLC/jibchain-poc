@@ -1,16 +1,17 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { Copy, MoreVertical } from 'lucide-react';
+import { Copy } from 'lucide-react';
 import { useCopyToClipboard } from 'react-use';
 import { Button } from '#/components/ui/button';
+import { DropdownMenuItem } from '#/components/ui/dropdown-menu';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '#/components/ui/dropdown-menu';
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '#/components/ui/tooltip';
 import { toast } from '#/components/ui/use-toast';
 import deleteInvitation from '#/lib/actions/invite/delete-invite';
+import ControlledDropdown from './controlled-dropdown';
 
 export default function InviteActions(props: { id: string }) {
   const { id } = props;
@@ -43,33 +44,26 @@ export default function InviteActions(props: { id: string }) {
 
   return (
     <div className='flex flex-row justify-end gap-1'>
-      <Button
-        variant='ghost'
-        className='size-8 p-0'
-        title='Copy invite link'
-        onClick={copyInviteLink}>
-        <Copy />
-      </Button>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='size-8 p-0'>
-            <MoreVertical />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
-          <DropdownMenuItem
-            onClick={handleDeleteInvite}
-            className='flex flex-col items-start gap-1'>
-            Cancel invitation
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className='flex flex-col items-start gap-1'
-            disabled>
-            Resend invitation
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant='ghost' size='icon' onClick={copyInviteLink}>
+              <Copy />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side='left'>
+            <p className='text-xs'>Copy invite link</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <ControlledDropdown align='end'>
+        <DropdownMenuItem
+          onClick={handleDeleteInvite}
+          className='flex flex-col items-start gap-1'>
+          Cancel invitation
+        </DropdownMenuItem>
+      </ControlledDropdown>
     </div>
   );
 }
