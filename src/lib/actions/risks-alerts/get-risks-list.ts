@@ -1,37 +1,58 @@
 'use server';
 
 import { ActionRes } from '../types';
+import { MOCK_RISKS, MOCK_SUPPLIERS } from './mocks';
+import { RiskEntry, RiskLevelEnum, Supplier } from './type';
 
-interface GetRisksOpts {}
-
-enum RiskLevelEnum {
-  LOW = 'low',
-  MED = 'med',
-  HI = 'hi'
-}
-
-type RiskItem = {
-  id: string;
-  category: string;
-  level: RiskLevelEnum;
+type DateRangeOpts = {
+  from?: string;
+  to?: string;
 };
 
-const mockData = [];
+interface RiskListRes {
+  risks: Record<RiskLevelEnum, Pick<RiskEntry, 'id' | 'category'>[]>;
+  count: number;
+}
 
-export default async function getRisksList(
-  _opts: GetRisksOpts
-): Promise<ActionRes<RiskItem[]>> {
-  const risks: RiskItem[] = [
-    {
-      category: 'test',
-      level: RiskLevelEnum.HI,
-      id: 'test'
-    }
-  ];
+export async function getRisksList(
+  opts: DateRangeOpts
+): Promise<ActionRes<RiskListRes>> {
+  const from = new Date(opts.from ?? Date.now());
+  const to = new Date(opts.to ?? Date.now() - 86_400_000);
+
+  if (to.getTime() - from.getTime() < 0)
+    return {
+      ok: false,
+      status: 400,
+      message: 'Time range parameters are invalid'
+    };
 
   return {
     ok: true,
     status: 200,
-    data: risks
+    data: {
+      risks: {
+        low: [],
+        med: [],
+        hi: []
+      },
+      count: 0
+    }
+  };
+}
+
+export async function getRiskContent(): Promise<ActionRes<RiskEntry[]>> {
+  return {
+    ok: true,
+    status: 200,
+    data: MOCK_RISKS
+  };
+}
+
+export async function getSupplierList(): Promise<ActionRes<Supplier[]>> {
+  return {
+    ok: true,
+    status: 200,
+    data: MOCK_SUPPLIERS
   };
 }
