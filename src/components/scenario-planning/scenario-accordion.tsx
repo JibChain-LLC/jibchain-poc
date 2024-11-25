@@ -9,7 +9,7 @@ const ScenarioAccordion = () => {
   const [openItem, setOpenItem] = useState<string>('item-1');
 
   return (
-    <div className='flex min-h-[78vh] flex-col rounded-b-lg bg-white p-6'>
+    <div className='flex min-h-[78vh] flex-col items-center rounded-b-lg bg-white p-4'>
       <Accordion
         type='single'
         collapsible={false}
@@ -20,36 +20,36 @@ const ScenarioAccordion = () => {
           const itemValue = `item-${index + 1}`;
           const isActive = openItem === itemValue;
           const isLastItem = index === sectionsScenario.length - 1;
-
           return (
             <AccordionItem
               key={index}
               value={itemValue}
-              className='mb-6 flex h-full flex-row items-start gap-4 overflow-clip rounded-2xl pt-2'>
-              <div className='relative flex h-full flex-col items-center'>
+              className={`flex h-full flex-row items-start gap-4 rounded-2xl p-2 overflow-clip `}>
+              <div className='relative flex h-full flex-col items-center '>
                 <div
                   className={cn(
                     'mt-6 flex items-center justify-center rounded-full p-3',
                     isActive ? 'bg-green-100' : 'bg-gray-100'
                   )}>
                   <section.icon className='size-4' />
-                </div>
-                {!isLastItem && (
-                  <div className='absolute left-1/2 top-full h-screen w-[2px] bg-gray-300'></div>
+                  {!isLastItem && (
+                  <div className="absolute left-1/2 top-full h-[100vh] w-[2px] bg-gray-300"></div>
                 )}
+                 
+                </div>
               </div>
 
               <div
                 className={cn(
-                  'flex-1 rounded-lg px-3',
-                  isActive ? 'bg-gray-100 py-1' : 'hover:bg-gray-100'
+                  'flex-1 rounded-lg p-3',
+                  isActive ? 'bg-gray-100' : 'hover:bg-gray-100'
                 )}>
                 <AccordionTrigger
                   className={cn(
-                    'flex items-center rounded-full p-2 text-sm font-normal',
+                    'flex items-center rounded-full p-4 text-sm font-normal',
                     isActive ? 'font-bold text-black' : 'text-gray-500'
                   )}>
-                  <div className='flex flex-col items-start gap-2 py-4'>
+                  <div className='flex flex-col items-start gap-2 '>
                     <span className='text-xs text-gray-500'>
                       {section.level}
                     </span>

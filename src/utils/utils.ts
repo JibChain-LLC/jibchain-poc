@@ -159,7 +159,7 @@ export const sectionsScenario = [
   {
     title: 'Exploratory',
     level: 'Level 2',
-    icon: Shield,
+    icon: Eye,
     scenario:
       'Lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
     strategy:
@@ -169,9 +169,9 @@ export const sectionsScenario = [
     cost: '$2.5m'
   },
   {
-    title: 'Redemption',
+    title: 'Remediation',
     level: 'Level 1',
-    icon: Eye,
+    icon: Shield,
     scenario:
       'The lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
     strategy:
