@@ -2,45 +2,22 @@ import React from 'react';
 import { Card } from '../../../../components/ui/card';
 import { Button } from '../../../../components/ui/button';
 import Image from 'next/image';
-import TopRiskCards from './top-risk-cards';
-import OfficeImage from '../../../../images/office-image.jpg';
-import LearningImage from '../../../../images/learning-image.jpg';
-import CalendarImage from '../../../../images/calendar-image.jpg';
 import Jumbotron from '../../../../images/jumbotron.jpg';
+import { dashboardCardData } from '../../../../utils/utils';
+import RiskContainer from './risk-container';
 
-const cardData = [
-  {
-    image: OfficeImage,
-    description:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat',
-    buttonText: 'Read More',
-  },
-  {
-    image: CalendarImage,
-    description:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat',
-    buttonText: 'Read More',
-  },
-  {
-    image: LearningImage,
-    description:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat',
-    buttonText: 'Read More',
-  },
-];
-
-const TechnologicalFailure = () => {
+const Dashboard = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-7  pt-4 bg-gray-50 ">
+    <div className="grid grid-cols-1 lg:grid-cols-7  pt-4 bg-gray-50">
       <div className="lg:col-span-5 flex flex-col space-y-6 ">
-        <Card className="border-none shadow-none ">
+        <Card className="border-none shadow-none bg-gray-50">
           <h1 className="text-2xl lg:text-3xl font-semibold">Welcome to Coeus!</h1>
           <h3 className="mt-3 text-lg lg:text-xl font-medium text-gray-700">
             Featured News
           </h3>
         </Card>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {cardData.map((card, index) => (
+          {dashboardCardData.map((card, index) => (
             <Card
               key={index}
               className="bg-white shadow-sm rounded-xl overflow-hidden"
@@ -65,7 +42,7 @@ const TechnologicalFailure = () => {
            <Image
             src={Jumbotron}
              alt="Operational Resilience"
-             className="absolute inset-0 w-full h-full object-cover"
+             className="absolute w-full h-full object-cover"
            />
            <div className="absolute inset-0 bg-black opacity-70"></div>
            <div className="relative flex flex-col items-center justify-center text-white px-4 py-6 lg:py-12 lg:mt-20 mt-12">
@@ -81,11 +58,11 @@ const TechnologicalFailure = () => {
            </div>
          </Card>
       </div>
-      <div className="lg:col-span-2 bg-white h-full lg:p-4 lg:pl-10 p-0 ">
-        <TopRiskCards />
+      <div className="lg:col-span-2 bg-gray-50 h-full lg:p-4 lg:pl-10 ">
+        <RiskContainer />
       </div>
     </div>
   );
 };
 
-export default TechnologicalFailure;
+export default Dashboard;
