@@ -58,7 +58,7 @@ const Dashboard = () => {
            </div>
          </Card>
       </div>
-      <div className="lg:col-span-2 bg-gray-50 h-full lg:p-4 lg:pl-10 ">
+      <div className="lg:col-span-2 bg-gray-50 h-full lg:p-4 lg:pl-10">
         <RiskContainer />
       </div>
     </div>
