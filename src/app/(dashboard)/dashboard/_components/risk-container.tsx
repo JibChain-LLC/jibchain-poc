@@ -1,5 +1,5 @@
 import React from 'react';
-import TopRiskCard from './risk-card';
+import TopRiskCard from './top-risk-card';
 import AtRiskSupplierCard from './at-risk-supplier-card';
 import TimeFrame from '../../../../components/defaul-components/time-frame';
 import { topRisk, atRiskSuppliers } from '../../../../utils/utils';
