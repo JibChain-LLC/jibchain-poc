@@ -4,11 +4,10 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
-
+import { timeFrames } from '#/utils/utils';
 type TimeFrameProp = {
   status: boolean;
 };
@@ -26,18 +25,15 @@ const TimeFrame: React.FC<TimeFrameProp> = ({ status }) => {
         </SelectTrigger>
         <SelectContent className="bg-white text-gray-700">
           <SelectGroup>
-            <SelectItem className="cursor-pointer" value="this-week">
-              This week
-            </SelectItem>
-            <SelectItem className="cursor-pointer" value="last-week">
-              Last week
-            </SelectItem>
-            <SelectItem className="cursor-pointer" value="this-month">
-              This month
-            </SelectItem>
-            <SelectItem className="cursor-pointer" value="last-month">
-              Last month
-            </SelectItem>
+            {timeFrames.map((timeFrame:any) => (
+              <SelectItem
+                key={timeFrame.value}
+                className="cursor-pointer"
+                value={timeFrame.value}
+              >
+                {timeFrame.label}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>
