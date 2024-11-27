@@ -390,7 +390,6 @@ export interface BubbleData {
   latitude: number;
   longitude: number;
   color: am5.Color;
-  radius: number;
 }
 
 export const risk_data: CountryDataContext[] = [
@@ -410,25 +409,21 @@ export const bubble_data: BubbleData[] = [
   {
     latitude: 40.7128,
     longitude: -74.006,
-    color: am5.color(0xff0000),
-    radius: 10
+    color: am5.color(0xf05252)
   },
   {
     latitude: -23.5505,
     longitude: -46.6333,
-    color: am5.color(0xffa500),
-    radius: 8
+    color: am5.color(0xc27803)
   },
   {
     latitude: 48.8566,
     longitude: 2.3522,
-    color: am5.color(0x00ff00),
-    radius: 8
+    color: am5.color(0x0e9f6e)
   },
   {
     latitude: 35.6895,
     longitude: 139.6917,
-    color: am5.color(0xff0000),
-    radius: 10
+    color: am5.color(0xf05252)
   }
 ];

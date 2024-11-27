@@ -12,7 +12,6 @@ import {
   CountryDataContext,
   risk_data
 } from '#/utils/utils';
-
 const getFillColor = (dataContext: CountryDataContext | undefined) => {
   const country = risk_data.find((data) => data.id === dataContext?.id);
   if (country) {
@@ -32,34 +31,50 @@ const getFillColor = (dataContext: CountryDataContext | undefined) => {
 
 const createPointSeries = (chart: am5map.MapChart, root: am5.Root) => {
   const pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+
+  // Set the data for the point series
   pointSeries.data.setAll(
     bubble_data.map((data) => ({
       geometry: { type: 'Point', coordinates: [data.longitude, data.latitude] },
-      color: data.color,
-      radius: data.radius
+      color: data.color
     }))
   );
 
   pointSeries.bullets.push((root, series, dataItem) => {
     const context = dataItem.dataContext as BubbleData;
-    const circle = am5.Circle.new(root, {
-      radius: context.radius,
-      tooltipText: 'Risk Level',
-      fill: context.color
+
+    const mainCircle = am5.Circle.new(root, {
+      radius: 8,
+      fill: context.color,
+      strokeWidth: 2
     });
 
-    circle.animate({
-      key: 'scale',
-      from: 1,
-      to: 1.5,
-      duration: 1000,
-      easing: am5.ease.bounce
+    const animatedBorder = am5.Circle.new(root, {
+      radius: 11,
+      stroke: am5.Color.lighten(context.color, 0.6),
+      strokeWidth: 8
     });
 
-    return am5.Bullet.new(root, { sprite: circle });
+    animatedBorder.animate({
+      key: 'strokeOpacity',
+      from: 0.4,
+      to: 0.9,
+      duration: 1300,
+      loops: Infinity,
+      easing: am5.ease.linear
+    });
+
+    const container = am5.Container.new(root, {
+      centerX: am5.p50,
+      centerY: am5.p50
+    });
+
+    container.children.push(mainCircle);
+    container.children.push(animatedBorder);
+
+    return am5.Bullet.new(root, { sprite: container });
   });
 };
-
 const CountryRiskProbability = ({ supplier }: { supplier: boolean }) => {
   useLayoutEffect(() => {
     const root = am5.Root.new('chartdiv');
