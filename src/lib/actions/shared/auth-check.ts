@@ -6,7 +6,7 @@ import doesUserHaveRoles from './does-user-have-roles';
 type AuthMiddleOpts = Omit<
   Parameters<typeof doesUserHaveRoles>[0],
   'userId'
-> & { user?: User };
+> & { user?: User | null };
 
 /**
  * Helper to perform basic auth checks for server actions
