@@ -6,15 +6,15 @@ import { topRisk, atRiskSuppliers } from '../../../../utils/utils';
 
 const RiskContainer = () => {
   return (
-    <div className="space-y-6 mt-8 lg:mb-0 mb-6 bg-gray-50">
+    <div className="lg:space-y-7 space-y-2 mt-8 lg:mb-0 mb-6 bg-gray-50 flex flex-col">
       <div className="w-full">
-        <div className="w-full flex flex-col lg:flex-row lg:items-center justify-between mb-2 mt-8">
-          <h1 className="text-lg font-semibold text-nowrap">Top Risk</h1>
+        <div className="w-full flex flex-col lg:flex-row lg:items-center justify-between mb-2 mt-2">
+          <h1 className="text-lg font-semibold text-nowrap mb-2 mt-2 lg:mb-0">Top Risk</h1>
           <div>
             <TimeFrame status={false} />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           {topRisk.map((risk, index) => (
             <TopRiskCard
               key={index}
@@ -26,15 +26,14 @@ const RiskContainer = () => {
         </div>
       </div>
       <div className="w-full">
-      <div className="w-full flex flex-col lg:flex-row lg:items-center justify-between mb-2 mt-8">
-  <h1 className="text-lg font-semibold whitespace-nowrap mb-2 lg:mb-0">
-    At Risk Supplier
-  </h1>
-  <div>
-    <TimeFrame status={false} />
-  </div>
-</div>
-
+      <div className="w-full flex flex-col lg:flex-row lg:items-center justify-between mb-2 mt-6">
+         <h1 className="text-lg font-semibold text-nowrap mb-2 mt-2 lg:mb-0">
+          At Risk Supplier
+         </h1>
+         <div>
+          <TimeFrame status={false} />
+         </div>
+        </div>
         <div className="grid grid-cols-1 gap-4">
           {atRiskSuppliers.map((supplier, index) => (
             <AtRiskSupplierCard key={index} supplier={supplier} />

@@ -11,6 +11,9 @@ import CompanyLogo from "../images/company-logo.svg"
 import OfficeImage from '../images/office-image.jpg';
 import LearningImage from '../images/learning-image.jpg';
 import CalendarImage from '../images/calendar-image.jpg';
+import { Building } from 'lucide-react';
+
+
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -391,28 +394,28 @@ export const topRisk = [
 ];
 
 export const atRiskSuppliers = [
-{ logo: CompanyLogo, name: 'Vandhana Enterprises', impact: 'High' },
-{ logo: CompanyLogo, name: 'National Lumber', impact: 'High' },
-{ logo: CompanyLogo, name: 'Next Generation Financial', impact: 'Medium' },
+  { logo: Building, name: 'Vandhana Enterprises', impact: 'High' },
+  { logo: Building, name: 'National Lumber', impact: 'High' },
+  { logo: Building, name: 'Next Generation Financial', impact: 'Medium' },
 ];
 
 export const dashboardCardData = [
   {
     image: OfficeImage,
     description:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat',
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur ',
     buttonText: 'Read More',
   },
   {
     image: CalendarImage,
     description:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat',
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
     buttonText: 'Read More',
   },
   {
     image: LearningImage,
     description:
-      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat',
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
     buttonText: 'Read More',
   },
 ];

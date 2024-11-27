@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Card } from '../../../../components/ui/card';
 import Image from 'next/image';
 
 interface Supplier {
-  logo: string;
+  logo: React.ComponentType<{ className?: string }> ;
   name: string;
   impact: string;
 }
@@ -16,7 +16,7 @@ const AtRiskSupplierCard: React.FC<AtRiskSupplierCardProps> = ({ supplier }) => 
   return (
     <Card className="flex flex-col items-start justify-start px-6 py-4 w-full shadow-sm">
       <div className="flex flex-row items-center gap-4">
-        <Image src={supplier.logo} alt={supplier.name} className="w-10 h-10" />
+        <supplier.logo className="size-4" />
         <h1 className="text-base font-medium">{supplier.name}</h1>
       </div>
       <h3 className="font-medium text-gray-600">Impact to Operate</h3>

@@ -10,7 +10,7 @@ interface TopRiskCardProps {
 
 const TopRiskCard: React.FC<TopRiskCardProps> = ({ trend, percentage, label }) => {
   return (
-    <Card className="flex flex-col items-start justify-start px-6 py-4 w-full shadow-sm">
+    <Card className="flex flex-col items-start justify-start px-6 py-5 w-full shadow-sm">
       <div className="flex flex-row gap-2 items-center">
         <h2 className={`font-bold ${trend === 'up' ? 'text-red-500' : 'text-green-500'}`}>{percentage}</h2>
         {trend === 'up' ? (
