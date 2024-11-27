@@ -4,16 +4,13 @@ import { Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
 
 import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
-import CompanyLogo from "../images/company-logo.svg"
-import OfficeImage from '../images/office-image.jpg';
-import LearningImage from '../images/learning-image.jpg';
 import CalendarImage from '../images/calendar-image.jpg';
-import { Building } from 'lucide-react';
-
-
+import LearningImage from '../images/learning-image.jpg';
+import OfficeImage from '../images/office-image.jpg';
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -390,13 +387,13 @@ export const supplierTableInvoices: Invoice[] = [
 export const topRisk = [
   { percentage: '1.45%', trend: 'up', label: 'Ransomware Attack' },
   { percentage: '1.35%', trend: 'up', label: 'Internal Security Failures' },
-  { percentage: '1.45%', trend: 'down', label: 'Natural Disaster' },
+  { percentage: '1.45%', trend: 'down', label: 'Natural Disaster' }
 ];
 
 export const atRiskSuppliers = [
   { logo: Building, name: 'Vandhana Enterprises', impact: 'High' },
   { logo: Building, name: 'National Lumber', impact: 'High' },
-  { logo: Building, name: 'Next Generation Financial', impact: 'Medium' },
+  { logo: Building, name: 'Next Generation Financial', impact: 'Medium' }
 ];
 
 export const dashboardCardData = [
@@ -404,24 +401,24 @@ export const dashboardCardData = [
     image: OfficeImage,
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur ',
-    buttonText: 'Read More',
+    buttonText: 'Read More'
   },
   {
     image: CalendarImage,
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
-    buttonText: 'Read More',
+    buttonText: 'Read More'
   },
   {
     image: LearningImage,
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
-    buttonText: 'Read More',
-  },
+    buttonText: 'Read More'
+  }
 ];
 export const timeFrames = [
   { label: 'This week', value: 'this-week' },
   { label: 'Last week', value: 'last-week' },
   { label: 'This month', value: 'this-month' },
-  { label: 'Last month', value: 'last-month' },
+  { label: 'Last month', value: 'last-month' }
 ];

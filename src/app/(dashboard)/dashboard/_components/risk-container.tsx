@@ -1,20 +1,22 @@
 import React from 'react';
-import TopRiskCard from './top-risk-card';
-import AtRiskSupplierCard from './at-risk-supplier-card';
 import TimeFrame from '../../../../components/defaul-components/time-frame';
 import { topRisk, atRiskSuppliers } from '../../../../utils/utils';
+import SupplierRiskCard from './supplier-risk-card';
+import TopRiskCard from './top-risk-card';
 
 const RiskContainer = () => {
   return (
-    <div className="lg:space-y-7 space-y-2 mt-8 lg:mb-0 mb-6 bg-gray-50 flex flex-col">
-      <div className="w-full">
-        <div className="w-full flex flex-col lg:flex-row lg:items-center justify-between mb-2 mt-2">
-          <h1 className="text-lg font-semibold text-nowrap mb-2 mt-2 lg:mb-0">Top Risk</h1>
+    <div className='mb-6 mt-8 flex flex-col space-y-5 bg-gray-50 lg:mb-0 lg:gap-y-10'>
+      <div className='flex w-full flex-col gap-2'>
+        <div className='flex w-full items-center justify-between'>
+          <h1 className='my-2 text-nowrap text-lg font-semibold lg:mb-0'>
+            Top Risk
+          </h1>
           <div>
             <TimeFrame status={false} />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-4">
+        <div className='grid grid-cols-1 gap-4'>
           {topRisk.map((risk, index) => (
             <TopRiskCard
               key={index}
@@ -25,18 +27,18 @@ const RiskContainer = () => {
           ))}
         </div>
       </div>
-      <div className="w-full">
-      <div className="w-full flex flex-col lg:flex-row lg:items-center justify-between mb-2 mt-6">
-         <h1 className="text-lg font-semibold text-nowrap mb-2 mt-2 lg:mb-0">
-          At Risk Supplier
-         </h1>
-         <div>
-          <TimeFrame status={false} />
-         </div>
+      <div className='flex w-full flex-col gap-2'>
+        <div className='flex w-full items-center justify-between'>
+          <h1 className='text-nowrap text-lg font-semibold lg:mb-0'>
+            At Risk Supplier
+          </h1>
+          <div>
+            <TimeFrame status={false} />
+          </div>
         </div>
-        <div className="grid grid-cols-1 gap-4">
+        <div className='grid grid-cols-1 gap-4'>
           {atRiskSuppliers.map((supplier, index) => (
-            <AtRiskSupplierCard key={index} supplier={supplier} />
+            <SupplierRiskCard key={index} supplier={supplier} />
           ))}
         </div>
       </div>
