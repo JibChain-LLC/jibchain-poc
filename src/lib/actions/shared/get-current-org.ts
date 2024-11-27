@@ -33,12 +33,8 @@ export default async function getUserCurrentOrg(
     uid = data.user.id;
   }
 
-  const res = await supabase
-    .from('roles')
-    .select('org_id')
-    .eq('user_id', uid)
-    .maybeSingle();
+  const res = await supabase.from('roles').select('org_id').eq('user_id', uid);
 
   if (res.status !== 200 || !res.data) return '';
-  return res.data.org_id;
+  return res.data[0].org_id;
 }

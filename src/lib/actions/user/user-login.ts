@@ -1,8 +1,10 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 import { UserLoginSchema } from '#/lib/schema/user-login';
 import { createClient } from '#/lib/supabase/server';
+import getUserCurrentOrg from '../shared/get-current-org';
 import { ActionRes, ErrorRes } from '../types';
 
 interface LoginUserOpts extends UserLoginSchema {
@@ -12,8 +14,20 @@ interface LoginUserOpts extends UserLoginSchema {
 export default async function loginUser(
   opts: LoginUserOpts
 ): Promise<ActionRes> {
+  const cookieStore = await cookies();
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword(opts);
+  const {
+    error,
+    data: { user }
+  } = await supabase.auth.signInWithPassword(opts);
+
+  if (!user) {
+    return {
+      ok: false,
+      status: 500,
+      message: 'Failed to login'
+    };
+  }
 
   if (error)
     return {
@@ -22,9 +36,13 @@ export default async function loginUser(
       message: error.message
     };
 
-  revalidatePath('/', 'layout');
-  // redirect(opts.redirectTo ?? '/organization');
+  // if no cookie for org attempt to set
+  if (!cookieStore.get('current-org')) {
+    const orgId = await getUserCurrentOrg(user.id);
+    if (orgId) cookieStore.set('current-org', orgId);
+  }
 
+  revalidatePath('/', 'layout');
   return {
     ok: true,
     status: 200
