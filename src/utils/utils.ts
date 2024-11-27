@@ -1,12 +1,15 @@
+import { DollarSignIcon } from 'lucide-react';
 import { Bell } from 'flowbite-react-icons/solid';
 import { Grid } from 'flowbite-react-icons/solid';
 import { Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
-
-import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import DollarImage from "#/images/dollar.svg"
 import { ChartConfig } from '#/components/ui/chart';
-import MoneyImage from '#/images/money-image.jpg';
+import ZoomImage from "#/images/zoom.svg"
 import smallLogo from '#/images/small.svg';
+import ArrowRightImage from "#/images/arrow-right.svg"
+import { Frown } from 'lucide-react';
+import { Cloud } from 'lucide-react';
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -201,26 +204,26 @@ export const overviewCardData = [
   {
     title: 'Financial Impact',
     value: '$5m',
-    icon: MoneyImage,
+    icon: DollarImage,
     alt: 'Money'
   },
   {
     title: 'Probability',
     value: '75%',
-    icon: MoneyImage,
+    icon: ZoomImage,
     alt: 'Graph'
   },
   {
     title: 'Impacted Suppliers',
     value: '23',
-    icon: MoneyImage,
+    icon: ArrowRightImage,
     alt: 'Suppliers'
   }
 ];
 export const mitigationBestPractices = [
-  { icon: ShieldAlert, label: 'Implement Backups' },
-  { icon: Globe, label: 'Security Awareness Training' },
-  { icon: FileText, label: 'Incident Response Plan' }
+  { icon: Cloud, label: 'Service Availability' },
+  { icon: DollarSignIcon, label: 'Financial Loss' },
+  { icon: Frown, label: 'Public Trust' }
 ];
 export const globalImpactCard = [
   { title: 'Global Impact', value: '60%' },
