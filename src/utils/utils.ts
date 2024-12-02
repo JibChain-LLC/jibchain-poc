@@ -2,10 +2,10 @@ import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
 import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
-import ArrowRightImage from '#/images/arrow-right.svg';
-import DollarImage from '#/images/dollar.svg';
 import smallLogo from '#/images/small.svg';
-import ZoomImage from '#/images/zoom.svg';
+import ArrowRightImage from '../../public/arrow-right.svg';
+import DollarImage from '../../public/dollar.svg';
+import ZoomImage from '../../public/zoom.svg';
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
