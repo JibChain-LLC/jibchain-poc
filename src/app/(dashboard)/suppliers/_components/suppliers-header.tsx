@@ -1,18 +1,16 @@
-import Image from 'next/image';
 import React from 'react';
-import ShellImage from '#/images/shell.svg';
+import OrgCard from '#/components/organization-card';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
 import CountryRiskProbability from '../../../../components/global-impact/country-risk-probability';
 import { Card, CardContent } from '../../../../components/ui/card';
 import { Progress } from '../../../../components/ui/progress';
-import OrgCard from '#/components/organization-card';
 
 const SuppliersHeader = () => {
   return (
     <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-      <div className='flex w-auto flex-col gap-4 '>
-       <OrgCard/>
+      <div className='flex w-auto flex-col gap-4'>
+        <OrgCard />
         <Card className='flex min-h-[198px] w-full items-center justify-between border-none bg-white shadow-md'>
           <CardContent className='flex flex-col items-center p-4'>
             <div>

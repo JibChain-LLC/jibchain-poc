@@ -33,7 +33,6 @@ import {
   TableRow
 } from '#/components/ui/table';
 import { cn } from '#/lib/utils';
-import { Button } from './button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,6 +57,7 @@ interface DataTableProps<TData, TValue> {
   tableClassName?: string;
   wrapperClassName?: string;
   pagination?: PaginationOpts;
+  onColumnClick?: (row: TData, columnId: string) => void;
 }
 
 interface DataTableColumnHeaderProps<TData, TValue>
@@ -72,7 +72,8 @@ export function DataTable<TData, TValue>({
   controls: ControlComp,
   wrapperClassName,
   tableClassName,
-  pagination: p
+  pagination: p,
+  onColumnClick
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -145,9 +146,15 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className='cursor-pointer'
                   data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      onClick={() =>
+                        onColumnClick &&
+                        onColumnClick(row.original, cell.column.id)
+                      }>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -168,65 +175,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {p && (
-        <div className='flex items-center justify-between space-x-2 rounded-b-lg border border-t-0 border-gray-200 bg-white p-3 text-sm'>
-          <p className='text-gray-500'>
-            Showing{' '}
-            <span className='font-bold text-gray-900'>
-              {(() => {
-                const { pageIndex: idx, pageSize } =
-                  table.getState().pagination;
-                const { rows } = table.getRowModel();
-                const start = idx * pageSize + 1;
-                const end = start + rows.length - 1;
-                return `${start} - ${end}`;
-              })()}
-            </span>{' '}
-            of{' '}
-            <span className='font-bold text-gray-900'>
-              {table.getRowCount().toLocaleString()}
-            </span>
-          </p>
-          {table.getPageCount() > 1 && (
-            <div className='flex h-auto gap-0'>
-              <Button
-                className='rounded-r-none border-r-0'
-                variant='secondary'
-                size='sm'
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}>
-                Previous
-              </Button>
-              {table.getPageCount() <= 4 &&
-                Array.from(new Array(table.getPageCount()), (_, i) => i).map(
-                  (idx) => (
-                    <Button
-                      onClick={() => table.setPageIndex(idx)}
-                      key={idx}
-                      className={cn(
-                        'rounded-none border-r-0',
-                        table.getState().pagination.pageIndex == idx &&
-                          'bg-green-100 text-green-600 hover:bg-green-100'
-                      )}
-                      variant='secondary'
-                      size='sm'>
-                      {idx + 1}
-                    </Button>
-                  )
-                )}
-
-              <Button
-                className='rounded-l-none'
-                variant='secondary'
-                size='sm'
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}>
-                Next
-              </Button>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }

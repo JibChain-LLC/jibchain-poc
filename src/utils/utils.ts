@@ -1,15 +1,15 @@
-import { DollarSignIcon } from 'lucide-react';
 import { Bell } from 'flowbite-react-icons/solid';
 import { Grid } from 'flowbite-react-icons/solid';
 import { Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
-import DollarImage from "#/images/dollar.svg"
-import { ChartConfig } from '#/components/ui/chart';
-import ZoomImage from "#/images/zoom.svg"
-import smallLogo from '#/images/small.svg';
-import ArrowRightImage from "#/images/arrow-right.svg"
+import { DollarSignIcon } from 'lucide-react';
 import { Frown } from 'lucide-react';
 import { Cloud } from 'lucide-react';
+import { ChartConfig } from '#/components/ui/chart';
+import ArrowRightImage from '#/images/arrow-right.svg';
+import DollarImage from '#/images/dollar.svg';
+import smallLogo from '#/images/small.svg';
+import ZoomImage from '#/images/zoom.svg';
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -316,7 +316,7 @@ export const supplierRiskLevels = [
   { label: 'Low', value: 4, count: 3, indicatorColor: 'bg-green-400' }
 ];
 
-export type Invoice = {
+export type Suppliers = {
   image: string;
   supplier: string;
   riskStatus: 'Low' | 'Medium' | 'High';
@@ -325,7 +325,7 @@ export type Invoice = {
   region: string;
 };
 
-export const supplierTableInvoices: Invoice[] = [
+export const supplierTableInvoices: Suppliers[] = [
   {
     image: smallLogo,
     supplier: 'Blue Sky Inc.',

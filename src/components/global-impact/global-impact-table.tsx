@@ -1,72 +1,74 @@
-import { type ColumnDef } from "@tanstack/react-table";
-import { ChevronDown } from "lucide-react";
-import { DataTable } from "../ui/data-table";
-import { Button } from "#/components/ui/button";
-import { Input } from "#/components/ui/input";
-import { Badge } from "#/components/ui/badge";
+import { type ColumnDef, Table as TableType } from '@tanstack/react-table';
+import { ChevronDown } from 'lucide-react';
+import { Badge } from '#/components/ui/badge';
+import { Button } from '#/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger
-} from "#/components/ui/dropdown-menu";
-import { supplierTable } from "#/utils/utils";
+} from '#/components/ui/dropdown-menu';
+import { Input } from '#/components/ui/input';
+import { supplierTable } from '#/utils/utils';
+import { DataTable } from '../ui/data-table';
 
 type Supplier = {
   supplier: string;
   region: string;
-  exposureToRisk: "Low" | "Medium" | "High";
-  impactOperation: "Low" | "Medium" | "High";
+  exposureToRisk: 'Low' | 'Medium' | 'High';
+  impactOperation: 'Low' | 'Medium' | 'High';
 };
-
+interface ControlsProps {
+  table: TableType<Supplier>;
+}
 const columns: ColumnDef<Supplier>[] = [
   {
-    accessorKey: "supplier",
-    header: "Supplier",
+    accessorKey: 'supplier',
+    header: 'Supplier',
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("supplier")}</div>
+      <div className='capitalize'>{row.getValue('supplier')}</div>
     )
   },
   {
-    accessorKey: "region",
-    header: "Region",
+    accessorKey: 'region',
+    header: 'Region',
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("region")}</div>
+      <div className='capitalize'>{row.getValue('region')}</div>
     )
   },
   {
-    accessorKey: "exposureToRisk",
-    header: "Exposure To Risk",
+    accessorKey: 'exposureToRisk',
+    header: 'Exposure To Risk',
     cell: ({ row }) => {
-      const riskStatus = row.getValue<string>("exposureToRisk");
+      const riskStatus = row.getValue<string>('exposureToRisk');
       const riskColor =
-        riskStatus === "Low"
-          ? "bg-green-200 text-green-800"
-          : riskStatus === "Medium"
-            ? "bg-orange-200 text-orange-800"
-            : "bg-red-200 text-red-800";
+        riskStatus === 'Low'
+          ? 'bg-green-200 text-green-800'
+          : riskStatus === 'Medium'
+            ? 'bg-orange-200 text-orange-800'
+            : 'bg-red-200 text-red-800';
 
       return (
-        <div className="capitalize">
+        <div className='capitalize'>
           <Badge className={`${riskColor} rounded-md`}>{riskStatus}</Badge>
         </div>
       );
     }
   },
   {
-    accessorKey: "impactOperation",
-    header: "Impact to Operation",
+    accessorKey: 'impactOperation',
+    header: 'Impact to Operation',
     cell: ({ row }) => {
-      const impactOperation = row.getValue<string>("impactOperation");
+      const impactOperation = row.getValue<string>('impactOperation');
       const dotColor =
-        impactOperation === "High"
-          ? "bg-red-500"
-          : impactOperation === "Medium"
-            ? "bg-yellow-500"
-            : "bg-green-500";
+        impactOperation === 'High'
+          ? 'bg-red-500'
+          : impactOperation === 'Medium'
+            ? 'bg-yellow-500'
+            : 'bg-green-500';
 
       return (
-        <div className="flex items-center">
+        <div className='flex items-center'>
           <span className={`mr-2 size-2 rounded-full ${dotColor}`}></span>
           {impactOperation}
         </div>
@@ -76,30 +78,32 @@ const columns: ColumnDef<Supplier>[] = [
 ];
 
 export function GlobalImpactTable() {
-  const Controls = ({ table }: { table: any }) => (
-    <div className="flex items-center p-4">
+  const Controls = ({ table }: ControlsProps) => (
+    <div className='flex items-center p-4'>
       <Input
-        placeholder="Filter suppliers..."
-        value={(table.getColumn("supplier")?.getFilterValue() as string) ?? ""}
+        placeholder='Filter suppliers...'
+        value={(table.getColumn('supplier')?.getFilterValue() as string) ?? ''}
         onChange={(event) =>
-          table.getColumn("supplier")?.setFilterValue(event.target.value)
+          table.getColumn('supplier')?.setFilterValue(event.target.value)
         }
-        className="max-w-sm bg-transparent text-black"
+        className='max-w-sm bg-transparent text-black'
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="ml-auto bg-transparent text-black">
-            Columns <ChevronDown className="ml-2 size-4" />
+          <Button
+            variant='outline'
+            className='ml-auto bg-transparent text-black'>
+            Columns <ChevronDown className='ml-2 size-4' />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align='end'>
           {table
             .getAllColumns()
-            .filter((column: any) => column.getCanHide())
-            .map((column: any) => (
+            .filter((column) => column.getCanHide())
+            .map((column) => (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className="capitalize"
+                className='capitalize'
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}>
                 {column.id}
@@ -119,8 +123,8 @@ export function GlobalImpactTable() {
         manual: false,
         pageSize: 10
       }}
-      tableClassName="bg-white"
-      wrapperClassName="mx-4"
+      tableClassName='bg-white'
+      wrapperClassName='mx-4'
     />
   );
 }

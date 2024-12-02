@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import React from 'react';
+import SummaryImage from '#/images/summary.svg';
 import { mitigationBestPractices } from '#/utils/utils';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import SummaryImage from '#/images/summary.svg';
 
 const OverviewSummaryComponent = () => {
   const content = [
