@@ -1,10 +1,6 @@
-import { Bell } from 'flowbite-react-icons/solid';
-import { Grid } from 'flowbite-react-icons/solid';
-import { Truck } from 'flowbite-react-icons/solid';
+import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
-import { DollarSignIcon } from 'lucide-react';
-import { Frown } from 'lucide-react';
-import { Cloud } from 'lucide-react';
+import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import ArrowRightImage from '#/images/arrow-right.svg';
 import DollarImage from '#/images/dollar.svg';
