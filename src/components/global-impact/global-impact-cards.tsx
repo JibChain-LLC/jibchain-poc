@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '#/lib/utils';
 import { globalImpactCard } from '#/utils/utils';
 import { Card, CardContent } from '../ui/card';
 
@@ -8,13 +9,17 @@ const GlobalImpactCards = () => {
       {globalImpactCard.map((item, index) => (
         <Card
           key={index}
-          className={`relative flex flex-col items-start justify-start rounded-lg border shadow-md ${
+          className={cn(
+            'relative flex flex-col items-start justify-start rounded-lg border shadow-md',
             index === 0
               ? 'border-green-400 bg-green-50 text-green-700'
               : 'border-gray-200 bg-gray-50 text-gray-700'
-          }`}>
+          )}>
           <CardContent
-            className={`grid gap-1 px-8 py-5 text-left ${index === 0 ? 'text-green-900' : 'text-gray-700'}`}>
+            className={cn(
+              'grid gap-1 px-8 py-5 text-left',
+              index === 0 ? 'text-green-900' : 'text-gray-700'
+            )}>
             <div className='text-nowrap text-base font-normal'>
               {item.title}
             </div>
