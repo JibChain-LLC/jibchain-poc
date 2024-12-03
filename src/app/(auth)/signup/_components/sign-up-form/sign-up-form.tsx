@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle, SquareCheckBig } from 'lucide-react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Button } from '#/components/ui/button';
 import { Card, CardContent } from '#/components/ui/card';
 import {
@@ -17,11 +16,14 @@ import {
   FormRootError
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
+import { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
 import { signUpInput } from '#/trpc/schemas';
 
+type SignUpFormSchema = RouterInputs['auth']['signUp'];
+
 export default function SignUpForm() {
-  const form = useForm<z.infer<typeof signUpInput>>({
+  const form = useForm<SignUpFormSchema>({
     resolver: zodResolver(signUpInput),
     defaultValues: {
       jobRole: '',

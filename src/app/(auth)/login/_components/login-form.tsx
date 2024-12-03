@@ -5,7 +5,6 @@ import { LoaderCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Button } from '#/components/ui/button';
 import { Card, CardContent } from '#/components/ui/card';
 import {
@@ -18,13 +17,16 @@ import {
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
 import { useGoTo } from '#/hooks';
+import { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
 import { loginInput } from '#/trpc/schemas';
+
+type LoginFormSchema = RouterInputs['auth']['login'];
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const goTo = useGoTo();
-  const form = useForm<z.infer<typeof loginInput>>({
+  const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginInput),
     defaultValues: {
       email: '',

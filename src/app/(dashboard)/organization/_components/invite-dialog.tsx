@@ -5,7 +5,6 @@ import { UserAdd } from 'flowbite-react-icons/solid';
 import { LoaderCircle, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Button } from '#/components/ui/button';
 import {
   Dialog,
@@ -32,11 +31,12 @@ import {
 } from '#/components/ui/select';
 import { useToast } from '#/components/ui/use-toast';
 import { RoleEnum } from '#/db/schema';
+import type { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
 import { createInviteInput } from '#/trpc/schemas';
 
 const inviteSchema = createInviteInput.omit({ orgId: true });
-type InviteSchema = z.infer<typeof inviteSchema>;
+type InviteSchema = Omit<RouterInputs['org']['invite']['create'], 'orgId'>;
 
 export default function InviteDialog(props: { orgId: string }) {
   const { orgId } = props;

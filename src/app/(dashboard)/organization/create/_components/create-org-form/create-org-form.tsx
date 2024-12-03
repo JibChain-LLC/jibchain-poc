@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Button } from '#/components/ui/button';
 import {
   Form,
@@ -15,12 +14,15 @@ import {
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
 import { useGoTo } from '#/hooks';
+import { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
 import { createOrgInput } from '#/trpc/schemas';
 
+type CreateOrgSchema = RouterInputs['org']['create'];
+
 export default function CreateOrgForm() {
   const goTo = useGoTo();
-  const form = useForm<z.infer<typeof createOrgInput>>({
+  const form = useForm<CreateOrgSchema>({
     resolver: zodResolver(createOrgInput),
     defaultValues: {
       name: ''
