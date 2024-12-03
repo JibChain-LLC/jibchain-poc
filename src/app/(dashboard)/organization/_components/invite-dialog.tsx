@@ -1,11 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserAdd } from 'flowbite-react-icons/solid';
 import { LoaderCircle, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Button } from '#/components/ui/button';
 import {
   Dialog,
@@ -32,46 +32,38 @@ import {
 } from '#/components/ui/select';
 import { useToast } from '#/components/ui/use-toast';
 import { RoleEnum } from '#/db/schema';
-import inviteUser from '#/lib/actions/invite/create-invite';
-import inviteFormSchema, { InviteSchema } from '#/lib/schema/invite-user';
+import { trpc } from '#/trpc/query-clients/client';
+import { createInviteInput } from '#/trpc/schemas';
+
+const inviteSchema = createInviteInput.omit({ orgId: true });
+type InviteSchema = z.infer<typeof inviteSchema>;
 
 export default function InviteDialog(props: { orgId: string }) {
   const { orgId } = props;
 
   const [open, setOpen] = useState<boolean>(false);
-  const queryClient = useQueryClient();
   const { toast } = useToast();
   const form = useForm<InviteSchema>({
-    resolver: zodResolver(inviteFormSchema),
+    resolver: zodResolver(inviteSchema),
     defaultValues: {
-      email: '',
+      emailAddress: '',
       role: RoleEnum.USER
     }
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: InviteSchema) => {
-      const { email, role } = data;
-      const res = await inviteUser({
-        email,
-        role,
-        orgId
-      });
-
-      if (!res.ok) throw new Error(res.message);
-      return res;
-    },
-    onSuccess: (d) => {
+  const utils = trpc.useUtils();
+  const { mutate, isPending } = trpc.org.invite.create.useMutation({
+    onSuccess(d) {
       toast({
         title: 'Invite created',
-        description: `Invite sent to ${d.data.email}`
+        description: `Invite sent to ${d.email}`
       });
 
       form.reset();
       setOpen(false);
-      queryClient.invalidateQueries({ queryKey: ['invites'] });
+      utils.org.invite.list.invalidate();
     },
-    onError: (err) => {
+    onError(err) {
       toast({
         variant: 'destructive',
         title: 'Failed to invite user',
@@ -93,11 +85,11 @@ export default function InviteDialog(props: { orgId: string }) {
           <DialogTitle>Invite a new team member</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit((d) => mutate(d))}>
+          <form onSubmit={form.handleSubmit((d) => mutate({ ...d, orgId }))}>
             <div className='flex flex-row gap-3'>
               <FormField
                 control={form.control}
-                name='email'
+                name='emailAddress'
                 render={({ field }) => (
                   <FormItem className='flex-1'>
                     <FormControl>

@@ -1,11 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Button } from '#/components/ui/button';
 import { Card, CardContent } from '#/components/ui/card';
 import {
@@ -18,14 +18,14 @@ import {
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
 import { useGoTo } from '#/hooks';
-import signInUser from '#/lib/actions/user/user-login';
-import loginFormSchema, { type UserLoginSchema } from '#/lib/schema/user-login';
+import { trpc } from '#/trpc/query-clients/client';
+import { loginInput } from '#/trpc/schemas';
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const goTo = useGoTo();
-  const form = useForm<UserLoginSchema>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<z.infer<typeof loginInput>>({
+    resolver: zodResolver(loginInput),
     defaultValues: {
       email: '',
       password: ''
@@ -36,13 +36,8 @@ export default function LoginForm() {
     mutate: signInSubmit,
     isPending,
     isSuccess
-  } = useMutation({
-    mutationFn: async (data: UserLoginSchema) => {
-      const res = await signInUser({ ...data });
-      if (!res.ok) throw new Error(res.message);
-      return res;
-    },
-    onError: (e) => {
+  } = trpc.auth.login.useMutation({
+    onError(e) {
       form.setError('root', { type: 'custom', message: e.message });
     },
     onSuccess: goTo(searchParams.get('redirectTo') ?? '/organization')

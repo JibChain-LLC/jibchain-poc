@@ -1,8 +1,7 @@
 import 'server-only';
 
-import { redirect } from 'next/navigation';
+import AuthWrapper from '#/components/auth-wrapper';
 import Sidebar from '#/components/defaul-components/sidebar';
-import { createClient } from '#/lib/supabase/server';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -11,20 +10,27 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props;
 
-  const supabase = await createClient();
-  const {
-    error,
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  if (error || !user) redirect('/logout');
-
-  const { firstName, lastName, jobRole } = user.user_metadata;
-
   return (
     <div className='flex min-h-screen'>
-      <Sidebar fullName={`${firstName} ${lastName}`} jobRole={jobRole} />
-      <div className='ml-16 w-full px-8 py-5'>{children}</div>
+      <AuthWrapper
+        fallback={<div className='w-full px-8 py-5'>{children}</div>}>
+        {(props) => {
+          const { user } = props;
+          const {
+            user_metadata: { firstName, lastName, jobRole }
+          } = user;
+
+          return (
+            <>
+              <Sidebar
+                fullName={`${firstName} ${lastName}`}
+                jobRole={jobRole}
+              />
+              <div className='ml-16 w-full px-8 py-5'>{children}</div>
+            </>
+          );
+        }}
+      </AuthWrapper>
     </div>
   );
 }

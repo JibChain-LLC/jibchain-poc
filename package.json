@@ -57,6 +57,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "drizzle-orm": "^0.36.0",
+    "drizzle-zod": "^0.5.1",
     "eventregistry": "^9.1.0",
     "flowbite-react": "^0.10.2",
     "flowbite-react-icons": "^1.1.0",

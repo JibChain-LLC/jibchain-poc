@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -16,24 +15,19 @@ import {
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
 import { useGoTo } from '#/hooks';
-import createOrganization from '#/lib/actions/organization/create-org';
-import createOrgSchema, { CreateOrgSchema } from '#/lib/schema/create-org';
+import { trpc } from '#/trpc/query-clients/client';
+import { createOrgInput } from '#/trpc/schemas';
 
 export default function CreateOrgForm() {
   const goTo = useGoTo();
-  const form = useForm<CreateOrgSchema>({
-    resolver: zodResolver(createOrgSchema),
+  const form = useForm<z.infer<typeof createOrgInput>>({
+    resolver: zodResolver(createOrgInput),
     defaultValues: {
       name: ''
     }
   });
 
-  const { mutate, isPending, isSuccess } = useMutation({
-    mutationFn: async (data: z.infer<typeof createOrgSchema>) => {
-      const res = await createOrganization(data);
-      if (!res.ok) throw new Error(res.message);
-      return res;
-    },
+  const { mutate, isPending, isSuccess } = trpc.org.create.useMutation({
     onError: (err) => {
       form.setError('root', { message: err.message });
     },
