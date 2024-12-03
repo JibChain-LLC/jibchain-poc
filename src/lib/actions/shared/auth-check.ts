@@ -3,7 +3,10 @@ import { createClient } from '#/lib/supabase/server';
 import { ActionRes } from '../types';
 import doesUserHaveRoles from './does-user-have-roles';
 
-type AuthMiddleOpts = Omit<Parameters<typeof doesUserHaveRoles>[0], 'userId'>;
+type AuthMiddleOpts = Omit<
+  Parameters<typeof doesUserHaveRoles>[0],
+  'userId'
+> & { user?: User };
 
 /**
  * Helper to perform basic auth checks for server actions
@@ -16,14 +19,19 @@ type AuthMiddleOpts = Omit<Parameters<typeof doesUserHaveRoles>[0], 'userId'>;
 export default async function authCheck(
   opts?: AuthMiddleOpts
 ): Promise<ActionRes<{ user: User }>> {
-  const supabase = await createClient();
-  const {
-    error,
-    data: { user }
-  } = await supabase.auth.getUser();
+  let user = opts?.user;
+  if (!user) {
+    const supabase = await createClient();
+    const {
+      error,
+      data: { user: authUser }
+    } = await supabase.auth.getUser();
 
-  if (error || !user)
-    return { ok: false, status: 401, message: 'No user authenticated' };
+    if (error || !authUser)
+      return { ok: false, status: 401, message: 'No user authenticated' };
+
+    user = authUser;
+  }
 
   if (opts) {
     const { rolesNeeded, orgId } = opts;
