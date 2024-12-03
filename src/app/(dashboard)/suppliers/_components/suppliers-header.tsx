@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
+import TimeFrame from '#/components/defaul-components/time-frame';
 import ShellImage from '#/images/shell.svg';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
@@ -24,21 +25,26 @@ const SuppliersHeader = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className='flex min-h-[165px] w-full items-center justify-between border-none bg-white shadow-md'>
-          <CardContent className='flex flex-col items-center p-4'>
-            <div>
-              <p className='text-gray-600'>Overall risk status</p>
-              <p className='text-[32px] font-semibold text-orange-500'>
-                Medium
-              </p>
-            </div>
-          </CardContent>
-          <CardContent className='flex flex-col items-center p-4'>
-            <div className='text-left'>
-              <p className='text-gray-600'>Active risks</p>
-              <p className='text-[32px] font-semibold text-orange-500'>20</p>
-            </div>
-          </CardContent>
+        <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
+          <div className='w-full px-3'>
+            <TimeFrame status={true} />
+          </div>
+          <div className='flex w-full justify-between'>
+            <CardContent className='flex flex-col items-center p-4'>
+              <div>
+                <p className='text-gray-600'>Overall risk status</p>
+                <p className='text-[32px] font-semibold text-orange-500'>
+                  Medium
+                </p>
+              </div>
+            </CardContent>
+            <CardContent className='flex flex-col items-center p-4'>
+              <div className='text-left'>
+                <p className='text-gray-600'>Active risks</p>
+                <p className='text-[32px] font-semibold text-orange-500'>20</p>
+              </div>
+            </CardContent>
+          </div>
         </Card>
       </div>
 

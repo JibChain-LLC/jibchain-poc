@@ -380,3 +380,10 @@ export const supplierTableInvoices: Invoice[] = [
     region: 'EU'
   }
 ];
+
+export const timeFrames = [
+  { label: '48 hours', value: '48-hours' },
+  { label: '4 days', value: '4-days' },
+  { label: 'This week', value: 'this-week' },
+  { label: 'This month', value: 'this-month' }
+];
