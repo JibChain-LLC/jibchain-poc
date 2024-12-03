@@ -6,7 +6,7 @@ import { Card, CardContent } from '../ui/card';
 
 export default function Tabs() {
   return (
-    <Card className='max-h-[calc(100vh-2.5rem)]'>
+    <Card className='max-h-screen'>
       <CardContent className='h-full p-8 pb-0'>
         <TabComponent
           threatPercentage={75}

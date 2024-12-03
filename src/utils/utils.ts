@@ -1,12 +1,11 @@
-import { Bell } from 'flowbite-react-icons/solid';
-import { Grid } from 'flowbite-react-icons/solid';
-import { Truck } from 'flowbite-react-icons/solid';
+import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
-
-import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
-import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
+import ArrowRightImage from '../../public/arrow-right.svg';
+import DollarImage from '../../public/dollar.svg';
+import ZoomImage from '../../public/zoom.svg';
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -201,26 +200,26 @@ export const overviewCardData = [
   {
     title: 'Financial Impact',
     value: '$5m',
-    icon: MoneyImage,
+    icon: DollarImage,
     alt: 'Money'
   },
   {
     title: 'Probability',
     value: '75%',
-    icon: MoneyImage,
+    icon: ZoomImage,
     alt: 'Graph'
   },
   {
     title: 'Impacted Suppliers',
     value: '23',
-    icon: MoneyImage,
+    icon: ArrowRightImage,
     alt: 'Suppliers'
   }
 ];
 export const mitigationBestPractices = [
-  { icon: ShieldAlert, label: 'Implement Backups' },
-  { icon: Globe, label: 'Security Awareness Training' },
-  { icon: FileText, label: 'Incident Response Plan' }
+  { icon: Cloud, label: 'Service Availability' },
+  { icon: DollarSignIcon, label: 'Financial Loss' },
+  { icon: Frown, label: 'Public Trust' }
 ];
 export const globalImpactCard = [
   { title: 'Global Impact', value: '60%' },
@@ -313,7 +312,7 @@ export const supplierRiskLevels = [
   { label: 'Low', value: 4, count: 3, indicatorColor: 'bg-green-400' }
 ];
 
-export type Invoice = {
+export type Suppliers = {
   image: string;
   supplier: string;
   riskStatus: 'Low' | 'Medium' | 'High';
@@ -322,7 +321,7 @@ export type Invoice = {
   region: string;
 };
 
-export const supplierTableInvoices: Invoice[] = [
+export const supplierTableInvoices: Suppliers[] = [
   {
     image: smallLogo,
     supplier: 'Blue Sky Inc.',
