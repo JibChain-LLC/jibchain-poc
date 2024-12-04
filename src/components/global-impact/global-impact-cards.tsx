@@ -1,34 +1,55 @@
 import React from 'react';
 import { cn } from '#/lib/utils';
 import { globalImpactCard } from '#/utils/utils';
-import { Card, CardContent } from '../ui/card';
+
+interface ImpactCardProps {
+  title: string;
+  subTitle: string;
+  active?: boolean;
+  className?: React.ComponentProps<'div'>['className'];
+}
+
+const ImpactCard = (props: ImpactCardProps) => {
+  const { title, subTitle, active = false, className } = props;
+
+  return (
+    <div
+      className={cn(
+        'relative flex flex-col gap-1 rounded-lg border border-transparent bg-gray-50 px-8 py-5',
+        active && 'border-green-700 bg-green-50',
+        className,
+        active &&
+          'after:absolute after:bottom-0 after:left-1/2 after:size-5 after:origin-[0%_100%] after:-translate-x-1/2 after:rotate-45 after:rounded-br-lg after:border after:border-green-700 after:border-l-transparent after:border-t-transparent after:bg-green-50 after:content-[""]'
+      )}>
+      <p
+        className={cn(
+          'text-base font-normal leading-tight text-gray-600',
+          active && 'text-green-800'
+        )}>
+        {title}
+      </p>
+      <p
+        className={cn(
+          'text-3xl font-bold leading-tight text-gray-900',
+          active && 'text-green-800'
+        )}>
+        {subTitle}
+      </p>
+    </div>
+  );
+};
 
 const GlobalImpactCards = () => {
   return (
-    <div className='grid grid-cols-1 gap-7 p-4 md:grid-cols-2 lg:grid-cols-3'>
+    <div className='mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3'>
       {globalImpactCard.map((item, index) => (
-        <Card
+        <ImpactCard
           key={index}
-          className={cn(
-            'relative flex flex-col items-start justify-start rounded-lg border shadow-md',
-            index === 0
-              ? 'border-green-400 bg-green-50 text-green-700'
-              : 'border-gray-200 bg-gray-50 text-gray-700'
-          )}>
-          <CardContent
-            className={cn(
-              'grid gap-1 px-8 py-5 text-left',
-              index === 0 ? 'text-green-900' : 'text-gray-700'
-            )}>
-            <div className='text-nowrap text-base font-normal'>
-              {item.title}
-            </div>
-            <div className='text-2xl font-bold'>{item.value}</div>
-          </CardContent>
-          {index === 0 && (
-            <div className='absolute bottom-[-13px] left-1/2 size-6 -translate-x-1/2 rotate-45 rounded-none border-b border-r border-green-500 bg-green-50'></div>
-          )}
-        </Card>
+          title={item.title}
+          subTitle={item.value}
+          active={index === 0}
+          className={cn(index === 0 && 'order-3 lg:-order-1')}
+        />
       ))}
     </div>
   );
