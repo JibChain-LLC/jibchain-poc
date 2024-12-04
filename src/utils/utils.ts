@@ -1,3 +1,4 @@
+import * as am5 from '@amcharts/amcharts5';
 import { Bell } from 'flowbite-react-icons/solid';
 import { Grid } from 'flowbite-react-icons/solid';
 import { Truck } from 'flowbite-react-icons/solid';
@@ -378,5 +379,51 @@ export const supplierTableInvoices: Invoice[] = [
     topRisk: 'Legal Risk',
     impactOperation: 'High',
     region: 'EU'
+  }
+];
+export interface CountryDataContext {
+  id: string;
+  risk?: string;
+}
+
+export interface BubbleData {
+  latitude: number;
+  longitude: number;
+  color: am5.Color;
+}
+
+export const risk_data: CountryDataContext[] = [
+  { id: 'US', risk: 'High' },
+  { id: 'BR', risk: 'High' },
+  { id: 'IN', risk: 'Moderate' },
+  { id: 'DE', risk: 'Low' },
+  { id: 'RU', risk: 'High' },
+  { id: 'FR', risk: 'Low' },
+  { id: 'CA', risk: 'Moderate' },
+  { id: 'CN', risk: 'Low' },
+  { id: 'KZ', risk: 'Low' },
+  { id: 'GL', risk: 'Low' }
+];
+
+export const bubble_data: BubbleData[] = [
+  {
+    latitude: 40.7128,
+    longitude: -74.006,
+    color: am5.color(0xf05252)
+  },
+  {
+    latitude: -23.5505,
+    longitude: -46.6333,
+    color: am5.color(0xc27803)
+  },
+  {
+    latitude: 48.8566,
+    longitude: 2.3522,
+    color: am5.color(0x0e9f6e)
+  },
+  {
+    latitude: 35.6895,
+    longitude: 139.6917,
+    color: am5.color(0xf05252)
   }
 ];
