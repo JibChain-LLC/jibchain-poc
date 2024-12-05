@@ -9,9 +9,6 @@ import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
-import CalendarImage from '../images/calendar-image.jpg';
-import LearningImage from '../images/learning-image.jpg';
-import OfficeImage from '../images/office-image.jpg';
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -387,9 +384,9 @@ export const supplierTableInvoices: Invoice[] = [
 ];
 
 export const topRisk = [
-  { percentage: '1.45%', trend: 'up', label: 'Ransomware Attack' },
-  { percentage: '1.35%', trend: 'up', label: 'Internal Security Failures' },
-  { percentage: '1.45%', trend: 'down', label: 'Natural Disaster' }
+  { percentage: -1.45, label: 'Ransomware Attack' },
+  { percentage: 1.35, label: 'Internal Security Failures' },
+  { percentage: 1.45, label: 'Natural Disaster' }
 ];
 
 export const atRiskSuppliers = [
@@ -400,19 +397,19 @@ export const atRiskSuppliers = [
 
 export const dashboardCardData = [
   {
-    image: OfficeImage,
+    image: '/office-image.jpg',
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur ',
     buttonText: 'Read More'
   },
   {
-    image: CalendarImage,
+    image: '/calendar-image.jpg',
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
     buttonText: 'Read More'
   },
   {
-    image: LearningImage,
+    image: '/learning-image.jpg',
     description:
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
     buttonText: 'Read More'

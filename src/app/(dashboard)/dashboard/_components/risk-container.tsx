@@ -20,7 +20,6 @@ const RiskContainer = () => {
           {topRisk.map((risk, index) => (
             <TopRiskCard
               key={index}
-              trend={risk.trend}
               percentage={risk.percentage}
               label={risk.label}
             />

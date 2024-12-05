@@ -4,17 +4,12 @@ import { cn } from '#/lib/utils';
 import { Card } from '../../../../components/ui/card';
 
 interface TopRiskCardProps {
-  trend: string;
-  percentage: string;
+  percentage: number;
   label: string;
 }
 
-const TopRiskCard: React.FC<TopRiskCardProps> = ({
-  trend,
-  percentage,
-  label
-}) => {
-  const isTrendUp = trend === 'up';
+const TopRiskCard: React.FC<TopRiskCardProps> = ({ percentage, label }) => {
+  const isPositive = percentage > 0;
 
   return (
     <Card className='flex w-full flex-col items-start justify-start px-6 py-5 shadow-sm'>
@@ -22,14 +17,14 @@ const TopRiskCard: React.FC<TopRiskCardProps> = ({
         <h2
           className={cn(
             'font-bold',
-            isTrendUp ? 'text-red-500' : 'text-green-500'
+            isPositive ? 'text-green-500' : 'text-red-500'
           )}>
-          {percentage}
+          {percentage}%
         </h2>
-        {isTrendUp ? (
-          <ArrowUp className='size-5 text-red-500' />
+        {isPositive ? (
+          <ArrowUp className='size-5 text-green-500' />
         ) : (
-          <ArrowDown className='size-5 text-green-500' />
+          <ArrowDown className='size-5 text-red-500' />
         )}
       </div>
       <h1 className='text-base font-medium'>{label}</h1>
