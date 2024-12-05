@@ -7,3 +7,7 @@
     box-sizing: border-box;
   }
 }
+.mask-gradient {
+  -webkit-mask-image: linear-gradient(to right, transparent 25%, black 75%);
+  mask-image: linear-gradient(to right, transparent 25%, black 75%);
+}

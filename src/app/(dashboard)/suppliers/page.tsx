@@ -4,7 +4,7 @@ import SuppliersTable from './_components/suppliers-table';
 
 const SuppliersPage = () => {
   return (
-    <div className='bg-gray-100'>
+    <div>
       <SuppliersHeader />
       <SuppliersTable />
     </div>

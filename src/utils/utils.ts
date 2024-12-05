@@ -3,9 +3,7 @@ import { UsersGroup } from 'flowbite-react-icons/solid';
 import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import smallLogo from '#/images/small.svg';
-import ArrowRightImage from '../../public/arrow-right.svg';
-import DollarImage from '../../public/dollar.svg';
-import ZoomImage from '../../public/zoom.svg';
+
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -200,19 +198,19 @@ export const overviewCardData = [
   {
     title: 'Financial Impact',
     value: '$5m',
-    icon: DollarImage,
+    icon: "/dollar.jpg",
     alt: 'Money'
   },
   {
     title: 'Probability',
     value: '75%',
-    icon: ZoomImage,
+    icon: "/zoom.jpg",
     alt: 'Graph'
   },
   {
     title: 'Impacted Suppliers',
     value: '23',
-    icon: ArrowRightImage,
+    icon: "/arrow-right.svg",
     alt: 'Suppliers'
   }
 ];
@@ -379,3 +377,11 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'EU'
   }
 ];
+
+export const riskExposures = [
+  'Ransomware Attack',
+  'Labor Strike',
+  'Political Instability'
+];
+
+export const regions = ['South America', 'North America'];

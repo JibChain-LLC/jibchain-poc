@@ -1,23 +1,13 @@
 'use client';
 import { ColumnDef, Table as TableType } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
-import Image from 'next/image';
 import { useState } from 'react';
 import { Badge } from '#/components/ui/badge';
-import { Button } from '#/components/ui/button';
 import { Checkbox } from '#/components/ui/checkbox';
 import { DataTable } from '#/components/ui/data-table';
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '#/components/ui/dropdown-menu';
 import { Input } from '#/components/ui/input';
 import { Suppliers, supplierTableInvoices } from '#/utils/utils';
 import SupplierModal from './supplier-modal';
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 
 interface ControlsProps {
   table: TableType<Suppliers>;
@@ -56,13 +46,10 @@ export default function SuppliersTable() {
       accessorKey: 'image',
       header: '',
       cell: ({ row }) => (
-        <Image
-          src={row.getValue('image')}
-          alt={row.getValue('supplier')}
-          width={56}
-          height={56}
-          className='rounded-none'
-        />
+        <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
       )
     },
     {
@@ -77,12 +64,12 @@ export default function SuppliersTable() {
         const riskStatus = row.getValue('riskStatus') as string;
         const riskColor =
           riskStatus === 'Low'
-            ? 'bg-green-200 text-green-800'
+            ? "default"
             : riskStatus === 'Medium'
-              ? 'bg-orange-200 text-orange-800'
-              : 'bg-red-200 text-red-800';
+              ? "warning"
+              : "destructive";
 
-        return <Badge className={riskColor}>{riskStatus}</Badge>;
+        return <Badge variant={riskColor}>{riskStatus}</Badge>;
       }
     },
     {
@@ -115,26 +102,6 @@ export default function SuppliersTable() {
       header: 'Region',
       cell: ({ row }) => row.getValue('region')
     },
-    {
-      id: 'actions',
-      header: 'Actions',
-      cell: () => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='p-1'>
-              <MoreHorizontal className='size-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    }
   ];
 
   const Controls = ({ table }: ControlsProps) => (

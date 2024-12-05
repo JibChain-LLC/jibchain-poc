@@ -21,7 +21,9 @@ const OverviewCardComponent = () => {
               <Image
                 src={item.icon}
                 alt={item.alt}
-                className='h-[150px] w-full object-cover opacity-40'
+                className='h-[150px] w-full object-cover opacity-40 mask-gradient'
+                width={400}
+                height={400}
               />
             </div>
           </CardHeader>

@@ -24,7 +24,7 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
   return (
     <div className='flex min-h-screen'>
       <Sidebar fullName={`${firstName} ${lastName}`} jobRole={jobRole} />
-      <div className='ml-16 w-full bg-gray-100 px-8 py-5'>{children}</div>
+      <div className='ml-16 w-full px-8 py-5'>{children}</div>
     </div>
   );
 }
