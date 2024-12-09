@@ -6,4 +6,16 @@
   * {
     box-sizing: border-box;
   }
+
+  html {
+    @apply text-gray-900
+  }
 }
+
+@layer utilities {
+  .mask-gradient {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 100%);
+  }
+}
+

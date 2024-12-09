@@ -1,5 +1,10 @@
+import { Metadata } from 'next';
 import { withAuthUser } from '#/components/auth-wrapper';
 import CreateOrgForm from './_components/create-org-form';
+
+export const metadata: Metadata = {
+  title: 'Create Organization'
+};
 
 export default withAuthUser(function CreateOrgPage() {
   return (

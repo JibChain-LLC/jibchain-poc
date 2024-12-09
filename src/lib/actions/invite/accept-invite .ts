@@ -1,6 +1,7 @@
 'use server';
 
 import { and, eq } from 'drizzle-orm';
+import { cookies } from 'next/headers';
 import { db } from '#/db';
 import { invites, roles } from '#/db/schema';
 import authCheck from '../shared/auth-check';
@@ -32,6 +33,7 @@ export default async function acceptInvite(
 
   if (!invite) return { ok: false, status: 400, message: 'No matching invite' };
 
+  const cookieStore = await cookies();
   await db.transaction(async (tx) => {
     await db.insert(roles).values({
       userId: user.id,
@@ -44,6 +46,8 @@ export default async function acceptInvite(
       .delete(invites)
       .where(and(eq(invites.id, inviteId), eq(invites.email, user.email!)));
   });
+
+  cookieStore.set('current-org', invite.orgId);
 
   return {
     ok: true,

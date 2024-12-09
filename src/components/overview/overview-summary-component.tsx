@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-import MoneyImage from '#/images/money-image.jpg';
+import SummaryImage from '#/images/summary.svg';
 import { mitigationBestPractices } from '#/utils/utils';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -48,9 +48,9 @@ const OverviewSummaryComponent = () => {
             </Button>
           </p>
           <Image
-            src={MoneyImage}
+            src={SummaryImage}
             alt='img'
-            className='my-4 h-[200px] w-full max-w-[850px] rounded-lg'
+            className='my-4 h-[200px] w-full max-w-[850px] rounded-lg object-cover'
           />
           {content.map((section, index) => (
             <div key={index} className='mt-6'>
@@ -72,8 +72,8 @@ const OverviewSummaryComponent = () => {
         <CardContent className='flex flex-col items-start space-y-6 p-4 text-black'>
           {mitigationBestPractices.map((item, index) => (
             <div key={index} className='flex w-full items-start justify-center'>
-              <item.icon className='mr-1 size-5 text-green-600' />
-              <p className='w-full border-b border-gray-200 pb-3'>
+              <item.icon className='mr-1 size-5 text-green-600' />{' '}
+              <p className='-mt-0.5 w-full border-b border-gray-200 pb-3'>
                 {item.label}
               </p>
             </div>
