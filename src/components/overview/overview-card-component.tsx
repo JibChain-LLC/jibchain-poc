@@ -3,7 +3,6 @@ import Image from 'next/image';
 import React from 'react';
 import { cn } from '#/lib/utils';
 import { overviewCardData } from '#/utils/utils';
-import { Card, CardHeader, CardTitle } from '../ui/card';
 
 interface OverviewCardProps {
   header: string;
@@ -52,29 +51,6 @@ function OverviewCard(props: OverviewCardProps) {
 const OverviewCardComponent = () => {
   return (
     <div className='mt-5 grid grid-cols-1 gap-4 rounded-none lg:grid-cols-2 xl:grid-cols-3'>
-      {/* {overviewCardData.map((item, i) => (
-        <Card
-          className='rounded-md border border-transparent bg-transparent shadow-md transition-all duration-500 hover:border-green-400 hover:text-green-700 hover:shadow-lg'
-          key={i}>
-          <CardHeader className='flex w-full flex-row items-center justify-between rounded-lg border-none bg-gray-100 p-0 hover:bg-green-50'>
-            <CardTitle className='w-1/2 p-5 text-xl font-medium'>
-              <span className='flex flex-col'>
-                <span className='text-nowrap'>{item.title}</span>
-                <span className='text-[32px] font-bold'>{item.value}</span>
-              </span>
-            </CardTitle>
-            <div className='flex items-center justify-end'>
-              <Image
-                src={item.icon}
-                alt={item.alt}
-                className='mask-gradient h-[150px] w-full object-cover opacity-40'
-                width={400}
-                height={400}
-              />
-            </div>
-          </CardHeader>
-        </Card>
-      ))} */}
       <OverviewCard
         header={overviewCardData[0].title}
         src={overviewCardData[0].icon}
