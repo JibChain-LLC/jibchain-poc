@@ -7,7 +7,7 @@ import * as React from 'react';
 
 import GlobalImpact from '../global-impact/global-impact';
 import OverviewComponent from '../overview/overview';
-import ScenarioPlanning from '../scenario-planning/scenario-planning';
+import ScenarioAccordion from '../scenario-planning/scenario-accordion';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
@@ -50,7 +50,7 @@ const TabComponent: React.FC<TabProps> = ({
       case 'global-impact':
         return <GlobalImpact />;
       case 'scenario-planning':
-        return <ScenarioPlanning />;
+        return <ScenarioAccordion />;
       default:
         return <OverviewComponent />;
     }

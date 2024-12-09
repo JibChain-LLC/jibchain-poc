@@ -1,7 +1,7 @@
 import * as am5 from '@amcharts/amcharts5';
 import { UsersGroup } from 'flowbite-react-icons/solid';
 import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
-import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
+import { DollarSignIcon, Frown, Cloud, Eye, Shield, Star } from 'lucide-react';
 import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import smallLogo from '#/images/small.svg';
@@ -145,6 +145,7 @@ export const sectionsScenario = [
   {
     title: 'Aspirational',
     level: 'Level 3',
+    icon: Star,
     scenario:
       'Ransomware attacks will become nearly obsolete due to advancements in quantum encryption and AI-Driven threat detection systems making it extremely difficult for attackers to infiltrate systems undetected. Patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities.',
     strategy:
@@ -156,6 +157,7 @@ export const sectionsScenario = [
   {
     title: 'Exploratory',
     level: 'Level 2',
+    icon: Eye,
     scenario:
       'Lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
     strategy:
@@ -165,8 +167,9 @@ export const sectionsScenario = [
     cost: '$2.5m'
   },
   {
-    title: 'Redemption',
+    title: 'Remediation',
     level: 'Level 1',
+    icon: Shield,
     scenario:
       'The lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
     strategy:
