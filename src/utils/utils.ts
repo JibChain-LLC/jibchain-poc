@@ -1,6 +1,13 @@
 import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
 import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
+import * as am5 from '@amcharts/amcharts5';
+import { Bell } from 'flowbite-react-icons/solid';
+import { Grid } from 'flowbite-react-icons/solid';
+import { Truck } from 'flowbite-react-icons/solid';
+import { UsersGroup } from 'flowbite-react-icons/solid';
+import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import smallLogo from '#/images/small.svg';
 
@@ -378,6 +385,7 @@ export const supplierTableInvoices: Suppliers[] = [
   }
 ];
 
+
 export const riskExposures = [
   'Ransomware Attack',
   'Labor Strike',
@@ -385,3 +393,89 @@ export const riskExposures = [
 ];
 
 export const regions = ['South America', 'North America'];
+
+export const topRisk = [
+  { percentage: -1.45, label: 'Ransomware Attack' },
+  { percentage: 1.35, label: 'Internal Security Failures' },
+  { percentage: 1.45, label: 'Natural Disaster' }
+];
+
+export const atRiskSuppliers = [
+  { logo: Building, name: 'Vandhana Enterprises', impact: 'High' },
+  { logo: Building, name: 'National Lumber', impact: 'High' },
+  { logo: Building, name: 'Next Generation Financial', impact: 'Medium' }
+];
+
+export const dashboardCardData = [
+  {
+    image: '/office-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur ',
+    buttonText: 'Read More'
+  },
+  {
+    image: '/calendar-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
+    buttonText: 'Read More'
+  },
+  {
+    image: '/learning-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
+    buttonText: 'Read More'
+  }
+];
+export const timeFrames = [
+  { label: 'This week', value: 'this-week' },
+  { label: 'Last week', value: 'last-week' },
+  { label: 'This month', value: 'this-month' },
+  { label: 'Last month', value: 'last-month' }
+];
+
+export interface CountryDataContext {
+  id: string;
+  risk?: string;
+}
+
+export interface BubbleData {
+  latitude: number;
+  longitude: number;
+  color: am5.Color;
+}
+
+export const risk_data: CountryDataContext[] = [
+  { id: 'US', risk: 'High' },
+  { id: 'BR', risk: 'High' },
+  { id: 'IN', risk: 'Moderate' },
+  { id: 'DE', risk: 'Low' },
+  { id: 'RU', risk: 'High' },
+  { id: 'FR', risk: 'Low' },
+  { id: 'CA', risk: 'Moderate' },
+  { id: 'CN', risk: 'Low' },
+  { id: 'KZ', risk: 'Low' },
+  { id: 'GL', risk: 'Low' }
+];
+
+export const bubble_data: BubbleData[] = [
+  {
+    latitude: 40.7128,
+    longitude: -74.006,
+    color: am5.color(0xf05252)
+  },
+  {
+    latitude: -23.5505,
+    longitude: -46.6333,
+    color: am5.color(0xc27803)
+  },
+  {
+    latitude: 48.8566,
+    longitude: 2.3522,
+    color: am5.color(0x0e9f6e)
+  },
+  {
+    latitude: 35.6895,
+    longitude: 139.6917,
+    color: am5.color(0xf05252)
+  }
+];

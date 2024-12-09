@@ -6,6 +6,10 @@
   * {
     box-sizing: border-box;
   }
+
+  html {
+    @apply text-gray-900
+  }
 }
 .mask-gradient {
   -webkit-mask-image: linear-gradient(to right, transparent 25%, black 75%);
