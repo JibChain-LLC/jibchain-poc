@@ -10,7 +10,7 @@ export default function SameUser(props: { inviteId: string }) {
   const { inviteId } = props;
   const router = useRouter();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: async () => {
       const res = await acceptInvite({ inviteId });
       if (!res.ok) throw new Error(res.message);
@@ -23,13 +23,16 @@ export default function SameUser(props: { inviteId: string }) {
 
   return (
     <div className='flex flex-row items-center justify-center gap-3 p-4'>
-      <Button size={'sm'} onClick={() => mutate()} disabled={isPending}>
-        {isPending ? (
+      <Button
+        size={'sm'}
+        onClick={() => mutate()}
+        disabled={isPending || isSuccess}>
+        {isPending || isSuccess ? (
           <LoaderCircle className='animate-spin' />
         ) : (
           <SquareCheckBig />
         )}
-        Join Organization
+        {!isSuccess ? 'Join Organization' : 'Redirecting'}
       </Button>
     </div>
   );

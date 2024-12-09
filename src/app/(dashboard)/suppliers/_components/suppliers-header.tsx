@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import React from 'react';
 import TimeFrame from '#/components/defaul-components/time-frame';
 import ShellImage from '#/images/shell.svg';
+import OrgCard from '#/components/organization-card';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
 import CountryRiskProbability from '../../../../components/global-impact/country-risk-probability';
@@ -12,20 +12,9 @@ const SuppliersHeader = () => {
   return (
     <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
       <div className='flex w-auto flex-col gap-4'>
-        <Card className='flex min-h-[100px] w-full items-center border-none bg-white shadow-md'>
-          <CardContent className='flex items-center gap-12 p-4 text-black'>
-            <Image
-              src={ShellImage}
-              alt='Shell Logo'
-              className='size-[100px] rounded-md object-cover'
-            />
-            <div>
-              <h2 className='text-xl font-bold'>Shell USA, Inc.</h2>
-              <p className='text-gray-500'>Member since 2024</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
+
+        <OrgCard />
+      <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
           <div className='w-full px-3'>
             <TimeFrame status={true} />
           </div>
@@ -39,10 +28,8 @@ const SuppliersHeader = () => {
               </div>
             </CardContent>
             <CardContent className='flex flex-col items-center p-4'>
-              <div className='text-left'>
                 <p className='text-gray-600'>Active risks</p>
                 <p className='text-[32px] font-semibold text-orange-500'>20</p>
-              </div>
             </CardContent>
           </div>
         </Card>

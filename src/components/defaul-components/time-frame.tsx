@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '#/lib/utils';
-import { timeFrames } from '../../utils/utils';
+import { timeFrames } from '#/utils/utils';
 import {
   Select,
   SelectContent,

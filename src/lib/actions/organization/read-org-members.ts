@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '#/db';
 import { users } from '#/db/auth-schema';
-import { RoleEnum, roles } from '#/db/schema';
+import { roles } from '#/db/schema';
 import authCheck from '../shared/auth-check';
 import { ActionRes, PaginationOpts } from '../types';
 
@@ -24,8 +24,7 @@ export default async function getOrgMembers(
   const { orgId, offset = 0, limit = 10 } = opts;
 
   const auth = await authCheck({
-    orgId,
-    rolesNeeded: [RoleEnum.OWNER, RoleEnum.ADMIN, RoleEnum.USER]
+    orgId
   });
 
   if (!auth.ok) return auth;
