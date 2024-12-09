@@ -63,12 +63,10 @@ export default function ScenarioDetails({
             In need of further planning?
           </h2>
           <div className='flex gap-4'>
-            <Button className='rounded-lg bg-green-700 p-3 px-4 text-white hover:bg-green-800 lg:px-6'>
+            <Button variant='default' className='p-3 px-4'>
               Contact JibChain
             </Button>
-            <Button
-              variant='outline'
-              className='border-green-700 bg-transparent text-green-700'>
+            <Button variant='outline' className='rounded-lg p-3 text-green-700'>
               Copy Email Address
             </Button>
           </div>
