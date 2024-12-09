@@ -379,6 +379,12 @@ export const supplierTableInvoices: Suppliers[] = [
   }
 ];
 
+export const timeFrames = [
+  { label: '48 hours', value: '48-hours' },
+  { label: '4 days', value: '4-days' },
+  { label: 'This week', value: 'this-week' },
+  { label: 'This month', value: 'this-month' }
+];
 export const riskExposures = [
   'Ransomware Attack',
   'Labor Strike',
@@ -418,12 +424,6 @@ export const dashboardCardData = [
       'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
     buttonText: 'Read More'
   }
-];
-export const timeFrames = [
-  { label: 'This week', value: 'this-week' },
-  { label: 'Last week', value: 'last-week' },
-  { label: 'This month', value: 'this-month' },
-  { label: 'Last month', value: 'last-month' }
 ];
 
 export interface CountryDataContext {
