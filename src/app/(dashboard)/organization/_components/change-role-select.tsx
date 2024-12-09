@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import {
   Select,
   SelectContent,
@@ -8,8 +8,7 @@ import {
 } from '#/components/ui/select';
 import { toast } from '#/components/ui/use-toast';
 import { RoleEnum } from '#/db/schema';
-import updateInvite from '#/lib/actions/invite/update-invite';
-import updateRole from '#/lib/actions/organization/update-user-role';
+import { trpc, vanillaTRPC } from '#/trpc/query-clients/client';
 
 interface ChangeRoleSelectProps {
   type: 'member' | 'invite';
@@ -22,14 +21,13 @@ interface ChangeRoleSelectProps {
 export default function ChangeRoleSelect(props: ChangeRoleSelectProps) {
   const { currentRole, id, orgId, type, disabled = false } = props;
 
-  const queryClient = useQueryClient();
+  const utils = trpc.useUtils();
   const { mutate } = useMutation({
     mutationFn: async (role: RoleEnum) => {
-      const res = await (type === 'member'
-        ? updateRole({ userId: id, orgId, role })
-        : updateInvite({ id, orgId, role }));
+      await (type === 'member'
+        ? vanillaTRPC.org.member.update.mutate({ userId: id, orgId, role })
+        : vanillaTRPC.org.invite.update.mutate({ inviteId: id, orgId, role }));
 
-      if (!res.ok) throw new Error(res.message);
       return role;
     },
     onError: (data) => {
@@ -43,9 +41,7 @@ export default function ChangeRoleSelect(props: ChangeRoleSelectProps) {
       toast({
         title: `${type.slice(0, 1).toUpperCase() + type.slice(1)} role updated to ${role}`
       });
-      return await queryClient.invalidateQueries({
-        queryKey: [type === 'member' ? 'members' : 'invites', { orgId }]
-      });
+      utils.org[type].list.invalidate();
     }
   });
 
@@ -54,7 +50,7 @@ export default function ChangeRoleSelect(props: ChangeRoleSelectProps) {
       disabled={disabled}
       defaultValue={currentRole}
       onValueChange={(d) => mutate(d as RoleEnum)}>
-      <SelectTrigger className='h-auto w-[80px] border-gray-200 bg-white px-3 py-2 text-xs font-medium text-gray-800'>
+      <SelectTrigger className='h-auto w-[80px] border-gray-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 hover:text-green-600'>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

@@ -1,6 +1,5 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
 import { TrashBin } from 'flowbite-react-icons/solid';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -16,7 +15,7 @@ import {
   DialogClose
 } from '#/components/ui/dialog';
 import { useToast } from '#/components/ui/use-toast';
-import deleteOrg from '#/lib/actions/organization/delete-org';
+import { trpc } from '#/trpc/query-clients/client';
 
 export default function DeleteOrgDialog(props: {
   orgId: string;
@@ -25,20 +24,11 @@ export default function DeleteOrgDialog(props: {
   const { orgId } = props;
   const { toast } = useToast();
   const router = useRouter();
-
-  const { mutate, isPending, isSuccess } = useMutation({
-    mutationFn: async () => {
-      const res = await deleteOrg({
-        orgId
-      });
-
-      if (!res.ok) throw new Error(res.message);
-      return res;
-    },
-    onSuccess: () => {
+  const { mutate, isPending, isSuccess } = trpc.org.delete.useMutation({
+    onSuccess() {
       router.push('/');
     },
-    onError: (err) => {
+    onError(err) {
       toast({
         variant: 'destructive',
         title: 'Failed to invite user',
@@ -68,7 +58,7 @@ export default function DeleteOrgDialog(props: {
           <Button
             variant={'destructive'}
             disabled={isPending || isSuccess}
-            onClick={() => mutate()}>
+            onClick={() => mutate(orgId)}>
             {(() => {
               let copy = 'Confirm Deletion';
               if (isSuccess) copy = 'Redirecting';

@@ -1,4 +1,5 @@
-import { useQueryClient } from '@tanstack/react-query';
+'use client';
+
 import { Copy } from 'lucide-react';
 import { useCopyToClipboard } from 'react-use';
 import { Button } from '#/components/ui/button';
@@ -10,13 +11,12 @@ import {
   TooltipTrigger
 } from '#/components/ui/tooltip';
 import { toast } from '#/components/ui/use-toast';
-import deleteInvitation from '#/lib/actions/invite/delete-invite';
+import { trpc } from '#/trpc/query-clients/client';
 import ControlledDropdown from './controlled-dropdown';
 
 export default function InviteActions(props: { id: string }) {
   const { id } = props;
   const [_, copyToClipboard] = useCopyToClipboard();
-  const queryClient = useQueryClient();
 
   const copyInviteLink = () => {
     const url = new URL('/organization/join', window.location.origin);
@@ -24,23 +24,23 @@ export default function InviteActions(props: { id: string }) {
     copyToClipboard(url.toString());
   };
 
-  const handleDeleteInvite = async () => {
-    const res = await deleteInvitation({ inviteId: id });
-    if (!res.ok) {
+  const utils = trpc.useUtils();
+  const { mutate: deleteInvite } = trpc.org.invite.delete.useMutation({
+    onSuccess(data) {
+      toast({
+        title: 'Invitation successfully canceled',
+        description: `Invite to ${data.email} has been removed.`
+      });
+      utils.org.invite.list.invalidate();
+    },
+    onError(err) {
       toast({
         variant: 'destructive',
         title: 'Invitation failed to cancel',
-        description: res.message
+        description: err.message
       });
-      return;
     }
-
-    toast({
-      title: 'Invitation successfully canceled',
-      description: `Invite to ${res.data!.email} has been removed.`
-    });
-    queryClient.invalidateQueries({ queryKey: ['invites'] });
-  };
+  });
 
   return (
     <div className='flex flex-row justify-end gap-1'>
@@ -59,7 +59,7 @@ export default function InviteActions(props: { id: string }) {
 
       <ControlledDropdown align='end'>
         <DropdownMenuItem
-          onClick={handleDeleteInvite}
+          onClick={() => deleteInvite({ inviteId: id })}
           className='flex flex-col items-start gap-1'>
           Cancel invitation
         </DropdownMenuItem>

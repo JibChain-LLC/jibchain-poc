@@ -1,13 +1,15 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse, type NextRequest } from 'next/server';
-import getUserCurrentOrg from '../actions/shared/get-current-org';
+import getUserOrg from '#/lib/server/shared/get-current-org';
 
 export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   let supabaseResponse = NextResponse.next({
     request
   });
+
+  if (pathname.startsWith('/api/trpc')) return supabaseResponse;
 
   const cookieStore = await cookies();
 
@@ -49,7 +51,7 @@ export async function updateSession(request: NextRequest) {
     !pathname.startsWith('/organization/create') &&
     !pathname.startsWith('/organization/join')
   ) {
-    const currentOrgId = await getUserCurrentOrg(user.id);
+    const currentOrgId = await getUserOrg(user.id);
     if (!currentOrgId) {
       const url = request.nextUrl.clone();
       url.pathname = '/organization/no-member';

@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { cookies } from 'next/headers';
-import getOrganization from '#/lib/actions/organization/read-org';
+import { trpc } from '#/trpc/query-clients/server';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Card, CardContent } from './ui/card';
 
@@ -9,7 +9,8 @@ export default async function OrgCard() {
   const cookieStore = await cookies();
   const orgId = cookieStore.get('current-org')?.value ?? '';
   if (!orgId) return null;
-  const org = await getOrganization(orgId);
+
+  const org = await trpc.org.read(orgId);
 
   return (
     <Card className='flex'>

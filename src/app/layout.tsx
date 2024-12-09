@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '#/components/ui/toaster';
 import { cn } from '#/lib/utils';
-import Providers from './providers';
+import Provider from '#/trpc/query-clients/client';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang='en' className='min-h-screen'>
       <body className={cn(inter.className, 'min-h-screen bg-gray-50')}>
-        <Providers>{children}</Providers>
+        <Provider>{children}</Provider>
         <Toaster />
       </body>
     </html>
