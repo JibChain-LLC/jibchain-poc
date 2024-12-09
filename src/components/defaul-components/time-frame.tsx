@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '#/lib/utils';
-import { timeFrames } from '#/utils/utils';
+import { timeFrames } from '../../utils/utils';
 import {
   Select,
   SelectContent,
@@ -14,9 +14,9 @@ type TimeFrameProp = {
   status: boolean;
 };
 
-const TimeFrame: React.FC<TimeFrameProp> = (status) => {
+const TimeFrame: React.FC<TimeFrameProp> = ({ status }) => {
   return (
-    <div className='w-full'>
+    <div>
       <Select>
         <SelectTrigger
           className={cn(status ? 'w-full bg-red-50 px-4' : 'w-[140px]')}>

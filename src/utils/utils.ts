@@ -384,6 +384,7 @@ export const timeFrames = [
   { label: '4 days', value: '4-days' },
   { label: 'This week', value: 'this-week' },
   { label: 'This month', value: 'this-month' }
+];
 export const riskExposures = [
   'Ransomware Attack',
   'Labor Strike',

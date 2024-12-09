@@ -1,6 +1,5 @@
 import React from 'react';
 import TimeFrame from '#/components/defaul-components/time-frame';
-import ShellImage from '#/images/shell.svg';
 import OrgCard from '#/components/organization-card';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
@@ -12,9 +11,8 @@ const SuppliersHeader = () => {
   return (
     <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
       <div className='flex w-auto flex-col gap-4'>
-
         <OrgCard />
-      <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
+        <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
           <div className='w-full px-3'>
             <TimeFrame status={true} />
           </div>
@@ -28,8 +26,8 @@ const SuppliersHeader = () => {
               </div>
             </CardContent>
             <CardContent className='flex flex-col items-center p-4'>
-                <p className='text-gray-600'>Active risks</p>
-                <p className='text-[32px] font-semibold text-orange-500'>20</p>
+              <p className='text-gray-600'>Active risks</p>
+              <p className='text-[32px] font-semibold text-orange-500'>20</p>
             </CardContent>
           </div>
         </Card>

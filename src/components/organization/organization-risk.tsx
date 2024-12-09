@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Label, Pie, PieChart } from 'recharts';
 import { chartData } from '#/utils/utils';
 import { doughnutChartConfig } from '#/utils/utils';
-import TimeFilter from '../defaul-components/time-frame';
+import TimeFrame from '../defaul-components/time-frame';
 import { ChartContainer } from '../ui/chart';
 
 const OrganizationRisk = () => {
@@ -16,7 +16,9 @@ const OrganizationRisk = () => {
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      <TimeFilter status={true} />
+      <div className='w-full'>
+        <TimeFrame status={true} />
+      </div>
       <div className='flex min-h-[165px] w-full items-center justify-between'>
         <div>
           <p className='text-xs font-medium leading-tight text-gray-600'>
