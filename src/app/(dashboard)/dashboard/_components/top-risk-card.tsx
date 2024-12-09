@@ -12,22 +12,16 @@ const TopRiskCard: React.FC<TopRiskCardProps> = ({ percentage, label }) => {
   const isPositive = percentage > 0;
 
   return (
-    <Card className='flex w-full flex-col items-start justify-start px-6 py-5 shadow-sm'>
-      <div className='flex flex-row items-center gap-2'>
-        <h2
-          className={cn(
-            'font-bold',
-            isPositive ? 'text-green-500' : 'text-red-500'
-          )}>
-          {percentage}%
-        </h2>
-        {isPositive ? (
-          <ArrowUp className='size-5 text-green-500' />
-        ) : (
-          <ArrowDown className='size-5 text-red-500' />
-        )}
+    <Card className='flex w-full flex-col items-start justify-start px-6 py-5'>
+      <div
+        className={cn(
+          'flex flex-row items-center gap-0.5',
+          isPositive ? 'text-green-500' : 'text-red-600'
+        )}>
+        <p className='text-sm font-bold'>{Math.abs(percentage)}%</p>
+        {React.createElement(isPositive ? ArrowUp : ArrowDown, { size: 16 })}
       </div>
-      <h1 className='text-base font-medium'>{label}</h1>
+      <p className='text-base font-medium'>{label}</p>
     </Card>
   );
 };

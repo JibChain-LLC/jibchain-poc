@@ -6,4 +6,8 @@
   * {
     box-sizing: border-box;
   }
+
+  html {
+    @apply text-gray-900
+  }
 }

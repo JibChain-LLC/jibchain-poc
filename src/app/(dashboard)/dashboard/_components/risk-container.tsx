@@ -6,15 +6,11 @@ import TopRiskCard from './top-risk-card';
 
 const RiskContainer = () => {
   return (
-    <div className='mb-6 mt-8 flex flex-col space-y-5 bg-gray-50 lg:mb-0 lg:gap-y-10'>
+    <div className='flex h-full flex-col gap-4 lg:mb-0 lg:justify-between lg:gap-0'>
       <div className='flex w-full flex-col gap-2'>
         <div className='flex w-full items-center justify-between'>
-          <h1 className='my-2 text-nowrap text-lg font-semibold lg:mb-0'>
-            Top Risk
-          </h1>
-          <div>
-            <TimeFrame status={false} />
-          </div>
+          <h1 className='text-nowrap text-base font-medium'>Top Risk</h1>
+          <TimeFrame status={false} />
         </div>
         <div className='grid grid-cols-1 gap-4'>
           {topRisk.map((risk, index) => (
@@ -28,12 +24,10 @@ const RiskContainer = () => {
       </div>
       <div className='flex w-full flex-col gap-2'>
         <div className='flex w-full items-center justify-between'>
-          <h1 className='text-nowrap text-lg font-semibold lg:mb-0'>
+          <h1 className='text-nowrap text-base font-medium lg:mb-0'>
             At Risk Supplier
           </h1>
-          <div>
-            <TimeFrame status={false} />
-          </div>
+          <TimeFrame status={false} />
         </div>
         <div className='grid grid-cols-1 gap-4'>
           {atRiskSuppliers.map((supplier, index) => (
