@@ -33,13 +33,13 @@ import {
   TableRow
 } from '#/components/ui/table';
 import { cn } from '#/lib/utils';
+import { Button } from './button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
 } from './dropdown-menu';
-import { Button } from './button';
 
 type PaginationOpts =
   | { manual: false; pageSize?: number }

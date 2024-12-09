@@ -11,7 +11,11 @@
     @apply text-gray-900
   }
 }
-.mask-gradient {
-  -webkit-mask-image: linear-gradient(to right, transparent 25%, black 75%);
-  mask-image: linear-gradient(to right, transparent 25%, black 75%);
+
+@layer utilities {
+  .mask-gradient {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 100%);
+  }
 }
+

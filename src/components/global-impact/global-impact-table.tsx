@@ -42,11 +42,11 @@ const columns: ColumnDef<Supplier>[] = [
     cell: ({ row }) => {
       const riskStatus = row.getValue<string>('exposureToRisk');
       const riskColor =
-          riskStatus === 'Low'
-            ? "default"
-            : riskStatus === 'Medium'
-              ? "warning"
-              : "destructive";
+        riskStatus === 'Low'
+          ? 'default'
+          : riskStatus === 'Medium'
+            ? 'warning'
+            : 'destructive';
       return (
         <div className='capitalize'>
           <Badge variant={riskColor}>{riskStatus}</Badge>

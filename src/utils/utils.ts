@@ -1,16 +1,10 @@
-import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
-import { UsersGroup } from 'flowbite-react-icons/solid';
-import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import * as am5 from '@amcharts/amcharts5';
-import { Bell } from 'flowbite-react-icons/solid';
-import { Grid } from 'flowbite-react-icons/solid';
-import { Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
-import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
+import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import smallLogo from '#/images/small.svg';
-
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -205,19 +199,19 @@ export const overviewCardData = [
   {
     title: 'Financial Impact',
     value: '$5m',
-    icon: "/dollar.jpg",
+    icon: '/dollar.jpg',
     alt: 'Money'
   },
   {
     title: 'Probability',
     value: '75%',
-    icon: "/zoom.jpg",
+    icon: '/zoom.jpg',
     alt: 'Graph'
   },
   {
     title: 'Impacted Suppliers',
     value: '23',
-    icon: "/arrow-right.svg",
+    icon: '/arrow-right.svg',
     alt: 'Suppliers'
   }
 ];
@@ -384,7 +378,6 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'EU'
   }
 ];
-
 
 export const riskExposures = [
   'Ransomware Attack',

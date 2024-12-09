@@ -1,13 +1,13 @@
 'use client';
 import { ColumnDef, Table as TableType } from '@tanstack/react-table';
 import { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { Badge } from '#/components/ui/badge';
 import { Checkbox } from '#/components/ui/checkbox';
 import { DataTable } from '#/components/ui/data-table';
 import { Input } from '#/components/ui/input';
 import { Suppliers, supplierTableInvoices } from '#/utils/utils';
 import SupplierModal from './supplier-modal';
-import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 
 interface ControlsProps {
   table: TableType<Suppliers>;
@@ -45,11 +45,11 @@ export default function SuppliersTable() {
     {
       accessorKey: 'image',
       header: '',
-      cell: ({ row }) => (
+      cell: () => (
         <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
       )
     },
     {
@@ -64,10 +64,10 @@ export default function SuppliersTable() {
         const riskStatus = row.getValue('riskStatus') as string;
         const riskColor =
           riskStatus === 'Low'
-            ? "default"
+            ? 'default'
             : riskStatus === 'Medium'
-              ? "warning"
-              : "destructive";
+              ? 'warning'
+              : 'destructive';
 
         return <Badge variant={riskColor}>{riskStatus}</Badge>;
       }
@@ -101,7 +101,7 @@ export default function SuppliersTable() {
       accessorKey: 'region',
       header: 'Region',
       cell: ({ row }) => row.getValue('region')
-    },
+    }
   ];
 
   const Controls = ({ table }: ControlsProps) => (

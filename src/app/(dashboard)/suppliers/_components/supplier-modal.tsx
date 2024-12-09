@@ -1,5 +1,6 @@
 'use client';
 
+import { StarIcon, ThumbsUp } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '#/components/ui/button';
 import { Card } from '#/components/ui/card';
@@ -12,7 +13,6 @@ import {
   SheetTitle
 } from '#/components/ui/sheet';
 import Shell from '#/images/shell.svg';
-import { StarIcon, ThumbsUp } from 'lucide-react';
 import { riskExposures } from '#/utils/utils';
 import { regions } from '#/utils/utils';
 interface SupplierModalProps {
@@ -50,20 +50,14 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ isOpen, setOpen }) => {
             <div className='flex flex-col gap-8 lg:flex-row lg:justify-between lg:gap-12'>
               <div className='flex flex-col gap-6 p-3'>
                 <div>
-                  <p className='text-lg text-gray-600'>
-                    Risk Status
-                  </p>
+                  <p className='text-lg text-gray-600'>Risk Status</p>
                   <div className='flex items-center gap-3 rounded-lg bg-[#F3FAF7] p-4'>
-                    <ThumbsUp color='#046C4E' fill='#046C4E'/>{' '}
-                    <p className='text-lg font-semibold text-green-800'>
-                      Low
-                    </p>
+                    <ThumbsUp color='#046C4E' fill='#046C4E' />{' '}
+                    <p className='text-lg font-semibold text-green-800'>Low</p>
                   </div>
                 </div>
                 <div>
-                  <p className='text-lg text-gray-600'>
-                    Impact Operation
-                  </p>
+                  <p className='text-lg text-gray-600'>Impact Operation</p>
                   <div className='flex items-center gap-2 rounded-lg bg-gray-100 p-4'>
                     <StarIcon color='#E3A008' fill='#E3A008' />
                     <p className='text-lg font-semibold text-gray-800'>
@@ -81,7 +75,7 @@ const SupplierModal: React.FC<SupplierModalProps> = ({ isOpen, setOpen }) => {
                   {riskExposures.map((exposure, index) => (
                     <h2
                       key={index}
-                      className='w-full border-b-2 border-gray-200 px-2 py-2 hover:bg-gray-100 md:min-w-[300px]'>
+                      className='w-full border-b-2 border-gray-200 p-2 hover:bg-gray-100 md:min-w-[300px]'>
                       {exposure}
                     </h2>
                   ))}
