@@ -5,6 +5,7 @@ import { Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
 
 import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
@@ -381,6 +382,46 @@ export const supplierTableInvoices: Invoice[] = [
     region: 'EU'
   }
 ];
+
+export const topRisk = [
+  { percentage: -1.45, label: 'Ransomware Attack' },
+  { percentage: 1.35, label: 'Internal Security Failures' },
+  { percentage: 1.45, label: 'Natural Disaster' }
+];
+
+export const atRiskSuppliers = [
+  { logo: Building, name: 'Vandhana Enterprises', impact: 'High' },
+  { logo: Building, name: 'National Lumber', impact: 'High' },
+  { logo: Building, name: 'Next Generation Financial', impact: 'Medium' }
+];
+
+export const dashboardCardData = [
+  {
+    image: '/office-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur ',
+    buttonText: 'Read More'
+  },
+  {
+    image: '/calendar-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
+    buttonText: 'Read More'
+  },
+  {
+    image: '/learning-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
+    buttonText: 'Read More'
+  }
+];
+export const timeFrames = [
+  { label: 'This week', value: 'this-week' },
+  { label: 'Last week', value: 'last-week' },
+  { label: 'This month', value: 'this-month' },
+  { label: 'Last month', value: 'last-month' }
+];
+
 export interface CountryDataContext {
   id: string;
   risk?: string;
