@@ -24,19 +24,23 @@ const ScenarioAccordion = () => {
             <AccordionItem
               key={index}
               value={itemValue}
-              className={`flex h-full flex-row items-start gap-4 rounded-2xl p-2 overflow-clip `}>
-              <div className='relative flex h-full flex-col items-center '>
+              className='flex h-full flex-row items-start gap-4 rounded-2xl p-2'>
+              <div className='relative flex h-full flex-col items-center'>
                 <div
                   className={cn(
                     'mt-6 flex items-center justify-center rounded-full p-3',
                     isActive ? 'bg-green-100' : 'bg-gray-100'
                   )}>
                   <section.icon className='size-4' />
-                  {!isLastItem && (
-                  <div className="absolute left-1/2 top-full h-[100vh] w-[2px] bg-gray-300"></div>
-                )}
-                 
                 </div>
+
+                {!isLastItem && (
+                  <div
+                    className={cn(
+                      'absolute left-1/2 top-full w-[2px] bg-gray-300',
+                      isActive ? 'h-[460px]' : 'h-[100px]'
+                    )}></div>
+                )}
               </div>
 
               <div
@@ -49,7 +53,7 @@ const ScenarioAccordion = () => {
                     'flex items-center rounded-full p-4 text-sm font-normal',
                     isActive ? 'font-bold text-black' : 'text-gray-500'
                   )}>
-                  <div className='flex flex-col items-start gap-2 '>
+                  <div className='flex flex-col items-start gap-2'>
                     <span className='text-xs text-gray-500'>
                       {section.level}
                     </span>
