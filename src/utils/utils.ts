@@ -1,12 +1,9 @@
 import * as am5 from '@amcharts/amcharts5';
-import { Bell } from 'flowbite-react-icons/solid';
-import { Grid } from 'flowbite-react-icons/solid';
-import { Truck } from 'flowbite-react-icons/solid';
 import { UsersGroup } from 'flowbite-react-icons/solid';
-
-import { ShieldAlert, Globe, FileText } from 'lucide-react';
+import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
+import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
+import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
-import MoneyImage from '#/images/money-image.jpg';
 import smallLogo from '#/images/small.svg';
 
 export const roles = [
@@ -202,26 +199,26 @@ export const overviewCardData = [
   {
     title: 'Financial Impact',
     value: '$5m',
-    icon: MoneyImage,
+    icon: '/dollar.jpg',
     alt: 'Money'
   },
   {
     title: 'Probability',
     value: '75%',
-    icon: MoneyImage,
+    icon: '/zoom.jpg',
     alt: 'Graph'
   },
   {
     title: 'Impacted Suppliers',
     value: '23',
-    icon: MoneyImage,
+    icon: '/arrow-right.svg',
     alt: 'Suppliers'
   }
 ];
 export const mitigationBestPractices = [
-  { icon: ShieldAlert, label: 'Implement Backups' },
-  { icon: Globe, label: 'Security Awareness Training' },
-  { icon: FileText, label: 'Incident Response Plan' }
+  { icon: Cloud, label: 'Service Availability' },
+  { icon: DollarSignIcon, label: 'Financial Loss' },
+  { icon: Frown, label: 'Public Trust' }
 ];
 export const globalImpactCard = [
   { title: 'Global Impact', value: '60%' },
@@ -314,7 +311,7 @@ export const supplierRiskLevels = [
   { label: 'Low', value: 4, count: 3, indicatorColor: 'bg-green-400' }
 ];
 
-export type Invoice = {
+export type Suppliers = {
   image: string;
   supplier: string;
   riskStatus: 'Low' | 'Medium' | 'High';
@@ -323,7 +320,7 @@ export type Invoice = {
   region: string;
 };
 
-export const supplierTableInvoices: Invoice[] = [
+export const supplierTableInvoices: Suppliers[] = [
   {
     image: smallLogo,
     supplier: 'Blue Sky Inc.',
@@ -381,6 +378,54 @@ export const supplierTableInvoices: Invoice[] = [
     region: 'EU'
   }
 ];
+
+export const riskExposures = [
+  'Ransomware Attack',
+  'Labor Strike',
+  'Political Instability'
+];
+
+export const regions = ['South America', 'North America'];
+
+export const topRisk = [
+  { percentage: -1.45, label: 'Ransomware Attack' },
+  { percentage: 1.35, label: 'Internal Security Failures' },
+  { percentage: 1.45, label: 'Natural Disaster' }
+];
+
+export const atRiskSuppliers = [
+  { logo: Building, name: 'Vandhana Enterprises', impact: 'High' },
+  { logo: Building, name: 'National Lumber', impact: 'High' },
+  { logo: Building, name: 'Next Generation Financial', impact: 'Medium' }
+];
+
+export const dashboardCardData = [
+  {
+    image: '/office-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur ',
+    buttonText: 'Read More'
+  },
+  {
+    image: '/calendar-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
+    buttonText: 'Read More'
+  },
+  {
+    image: '/learning-image.jpg',
+    description:
+      'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, quis repellat Lorem ipsum dolor sit, amet consectetur',
+    buttonText: 'Read More'
+  }
+];
+export const timeFrames = [
+  { label: 'This week', value: 'this-week' },
+  { label: 'Last week', value: 'last-week' },
+  { label: 'This month', value: 'this-month' },
+  { label: 'Last month', value: 'last-month' }
+];
+
 export interface CountryDataContext {
   id: string;
   risk?: string;

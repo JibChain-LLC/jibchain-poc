@@ -58,6 +58,7 @@ interface DataTableProps<TData, TValue> {
   tableClassName?: string;
   wrapperClassName?: string;
   pagination?: PaginationOpts;
+  onColumnClick?: (row: TData, columnId: string) => void;
 }
 
 interface DataTableColumnHeaderProps<TData, TValue>
@@ -72,7 +73,8 @@ export function DataTable<TData, TValue>({
   controls: ControlComp,
   wrapperClassName,
   tableClassName,
-  pagination: p
+  pagination: p,
+  onColumnClick
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -145,9 +147,15 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className='cursor-pointer'
                   data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      onClick={() =>
+                        onColumnClick &&
+                        onColumnClick(row.original, cell.column.id)
+                      }>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
