@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import { useState } from 'react';
 import { Button } from '#/components/ui/button';
 import { Input } from '#/components/ui/input';
@@ -10,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '#/components/ui/select';
-import ProfileImage from '#/images/shell.svg';
 import { roles, formUserFields } from '#/utils/utils';
 
 export default function AccountPage() {
@@ -21,12 +19,12 @@ export default function AccountPage() {
 
   return (
     <div className=''>
-      <div className='min-h-[96vh] rounded-md bg-white p-4 text-black shadow-md xl:p-32 '>
-        <h1 className='mb-4 text-2xl font-bold'>Jamie Smith</h1>
+      <div className='min-h-[96vh] rounded-md bg-white p-4 px-6 py-12 text-black shadow-md lg:px-12 xl:px-32'>
+        <h1 className='mb-4 text-[30px] font-bold'>Jamie Smith</h1>
         <div className='flex flex-col gap-2 lg:flex-row'>
           <div className='flex flex-col gap-2'>
             <p className='min-w-[120px]'>Upload Avatar</p>
-            <Image src={ProfileImage} alt='image' className='size-[80px]' />
+            {/* <Image src={ProfileImage} alt='image' className='size-[80px]' /> */}
           </div>
           <div className='relative w-full gap-2'>
             <Input type='file' id='avatar-input' className='hidden' />

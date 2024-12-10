@@ -14,7 +14,7 @@ export default function UserLayout(props: UserLayoutProps) {
         <OrganizationCard />
         <UserContentNav />
       </div>
-      <div className='overflow-y-hidden'>{children}</div>
+      <div className='overflow-y-hidden shadow-md'>{children}</div>
     </div>
   );
 }
