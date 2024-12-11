@@ -422,12 +422,6 @@ export const dashboardCardData = [
     buttonText: 'Read More'
   }
 ];
-export const timeFrames = [
-  { label: 'This week', value: 'this-week' },
-  { label: 'Last week', value: 'last-week' },
-  { label: 'This month', value: 'this-month' },
-  { label: 'Last month', value: 'last-month' }
-];
 
 export interface CountryDataContext {
   id: string;

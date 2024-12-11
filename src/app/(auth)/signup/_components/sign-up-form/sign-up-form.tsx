@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
 import { LoaderCircle, SquareCheckBig } from 'lucide-react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -17,12 +16,15 @@ import {
   FormRootError
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
-import userSignUp from '#/lib/actions/user/user-sign-up';
-import signUpFormSchema, { UserSignUpSchema } from '#/lib/schema/user-sign-up';
+import { RouterInputs } from '#/trpc';
+import { trpc } from '#/trpc/query-clients/client';
+import { signUpInput } from '#/trpc/schemas';
+
+type SignUpFormSchema = RouterInputs['auth']['signUp'];
 
 export default function SignUpForm() {
-  const form = useForm<UserSignUpSchema>({
-    resolver: zodResolver(signUpFormSchema),
+  const form = useForm<SignUpFormSchema>({
+    resolver: zodResolver(signUpInput),
     defaultValues: {
       jobRole: '',
       firstName: '',
@@ -33,13 +35,12 @@ export default function SignUpForm() {
     }
   });
 
-  const { mutate, isPending, isSuccess } = useMutation({
-    mutationFn: async (data: UserSignUpSchema) => {
-      const res = await userSignUp(data);
-      if (!res.ok) throw new Error(res.message);
-      return res;
-    },
-    onError: (e) => {
+  const {
+    mutate: signUp,
+    isPending,
+    isSuccess
+  } = trpc.auth.signUp.useMutation({
+    onError(e) {
       form.setError('root', { message: e.message });
     }
   });
@@ -50,7 +51,7 @@ export default function SignUpForm() {
         {!isSuccess && (
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit((d) => mutate(d))}
+              onSubmit={form.handleSubmit((d) => signUp(d))}
               className='flex flex-col gap-3'>
               <div className='flex flex-col gap-1 text-center'>
                 <p className='text-2xl font-bold leading-tight text-gray-900'>

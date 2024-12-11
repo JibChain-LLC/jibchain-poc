@@ -1,4 +1,5 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+'use client';
+
 import { Check, Loader2 } from 'lucide-react';
 import { Button } from '#/components/ui/button';
 import {
@@ -9,7 +10,7 @@ import {
   DialogTitle
 } from '#/components/ui/dialog';
 import { useToast } from '#/components/ui/use-toast';
-import updateRole from '#/lib/actions/organization/update-user-role';
+import { trpc } from '#/trpc/query-clients/client';
 
 export default function ToggleActivationDialog(props: {
   orgId: string;
@@ -18,31 +19,24 @@ export default function ToggleActivationDialog(props: {
 }) {
   const { orgId, userId, active } = props;
 
-  const queryClient = useQueryClient();
   const { toast } = useToast();
+  const utils = trpc.useUtils();
   const {
     mutate: toggleActivation,
     isPending,
     isSuccess
-  } = useMutation({
-    mutationFn: async () => {
-      const res = await updateRole({ userId, orgId, active: !active });
-      if (!res.ok) throw new Error(res.message);
-      return res;
-    },
-    onError: (data) => {
+  } = trpc.org.member.update.useMutation({
+    onError(err) {
       toast({
         variant: 'destructive',
         title: 'Failed to deactivate user',
-        description: data.message
+        description: err.message
       });
     }
   });
 
   const refreshQuery = async () => {
-    await queryClient.invalidateQueries({
-      queryKey: ['members', { orgId }]
-    });
+    utils.org.member.list.invalidate();
   };
 
   return (
@@ -59,7 +53,9 @@ export default function ToggleActivationDialog(props: {
             <Button
               disabled={isPending || isSuccess}
               variant={active ? 'destructive' : 'default'}
-              onClick={() => toggleActivation()}>
+              onClick={() =>
+                toggleActivation({ orgId, userId, active: !active })
+              }>
               {active ? 'Deactivate' : 'Activate'}
               {isPending && <Loader2 className='animate-spin' />}
             </Button>

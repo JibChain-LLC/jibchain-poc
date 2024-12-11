@@ -1,4 +1,3 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Check, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '#/components/ui/button';
@@ -10,7 +9,7 @@ import {
   DialogTitle
 } from '#/components/ui/dialog';
 import { useToast } from '#/components/ui/use-toast';
-import removeUserFromOrg from '#/lib/actions/organization/delete-user-from-org';
+import { trpc } from '#/trpc/query-clients/client';
 
 export default function RemoveUserDialog(props: {
   orgId: string;
@@ -19,19 +18,14 @@ export default function RemoveUserDialog(props: {
 }) {
   const { orgId, userId, isYou } = props;
 
-  const queryClient = useQueryClient();
   const router = useRouter();
   const { toast } = useToast();
+  const utils = trpc.useUtils();
   const {
-    mutate: removeUser,
-    isPending,
-    isSuccess
-  } = useMutation({
-    mutationFn: async () => {
-      const res = await removeUserFromOrg({ orgId, userId });
-      if (!res.ok) throw new Error(res.message);
-      return res;
-    },
+    mutate: removeMember,
+    isSuccess,
+    isPending
+  } = trpc.org.member.delete.useMutation({
     onError: (data) => {
       toast({
         variant: 'destructive',
@@ -45,9 +39,7 @@ export default function RemoveUserDialog(props: {
   });
 
   const refreshQuery = async () => {
-    await queryClient.invalidateQueries({
-      queryKey: ['members', { orgId }]
-    });
+    utils.org.member.list.invalidate();
   };
 
   return (
@@ -66,7 +58,7 @@ export default function RemoveUserDialog(props: {
             <Button
               disabled={isPending}
               variant={'destructive'}
-              onClick={() => removeUser()}>
+              onClick={() => removeMember({ orgId, userId })}>
               {isYou ? 'Leave' : 'Remove'}
               {isPending && <Loader2 className='animate-spin' />}
             </Button>

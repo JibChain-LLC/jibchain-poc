@@ -1,4 +1,5 @@
 import React from 'react';
+import TimeFrame from '#/components/defaul-components/time-frame';
 import OrgCard from '#/components/organization-card';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
@@ -11,21 +12,24 @@ const SuppliersHeader = () => {
     <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
       <div className='flex w-auto flex-col gap-4'>
         <OrgCard />
-        <Card className='flex min-h-[198px] w-full items-center justify-between border-none bg-white shadow-md'>
-          <CardContent className='flex flex-col items-center p-4'>
-            <div>
-              <p className='text-gray-600'>Overall risk status</p>
-              <p className='text-[32px] font-semibold text-orange-500'>
-                Medium
-              </p>
-            </div>
-          </CardContent>
-          <CardContent className='flex flex-col items-center p-4'>
-            <div className='text-left'>
+        <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
+          <div className='w-full px-3'>
+            <TimeFrame />
+          </div>
+          <div className='flex w-full justify-between'>
+            <CardContent className='flex flex-col items-center p-4'>
+              <div>
+                <p className='text-gray-600'>Overall risk status</p>
+                <p className='text-[32px] font-semibold text-orange-500'>
+                  Medium
+                </p>
+              </div>
+            </CardContent>
+            <CardContent className='flex flex-col items-center p-4'>
               <p className='text-gray-600'>Active risks</p>
               <p className='text-[32px] font-semibold text-orange-500'>20</p>
-            </div>
-          </CardContent>
+            </CardContent>
+          </div>
         </Card>
       </div>
 
