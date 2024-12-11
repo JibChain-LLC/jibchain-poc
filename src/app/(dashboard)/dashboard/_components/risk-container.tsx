@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import TimeFrame from '../../../../components/defaul-components/time-frame';
+import TimeFrame from '#/components/defaul-components/time-frame';
 import { topRisk, atRiskSuppliers } from '../../../../utils/utils';
 import SupplierRiskCard from './supplier-risk-card';
 import TopRiskCard from './top-risk-card';
@@ -10,7 +12,11 @@ const RiskContainer = () => {
       <div className='flex w-full flex-col gap-2'>
         <div className='flex w-full items-center justify-between'>
           <h1 className='text-nowrap text-base font-medium'>Top Risk</h1>
-          <TimeFrame status={false} />
+          <TimeFrame
+            mini
+            onValueChange={(v) => console.log(v)}
+            startValue='48-hours'
+          />
         </div>
         <div className='grid grid-cols-1 gap-4'>
           {topRisk.map((risk, index) => (
@@ -27,7 +33,7 @@ const RiskContainer = () => {
           <h1 className='text-nowrap text-base font-medium lg:mb-0'>
             At Risk Supplier
           </h1>
-          <TimeFrame status={false} />
+          <TimeFrame mini />
         </div>
         <div className='grid grid-cols-1 gap-4'>
           {atRiskSuppliers.map((supplier, index) => (
