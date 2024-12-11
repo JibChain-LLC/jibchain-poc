@@ -1,7 +1,7 @@
 import * as am5 from '@amcharts/amcharts5';
 import { UsersGroup } from 'flowbite-react-icons/solid';
 import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
-import { DollarSignIcon, Frown, Cloud, Eye, Shield, Star } from 'lucide-react';
+import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 import smallLogo from '#/images/small.svg';
@@ -139,45 +139,6 @@ export const buttons = [
   { label: 'Billing & Subscription', href: '/user/billing' },
   { label: 'Notifications', href: '/user/notifications' },
   { label: 'Organization', href: '/user/organization' }
-];
-
-export const sectionsScenario = [
-  {
-    title: 'Aspirational',
-    level: 'Level 3',
-    icon: Star,
-    scenario:
-      'Ransomware attacks will become nearly obsolete due to advancements in quantum encryption and AI-Driven threat detection systems making it extremely difficult for attackers to infiltrate systems undetected. Patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities.',
-    strategy:
-      'Invest in quantum encryption and AI-based cybersecurity tools to protect against ransomware attacks. The document highlights strong encryption and proactive risk management patching and poor cybersecurity hygiene within suppliers as essential components of ransomware defense.',
-    confidenceLevel: 'Medium (60%)',
-    implementationTime: '3 Months',
-    cost: '$1.2m'
-  },
-  {
-    title: 'Exploratory',
-    level: 'Level 2',
-    icon: Eye,
-    scenario:
-      'Lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (80%)',
-    implementationTime: '6 Months',
-    cost: '$2.5m'
-  },
-  {
-    title: 'Remediation',
-    level: 'Level 1',
-    icon: Shield,
-    scenario:
-      'The lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (70%)',
-    implementationTime: '2 Months',
-    cost: '$3m'
-  }
 ];
 
 export const lineChartData = [

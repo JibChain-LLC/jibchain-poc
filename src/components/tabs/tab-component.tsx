@@ -7,7 +7,7 @@ import * as React from 'react';
 
 import GlobalImpact from '../global-impact/global-impact';
 import OverviewComponent from '../overview/overview';
-import ScenarioAccordion from '../scenario-planning/scenario-accordion';
+import ScenarioAccordion from '../scenario-planning';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Tabs, TabsList, TabsTrigger } from '../ui/tabs';
