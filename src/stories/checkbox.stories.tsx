@@ -38,3 +38,10 @@ export const Disabled: Story = {
     disabled: true
   }
 };
+
+export const DisabledChecked: Story = {
+  args: {
+    defaultChecked: true,
+    disabled: true
+  }
+};
