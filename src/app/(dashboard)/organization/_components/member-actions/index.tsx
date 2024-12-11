@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogTrigger } from '#/components/ui/dialog';
 import { DropdownMenuItem } from '#/components/ui/dropdown-menu';
 import useUserMetadata from '#/hooks/use-user-metadata';
-import { Member } from '#/lib/actions/organization/read-org-members';
+import { Member } from '#/lib/types';
 import ControlledDropdown from '../controlled-dropdown';
 import RemoveUserDialog from './remove-user-dialog';
 import ToggleActivationDialog from './toggle-activation-dialog';
