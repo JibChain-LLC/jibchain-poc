@@ -17,7 +17,7 @@ const OrganizationRisk = () => {
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='w-full'>
-        <TimeFrame status={true} />
+        <TimeFrame />
       </div>
       <div className='flex min-h-[165px] w-full items-center justify-between'>
         <div>

@@ -14,7 +14,7 @@ const SuppliersHeader = () => {
         <OrgCard />
         <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
           <div className='w-full px-3'>
-            <TimeFrame status={true} />
+            <TimeFrame />
           </div>
           <div className='flex w-full justify-between'>
             <CardContent className='flex flex-col items-center p-4'>
