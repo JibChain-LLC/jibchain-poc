@@ -5,7 +5,7 @@ import {
   RiskEntry,
   RiskLevelEnum,
   Supplier
-} from './type';
+} from './types';
 
 function randomArray(from: unknown[], size: number = 2) {
   return Array.from({ length: size }, () => faker.helpers.arrayElement(from));
