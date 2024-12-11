@@ -141,42 +141,6 @@ export const buttons = [
   { label: 'Organization', href: '/user/organization' }
 ];
 
-export const sectionsScenario = [
-  {
-    title: 'Aspirational',
-    level: 'Level 3',
-    scenario:
-      'Ransomware attacks will become nearly obsolete due to advancements in quantum encryption and AI-Driven threat detection systems making it extremely difficult for attackers to infiltrate systems undetected. Patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities.',
-    strategy:
-      'Invest in quantum encryption and AI-based cybersecurity tools to protect against ransomware attacks. The document highlights strong encryption and proactive risk management patching and poor cybersecurity hygiene within suppliers as essential components of ransomware defense.',
-    confidenceLevel: 'Medium (60%)',
-    implementationTime: '3 Months',
-    cost: '$1.2m'
-  },
-  {
-    title: 'Exploratory',
-    level: 'Level 2',
-    scenario:
-      'Lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (80%)',
-    implementationTime: '6 Months',
-    cost: '$2.5m'
-  },
-  {
-    title: 'Redemption',
-    level: 'Level 1',
-    scenario:
-      'The lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (70%)',
-    implementationTime: '2 Months',
-    cost: '$3m'
-  }
-];
-
 export const lineChartData = [
   { month: '0 Days', desktop: 30, mobile: 25 },
   { month: '30 Days', desktop: -10, mobile: 35 },
