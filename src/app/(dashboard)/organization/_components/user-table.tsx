@@ -1,6 +1,5 @@
 'use client';
 
-import { useQueries } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { User } from 'flowbite-react-icons/solid';
 import { Building } from 'lucide-react';
@@ -8,9 +7,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { Badge } from '#/components/ui/badge';
 import { DataTable } from '#/components/ui/data-table';
 import { RoleEnum } from '#/db/schema';
-import getInvites from '#/lib/actions/invite/read-invite-list';
-import getOrgMembers from '#/lib/actions/organization/read-org-members';
 import { cn } from '#/lib/utils';
+import { trpc } from '#/trpc/query-clients/client';
 import ChangeRoleSelect from './change-role-select';
 import InviteActions from './invite-actions';
 import InviteDialog from './invite-dialog';
@@ -27,15 +25,9 @@ const ADMIN_SET = new Set([RoleEnum.ADMIN, RoleEnum.OWNER]);
 
 export default function UserTable(props: UserTableProps) {
   const { orgId, orgName, currentUserEmail, currentUserRoles } = props;
-  const [{ data: memberData }, { data: inviteData }] = useQueries({
-    queries: [
-      {
-        queryKey: ['members', { orgId }],
-        queryFn: () => getOrgMembers({ orgId })
-      },
-      { queryKey: ['invites', { orgId }], queryFn: () => getInvites({ orgId }) }
-    ]
-  });
+
+  const memberQuery = trpc.org.member.list.useQuery({ orgId });
+  const inviteQuery = trpc.org.invite.list.useQuery({ orgId });
 
   const hasAdminPriv =
     ADMIN_SET.intersection(new Set(currentUserRoles)).size >= 1;
@@ -189,14 +181,14 @@ export default function UserTable(props: UserTableProps) {
         }
       ]}
       data={[
-        ...(memberData?.ok
-          ? memberData.data.map((m) => ({
+        ...(memberQuery.isSuccess
+          ? memberQuery.data.map((m) => ({
               ...m,
               type: 'member' as const
             }))
           : []),
-        ...(inviteData?.ok
-          ? inviteData.data.map((i) => ({
+        ...(inviteQuery.isSuccess
+          ? inviteQuery.data.map((i) => ({
               ...i,
               type: 'invite' as const
             }))

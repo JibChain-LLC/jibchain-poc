@@ -9,7 +9,7 @@ export default function RiskAlertsLayout(props: RiskAlertsLayoutProps) {
   const { children } = props;
 
   return (
-    <div className='grid h-full grid-cols-[336px_1fr] grid-rows-1 gap-4'>
+    <div className='grid h-[calc(100vh-2.5rem)] grid-cols-[336px_1fr] grid-rows-1 gap-4'>
       <div className='flex flex-col gap-4'>
         <OrgCard />
         <RiskNav />
