@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { Button } from '#/components/ui/button';
 import { Input } from '#/components/ui/input';
 import {
@@ -12,19 +13,22 @@ import {
 import { roles, formUserFields } from '#/utils/utils';
 
 export default function AccountPage() {
-  const [userRole, setUserRole] = useState<string>();
+  const [userRole, setUserRole] = useState<string>('Admin');
   const handleRoleChange = (newRole: string) => {
     setUserRole(newRole);
   };
 
   return (
-    <div className=''>
-      <div className='min-h-[96vh] rounded-md bg-white p-4 px-6 py-12 text-black shadow-md lg:px-12 xl:px-32'>
+    <div className='h-screen overflow-y-auto bg-white text-black shadow-md'>
+      <div className='rounded-md p-4 px-6 py-12 lg:px-12 xl:px-32'>
         <h1 className='mb-4 text-[30px] font-bold'>Jamie Smith</h1>
         <div className='flex flex-col gap-2 lg:flex-row'>
           <div className='flex flex-col gap-2'>
             <p className='min-w-[120px]'>Upload Avatar</p>
-            {/* <Image src={ProfileImage} alt='image' className='size-[80px]' /> */}
+            <Avatar className='size-20'>
+              <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
           </div>
           <div className='relative w-full gap-2'>
             <Input type='file' id='avatar-input' className='hidden' />
