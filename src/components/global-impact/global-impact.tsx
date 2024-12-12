@@ -6,7 +6,7 @@ import { GlobalImpactTable } from './global-impact-table';
 const GlobalImpact = () => {
   return (
     <div className='min-w-full'>
-      <CountryRiskProbability supplier={false} />
+      <CountryRiskProbability />
       <GlobalImpactCards />
       <GlobalImpactTable />
     </div>

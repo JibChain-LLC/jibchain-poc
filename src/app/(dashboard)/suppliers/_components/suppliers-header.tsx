@@ -1,118 +1,136 @@
+import { ArrowUp } from 'lucide-react';
 import React from 'react';
 import TimeFrame from '#/components/defaul-components/time-frame';
 import OrgCard from '#/components/organization-card';
+import { Card, CardContent } from '#/components/ui/card';
+import { Progress } from '#/components/ui/progress';
+import { cn } from '#/lib/utils';
 import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
-import CountryRiskProbability from '../../../../components/global-impact/country-risk-probability';
-import { Card, CardContent } from '../../../../components/ui/card';
-import { Progress } from '../../../../components/ui/progress';
+import MiniMap from './mini-map';
 
 const SuppliersHeader = () => {
   return (
-    <div className='grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+    <div className='row-span-1 grid w-full auto-rows-[255px] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
       <div className='flex w-auto flex-col gap-4'>
         <OrgCard />
-        <Card className='flex min-h-[165px] w-full flex-col items-center justify-center border-none bg-white shadow-md'>
-          <div className='w-full px-3'>
-            <TimeFrame />
-          </div>
-          <div className='flex w-full justify-between'>
-            <CardContent className='flex flex-col items-center p-4'>
-              <div>
-                <p className='text-gray-600'>Overall risk status</p>
-                <p className='text-[32px] font-semibold text-orange-500'>
+        <Card className='flex w-full grow flex-col items-center justify-center'>
+          <CardContent className='flex size-full flex-col gap-7 px-5'>
+            <TimeFrame className='w-full' />
+            <div className='flex w-full justify-between'>
+              <div className='flex flex-col gap-0.5'>
+                <p className='text-xs font-medium leading-tight text-gray-500'>
+                  Overall risk status
+                </p>
+                <p className='text-2xl font-bold leading-tight text-orange-600'>
                   Medium
                 </p>
               </div>
-            </CardContent>
-            <CardContent className='flex flex-col items-center p-4'>
-              <p className='text-gray-600'>Active risks</p>
-              <p className='text-[32px] font-semibold text-orange-500'>20</p>
-            </CardContent>
-          </div>
+              <div className='flex flex-col gap-0.5'>
+                <p className='text-xs font-medium leading-tight text-gray-500'>
+                  Active risks
+                </p>
+                <p className='text-2xl font-bold leading-tight'>20</p>
+              </div>
+            </div>
+          </CardContent>
         </Card>
       </div>
 
-      <Card className='min-h-[280px] w-full border-none bg-white shadow-md'>
-        <CardContent className='space-y-4 p-0 md:p-6'>
-          <div className='flex flex-wrap justify-between gap-4'>
-            {suppliersData.map(({ label, value }) => (
-              <div key={label} className='flex flex-col px-6 md:px-0'>
-                <h3 className='text-gray-600'>{label}</h3>
-                <p className='text-[42px] font-normal text-black'>{value}</p>
-              </div>
-            ))}
+      <Card className='w-full'>
+        <CardContent className='flex h-full flex-col justify-between px-7 py-6'>
+          <div className='flex gap-16'>
+            <div className='flex flex-col'>
+              <h3 className='text-base font-normal leading-tight text-gray-600'>
+                {suppliersData[0].label}
+              </h3>
+              <p className='text-4xl font-bold leading-tight'>
+                {suppliersData[0].value}
+              </p>
+            </div>
+            <div className='flex flex-col'>
+              <h3 className='text-base font-normal leading-tight text-gray-600'>
+                {suppliersData[1].label}
+              </h3>
+              <p className='text-4xl font-normal leading-tight'>
+                {suppliersData[1].value}
+              </p>
+            </div>
           </div>
+          <MiniMap />
         </CardContent>
-        <div className='h-32'>
-          <CountryRiskProbability supplier={true} />
-        </div>
       </Card>
 
-      <Card className='min-h-[280px] w-full border-none bg-white shadow-md'>
-        <CardContent className='space-y-4 p-6 text-black'>
-          <h3 className='text-xl font-semibold'>At Risk Suppliers</h3>
-          <p className='text-3xl font-bold'>65</p>
-          <div className='flex flex-row justify-between gap-4 pt-8'>
+      <Card className='w-full'>
+        <CardContent className='h-full px-7 py-6'>
+          <h3 className='text-base font-normal leading-tight text-gray-600'>
+            At Risk Suppliers
+          </h3>
+          <div className='mb-7 flex items-end gap-1'>
+            <p className='text-4xl font-bold leading-none'>65</p>
+            <p className='text-xl font-normal leading-tight'>/243</p>
+          </div>
+          <div className='flex flex-row justify-between gap-4'>
             {supplierRiskLevels.map(
               ({ label, value, count, indicatorColor }) => (
-                <div
-                  key={label}
-                  className='flex items-center justify-between space-y-2'>
-                  <span className='flex flex-col'>
-                    <span className='flex flex-row items-center'>
-                      <span
-                        className={`size-2 rounded-full ${indicatorColor} mr-2`}></span>
-                      {label}
-                    </span>
-                    <span className='flex flex-col'>
-                      <span className='text-[22px] font-bold'>{value}%</span>{' '}
-                      <span>{count}</span>
-                    </span>
-                  </span>
+                <div key={label} className='flex flex-col'>
+                  <div className='flex flex-row items-center'>
+                    <span
+                      className={cn(
+                        'mr-2 size-2 rounded-full',
+                        indicatorColor
+                      )}></span>
+                    <p className='text-sm font-medium text-gray-500'>{label}</p>
+                  </div>
+                  <p className='text-lg font-bold'>{value}%</p>
+                  <p className='text-sm font-medium text-gray-500'>{count}</p>
                 </div>
               )
             )}
           </div>
-          <div className='relative mt-4 flex h-6 w-full overflow-hidden rounded-md bg-gray-200'>
+          <div className='relative mt-4 flex h-5 w-full overflow-hidden rounded-md'>
             {supplierRiskLevels.map(({ value, indicatorColor }, index) => (
-              <Progress
+              <div
                 key={index}
-                value={value}
-                className={`h-6 ${indicatorColor} rounded-none`}
-                indicatorColor={indicatorColor}
+                className={cn('h-full rounded-none', indicatorColor)}
                 style={{
                   width: `${value}%`
-                }}
-              />
+                }}></div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      <Card className='min-h-[280px] w-full border-none bg-white shadow-md'>
-        <CardContent className='space-y-4 p-6 text-black'>
-          <div>
-            <h3 className='text-gray-600'>Top Risk</h3>
-            <p className='text-xl font-bold'>Ransomware Attack</p>
-          </div>
-          <div>
-            <p className='text-sm font-normal'>
-              <span className='font-bold'>9% </span>of total suppliers impacted
+      <Card className='w-full'>
+        <CardContent className='flex h-full flex-col px-7 py-6'>
+          <div className='mb-9'>
+            <h3 className='text-base font-normal leading-tight text-gray-600'>
+              Top Risk
+            </h3>
+            <p className='text-2xl font-bold leading-tight'>
+              Ransomware Attack
             </p>
-            <div className='flex items-center justify-between'>
+          </div>
+          <div className='mb-5'>
+            <p className='flex items-center gap-0.5 text-sm font-bold text-red-500'>
+              1.45% <ArrowUp className='size-3' />
+            </p>
+            <p className='text-sm font-medium'>Increase since last week</p>
+          </div>
+
+          <div className='flex flex-col gap-1'>
+            <div className='flex w-full items-center gap-1'>
               <Progress
                 indicatorColor='bg-red-500'
                 value={9}
-                className='h-1 bg-gray-200'
+                className='h-1.5 rounded-sm bg-gray-200'
               />
-              <span className='ml-2 text-sm text-gray-600'>22/243</span>
+              <p className='text-xs font-medium text-gray-500'>22/243</p>
             </div>
+            <p className='text-sm font-medium'>
+              <span className='font-bold'>9% </span>of total suppliers impacted
+            </p>
           </div>
-        </CardContent>
-        <CardContent className='space-y-4 p-6'>
-          <p className='mt-4 text-sm text-gray-600'>Increase since last week</p>
-          <p className='text-red-500'>1.45% ↑</p>
         </CardContent>
       </Card>
     </div>
