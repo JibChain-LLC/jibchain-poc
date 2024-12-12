@@ -1,23 +1,21 @@
 'use client';
-import Image from 'next/image';
-import ProfileImage from '#/images/shell.svg';
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { formOrganizationFields } from '#/utils/utils';
 import { Button } from '../../../../../components/ui/button';
 import { Input } from '../../../../../components/ui/input';
 
 export default function OrganizationComponent() {
   return (
-    <div className='max-h-screen w-full overflow-y-auto bg-gray-100 p-6'>
-      <div className='min-h-[95vh] rounded-md bg-white p-4 text-black shadow-md xl:p-32'>
-        <h1 className='mb-4 text-2xl font-bold'>Shell USA, Inc.</h1>
+    <div className='max-h-screen w-full overflow-y-auto bg-transparent'>
+      <div className='min-h-[95vh] rounded-lg bg-white text-black shadow-md'>
+        <h1 className='mb-4 text-[30px] font-bold'>Shell USA, Inc.</h1>
         <div className='flex flex-col gap-2 lg:flex-row'>
           <div className='flex flex-col gap-2'>
             <p className='min-w-[120px]'>Company Logo</p>
-            <Image
-              src={ProfileImage}
-              alt='Company Logo'
-              className='size-[80px]'
-            />
+            <Avatar className='size-20'>
+              <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
           </div>
           <div className='relative w-full gap-2'>
             <Input type='file' id='avatar-input' className='hidden' />
@@ -52,11 +50,13 @@ export default function OrganizationComponent() {
           <div className='mt-8'>
             <p className='text-lg font-semibold'>Owner</p>
             <div className='flex items-center gap-4'>
-              <Image
-                src={ProfileImage}
-                alt='Owner Profile'
-                className='size-[40px] rounded-full'
-              />
+              <Avatar>
+                <AvatarImage
+                  src='https://github.com/shadcn.png'
+                  alt='@shadcn'
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
               <div>
                 <p className='font-bold'>Jamie Smith</p>
                 <p className='text-gray-500'>jsmith@shell.com</p>

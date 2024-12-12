@@ -9,12 +9,12 @@ export default function UserLayout(props: UserLayoutProps) {
   const { children } = props;
 
   return (
-    <div className='grid h-[calc(100vh-2.5rem)] grid-cols-[336px_1fr] grid-rows-1 gap-4'>
+    <div className='grid h-[calc(100vh-2.5rem)] grid-cols-[336px_1fr] grid-rows-1 gap-4 overflow-y-hidden'>
       <div className='flex flex-col gap-4'>
         <OrganizationCard />
         <UserContentNav />
       </div>
-      <div>{children}</div>
+      <div className='overflow-y-hidden shadow-md'>{children}</div>
     </div>
   );
 }
