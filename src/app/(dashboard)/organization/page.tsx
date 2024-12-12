@@ -1,10 +1,5 @@
 import 'server-only';
 
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate
-} from '@tanstack/react-query';
 import { and, eq } from 'drizzle-orm';
 import { type Metadata } from 'next';
 import { cookies } from 'next/headers';
@@ -12,11 +7,8 @@ import { redirect } from 'next/navigation';
 import { withAuthUser } from '#/components/auth-wrapper';
 import { db } from '#/db';
 import { RoleEnum, roles } from '#/db/schema';
-import getInvites from '#/lib/actions/invite/read-invite-list';
-import getOrganization from '#/lib/actions/organization/read-org';
-import getOrgMembers from '#/lib/actions/organization/read-org-members';
-import getUserCurrentOrg from '#/lib/actions/shared/get-current-org';
-// import DeleteOrgDialog from './_components/delete-org-dialog';
+import { ROUTE_MAP } from '#/routes';
+import { HydrateClient, trpc } from '#/trpc/query-clients/server';
 import DeleteOrgDialog from './_components/delete-org-dialog';
 import UserTable from './_components/user-table';
 
@@ -28,34 +20,25 @@ export default withAuthUser(
   async (props) => {
     const { user } = props;
 
-    const queryClient = new QueryClient();
-    const currentOrgId =
-      (await cookies()).get('current-org')?.value ??
-      (await getUserCurrentOrg(user.id));
-
+    const cookieStore = await cookies();
+    const currentOrgId = cookieStore.get('current-org')?.value;
     if (!currentOrgId) return redirect('/');
 
     const [org, userRoles] = await Promise.all([
-      getOrganization(currentOrgId),
+      trpc.org.read(currentOrgId),
       db
         .select({ role: roles.role })
         .from(roles)
         .where(and(eq(roles.orgId, currentOrgId), eq(roles.userId, user.id)))
         .then((q) => q.map((r) => r.role)),
-      queryClient.prefetchQuery({
-        queryKey: ['invites', { orgId: currentOrgId }],
-        queryFn: () => getInvites({ orgId: currentOrgId })
-      }),
-      queryClient.prefetchQuery({
-        queryKey: ['members', { orgId: currentOrgId }],
-        queryFn: () => getOrgMembers({ orgId: currentOrgId })
-      })
+      trpc.org.invite.list.prefetch({ orgId: currentOrgId }),
+      trpc.org.member.list.prefetch({ orgId: currentOrgId })
     ]);
 
     if (!org) throw new Error('Invalid Organization');
 
     return (
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      <HydrateClient>
         <div className='flex flex-col gap-3'>
           <div className='flex items-end justify-between'>
             <p className='text-2xl font-bold leading-none text-gray-900'>
@@ -72,8 +55,8 @@ export default withAuthUser(
             currentUserRoles={userRoles}
           />
         </div>
-      </HydrationBoundary>
+      </HydrateClient>
     );
   },
-  { redirectTo: '/login' }
+  { redirectTo: ROUTE_MAP.LOGIN }
 );
