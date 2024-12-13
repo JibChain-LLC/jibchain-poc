@@ -1,7 +1,7 @@
 'use client';
 import { Eye, Shield, Star } from 'lucide-react';
 import React from 'react';
-import { Button } from '../ui/button';
+import { Button } from '#/components/ui/button';
 import {
   Accordion,
   AccordionContent,

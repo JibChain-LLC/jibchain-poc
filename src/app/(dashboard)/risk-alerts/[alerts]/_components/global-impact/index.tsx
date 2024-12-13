@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
-import CountryRiskProbability from './country-risk-probability';
 import GlobalImpactCards from './global-impact-cards';
-import { GlobalImpactTable } from './global-impact-table';
+import GlobalImpactTable from './global-impact-table';
+import CountryRiskProbability from './world-map';
 
 const GlobalImpact = () => {
   return (

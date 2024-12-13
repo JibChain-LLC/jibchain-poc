@@ -48,7 +48,7 @@ const GlobalImpactCards = () => {
           title={item.title}
           subTitle={item.value}
           active={index === 0}
-          className={cn(index === 0 && 'order-3 lg:-order-1')}
+          className={cn(index === 0 && 'order-last lg:order-first')}
         />
       ))}
     </div>

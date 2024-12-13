@@ -9,6 +9,7 @@ import {
   DialogTitle
 } from '#/components/ui/dialog';
 import { useToast } from '#/components/ui/use-toast';
+import revalidateAllPath from '#/revalidate-path';
 import { trpc } from '#/trpc/query-clients/client';
 
 export default function RemoveUserDialog(props: {
@@ -33,8 +34,11 @@ export default function RemoveUserDialog(props: {
         description: data.message
       });
     },
-    onSuccess: () => {
-      if (isYou) router.refresh();
+    onSuccess: async () => {
+      if (isYou) {
+        await revalidateAllPath();
+        router.refresh();
+      }
     }
   });
 
