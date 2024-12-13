@@ -1,7 +1,7 @@
 import { type ColumnDef } from '@tanstack/react-table';
 import { Badge } from '#/components/ui/badge';
+import { DataTable } from '#/components/ui/data-table';
 import { supplierTable } from '#/utils/utils';
-import { DataTable } from '../ui/data-table';
 
 type Supplier = {
   supplier: string;
@@ -49,7 +49,7 @@ const columns: ColumnDef<Supplier>[] = [
   }
 ];
 
-export function GlobalImpactTable() {
+export default function GlobalImpactTable() {
   return (
     <DataTable
       columns={columns}
@@ -63,5 +63,3 @@ export function GlobalImpactTable() {
     />
   );
 }
-
-export default GlobalImpactTable;

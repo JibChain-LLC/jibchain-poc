@@ -10,9 +10,9 @@ import { geoCylindricalStereographic } from 'd3-geo-projection';
 import { Building } from 'lucide-react';
 import { useLayoutEffect } from 'react';
 import ReactDOMServer from 'react-dom/server';
+import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { cn } from '#/lib/utils';
 import { bubble_data, BubbleData } from '#/utils/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const BulletTooltip = () => {
   return (
@@ -102,7 +102,7 @@ const createPointSeries = (chart: am5map.MapChart, root: am5.Root) => {
   });
 };
 
-const CountryRiskProbability = () => {
+const WorldMap = () => {
   useLayoutEffect(() => {
     const root = am5.Root.new('chartdiv');
     root.setThemes([
@@ -144,4 +144,4 @@ const CountryRiskProbability = () => {
   );
 };
 
-export default CountryRiskProbability;
+export default WorldMap;

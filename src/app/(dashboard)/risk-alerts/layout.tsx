@@ -1,4 +1,5 @@
 import OrgCard from '#/components/organization-card';
+import { Card, CardContent } from '#/components/ui/card';
 import RiskNav from './_components/risk-nav';
 
 interface RiskAlertsLayoutProps {
@@ -14,7 +15,9 @@ export default function RiskAlertsLayout(props: RiskAlertsLayoutProps) {
         <OrgCard />
         <RiskNav />
       </div>
-      {children}
+      <Card>
+        <CardContent className='h-full px-8 py-7'>{children}</CardContent>
+      </Card>
     </div>
   );
 }

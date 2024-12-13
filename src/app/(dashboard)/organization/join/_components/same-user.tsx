@@ -2,8 +2,8 @@
 
 import { LoaderCircle, SquareCheckBig } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import invalidateAll from '#/app/(auth)/logout/action';
 import { Button } from '#/components/ui/button';
+import invalidateAll from '#/revalidate-path';
 import { trpc } from '#/trpc/query-clients/client';
 
 export default function SameUser(props: { inviteId: string }) {
@@ -14,6 +14,7 @@ export default function SameUser(props: { inviteId: string }) {
     async onSuccess() {
       await invalidateAll();
       router.push('/organization');
+      router.refresh();
     }
   });
 

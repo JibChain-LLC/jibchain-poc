@@ -186,7 +186,7 @@ export const overviewCardData = [
   {
     title: 'Impacted Suppliers',
     value: '23',
-    icon: '/arrow-right.svg',
+    icon: '/overhead-containers.jpg',
     alt: 'Suppliers'
   }
 ];
