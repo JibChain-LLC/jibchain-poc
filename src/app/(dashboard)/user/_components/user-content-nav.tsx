@@ -17,7 +17,7 @@ export default function UserContentNav() {
   const pathname = usePathname();
 
   return (
-    <Card className='grow'>
+    <Card className='grow overflow-y-auto'>
       <CardContent className='flex flex-col gap-2'>
         {buttons.map((button) => (
           <Link

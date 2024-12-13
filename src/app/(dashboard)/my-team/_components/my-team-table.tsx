@@ -36,7 +36,6 @@ import {
   TableRow
 } from '#/components/ui/table';
 import ShellImage from '#/images/shell.svg';
-import smallLogo from '#/images/small.svg';
 import {
   Select,
   SelectContent,
@@ -47,6 +46,7 @@ import {
 import { AddTeamMemberModal } from './add-team-member-modal';
 import { ChangeRoleModal } from './change-role-modal';
 import { DeactivateUserModal } from './deactivate-user-modal';
+import smallLogo from '#/images/small.svg';
 
 export type Supplier = {
   image: string;
