@@ -4,7 +4,18 @@ import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
 import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
-import smallLogo from '#/images/small.svg';
+
+type ButtonVariant = {
+  text: string;
+  variant?:
+    | 'default'
+    | 'link'
+    | 'outline'
+    | 'secondary'
+    | 'destructive'
+    | 'ghost';
+  className?: string;
+};
 
 export const roles = [
   { value: 'Owner', label: 'Owner' },
@@ -276,7 +287,6 @@ export const supplierRiskLevels = [
 ];
 
 export type Suppliers = {
-  image: string;
   supplier: string;
   riskStatus: 'Low' | 'Medium' | 'High';
   topRisk: string;
@@ -286,7 +296,6 @@ export type Suppliers = {
 
 export const supplierTableInvoices: Suppliers[] = [
   {
-    image: smallLogo,
     supplier: 'Blue Sky Inc.',
     riskStatus: 'Low',
     topRisk: 'Ransomware Attack',
@@ -294,7 +303,6 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'EU'
   },
   {
-    image: smallLogo,
     supplier: 'Vandhana',
     riskStatus: 'Medium',
     topRisk: 'Political Instability',
@@ -302,7 +310,6 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'AF'
   },
   {
-    image: smallLogo,
     supplier: 'LGT Logistics',
     riskStatus: 'Medium',
     topRisk: 'Cyber Security',
@@ -310,7 +317,6 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'EU'
   },
   {
-    image: smallLogo,
     supplier: 'Vishal Tradings',
     riskStatus: 'High',
     topRisk: 'Ransomware Attack',
@@ -318,7 +324,6 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'NA'
   },
   {
-    image: smallLogo,
     supplier: 'AR Traders',
     riskStatus: 'Low',
     topRisk: 'Labor Strike',
@@ -326,7 +331,6 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'EU'
   },
   {
-    image: smallLogo,
     supplier: 'Gogo Tech',
     riskStatus: 'High',
     topRisk: 'Ransomware Attack',
@@ -334,7 +338,6 @@ export const supplierTableInvoices: Suppliers[] = [
     region: 'SA'
   },
   {
-    image: smallLogo,
     supplier: 'National Lumber',
     riskStatus: 'Medium',
     topRisk: 'Legal Risk',
@@ -428,5 +431,111 @@ export const bubble_data: BubbleData[] = [
     latitude: 35.6895,
     longitude: 139.6917,
     color: am5.color(0xf05252)
+  }
+];
+export const planDetails = {
+  name: 'Pro Plan',
+  type: 'Essentials',
+  price: '$1,300/month',
+  renewalDate: 'Dec 01 2024',
+  suppliers: {
+    current: 243,
+    total: 500
+  }
+};
+export const billingBenefits = [
+  { text: 'Number of suppliers: 500' },
+  { text: 'Team size: 10' },
+  { text: 'Mitigation strategies' },
+  { text: 'Comprehensive reporting' },
+  { text: 'Unlimited tracking' },
+  { text: 'Scenario planning' },
+  { text: 'Phone support' }
+];
+export const billingActions: ButtonVariant[] = [
+  {
+    text: 'Cancel Subscription',
+    variant: 'outline',
+    className: ''
+  },
+  {
+    text: 'Upgrade to Platinum',
+    variant: 'default'
+  }
+];
+export type BillingHistoryTypes = {
+  id: string;
+  amount: number;
+  status: 'Pending' | 'Paid';
+  InvoiceId: string;
+  date: string;
+};
+
+export const billingHistroyData: BillingHistoryTypes[] = [
+  {
+    id: '1',
+    amount: 150,
+    status: 'Pending',
+    date: '01 May 2024',
+    InvoiceId: '#1846210'
+  },
+  {
+    id: '2',
+    amount: 200,
+    status: 'Paid',
+    date: '01 May 2024',
+    InvoiceId: '#1846215'
+  },
+  {
+    id: '3',
+    amount: 350,
+    status: 'Pending',
+    date: '01 May 2024',
+    InvoiceId: '#1846217'
+  },
+  {
+    id: '4',
+    amount: 120,
+    status: 'Paid',
+    date: '01 May 2024',
+    InvoiceId: '#1846212'
+  },
+  {
+    id: '5',
+    amount: 250,
+    status: 'Pending',
+    date: '01 May 2024',
+    InvoiceId: '#1846219'
+  }
+];
+
+export const paymentSwitches = [
+  {
+    id: 'recurring',
+    label: 'Recurring payment',
+    description: 'Automatically charge your account at regular intervals.'
+  },
+  {
+    id: 'quick-purchase',
+    label: 'Quick purchase',
+    description: 'You will be asked to verify your account for all purchases.'
+  }
+];
+
+export const paymentMethods = [
+  {
+    id: 'visa',
+    label: 'Visa ending in 7658',
+    description: 'Expiry 10/2024'
+  },
+  {
+    id: 'mastercard',
+    label: 'Mastercard ending in 8429',
+    description: 'Expiry 04/2026'
+  },
+  {
+    id: 'paypal',
+    label: 'PayPal account',
+    description: ''
   }
 ];
