@@ -13,7 +13,6 @@ export default function OverviewComponent() {
           src={overviewCardData[0].icon}
           alt={overviewCardData[0].alt}
           subHeader={overviewCardData[0].value}
-          onClick={() => null}
         />
         <OverviewCard
           header={overviewCardData[1].title}
@@ -26,6 +25,7 @@ export default function OverviewComponent() {
           subHeader={overviewCardData[2].value}
           src={overviewCardData[2].icon}
           onClick={() => console.log('test')}
+          alt={overviewCardData[2].alt}
         />
       </div>
 
