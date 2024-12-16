@@ -2,7 +2,14 @@ import { MoreHorizontal } from 'lucide-react';
 import { Badge } from '#/components/ui/badge';
 import { Button } from '#/components/ui/button';
 
-export default function RiskAlertHeader() {
+interface RiskAlertHeaderProps {
+  category: string;
+  probability: number;
+}
+
+export default function RiskAlertHeader(props: RiskAlertHeaderProps) {
+  const { category, probability } = props;
+
   return (
     <div className='mb-6 flex items-center justify-between'>
       <div className='flex flex-col gap-1.5'>
@@ -11,11 +18,11 @@ export default function RiskAlertHeader() {
             Live view:
           </span>
           <Badge variant={'destructive'}>
-            {'High'} Threat: {'76'}%
+            {'High'} Threat: {Math.floor(probability * 100)}%
           </Badge>
         </div>
         <p className='text-2xl font-semibold leading-tight text-gray-950'>
-          {'Ransomware Attack'}
+          {category}
         </p>
       </div>
       <div className='flex items-center gap-3'>

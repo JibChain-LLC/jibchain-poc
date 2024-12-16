@@ -1,6 +1,7 @@
 import { FileText, Globe, ShieldAlert } from 'lucide-react';
 import { createElement } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs';
+import { trpc } from '#/trpc/query-clients/server';
 import GlobalImpact from './_components/global-impact';
 import OverviewComponent from './_components/overview';
 import RiskAlertHeader from './_components/risks-alerts-header';
@@ -52,10 +53,15 @@ const operations = [
 
 interface RiskPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ alerts: string }>;
 }
 
 export default async function RiskPage(props: RiskPageProps) {
+  const { alerts } = await props.params;
   const { tab } = await props.searchParams;
+
+  const data = await trpc.dash.risks.read(alerts).catch(() => null);
+  if (data === null) return <p>No such risk event</p>;
 
   const defaultTab: (typeof operations)[number]['value'] =
     tab && !Array.isArray(tab) && operations.some((o) => o.value === tab)
@@ -64,7 +70,10 @@ export default async function RiskPage(props: RiskPageProps) {
 
   return (
     <div className='flex h-full flex-col'>
-      <RiskAlertHeader />
+      <RiskAlertHeader
+        probability={data.probability}
+        category={data.category}
+      />
       <Tabs
         className='flex w-full flex-col overflow-hidden'
         defaultValue={defaultTab}>

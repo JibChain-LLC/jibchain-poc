@@ -18,7 +18,7 @@ export const timeFrames = [
   { label: 'This month', value: 'this-month' }
 ] as const;
 
-type TimeValue = (typeof timeFrames)[number]['value'];
+export type TimeValue = (typeof timeFrames)[number]['value'];
 
 type TimeFrameProps = {
   onValueChange?: (v: TimeValue) => void;

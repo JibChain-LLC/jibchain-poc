@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
+import { trpc } from '#/trpc/query-clients/server';
 
-const Dashboard = () => {
-  redirect('/risk-alerts/ransomware-attack');
-};
-
-export default Dashboard;
+export default async function Dashboard() {
+  const { data } = await trpc.dash.risks.list();
+  redirect(`/risk-alerts/${data[0].id}`);
+}

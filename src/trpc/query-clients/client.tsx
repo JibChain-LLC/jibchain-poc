@@ -9,9 +9,13 @@ import {
   TRPCLink
 } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
+import { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import { useState } from 'react';
 import { AppRouter } from '..';
 import { makeQueryClient } from './make-query-client';
+
+export type RouterInputs = inferRouterInputs<AppRouter>;
+export type RouteOutputs = inferRouterOutputs<AppRouter>;
 
 const links: TRPCLink<AppRouter>[] = [
   splitLink({
