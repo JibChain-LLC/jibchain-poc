@@ -18,7 +18,7 @@ const AccordionItem = React.forwardRef<
       ref={ref}
       className={cn(
         'group/item flex items-start gap-3.5',
-        'relative z-0 after:absolute after:left-[15px] after:top-8 after:-z-10 after:h-full after:w-0.5 after:bg-gray-100 after:content-[""]',
+        'relative z-0 after:absolute after:left-[15px] after:top-8 after:-z-10 after:h-full after:w-0.5 after:bg-gray-100 after:content-[""] last:after:hidden',
         className
       )}
       {...rest}>
