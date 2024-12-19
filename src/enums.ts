@@ -23,6 +23,17 @@ export enum RiskCategoryEnum {
   LABOR = 'Labor Strike'
 }
 
+export enum IndustryEnum {
+  AUTOMOTIVE = 'Automotive Sector',
+  ELECTRONICS = 'Electronics and Technology',
+  HEALTHCARE = 'Healthcare and Pharmaceuticals',
+  RETAIL = 'Retail and E-Commerce',
+  ENERGY = 'Energy and Utilities',
+  DEFENSE = 'Defense and Aerospace',
+  CONSTRUCTION = 'Construction and Infrastructure',
+  LOGISTICS = 'Logistics and Transportation'
+}
+
 export enum RegionEnum {
   AF = 'Africa',
   AN = 'Antartica',
