@@ -1,11 +1,30 @@
 import { z } from 'zod';
-import { RoleEnum } from '#/db/schema';
+import type { invites, organizations } from '#/db/schema';
+import { RoleEnum } from '#/enums';
+
+type OrgInsertSchema = z.ZodSchema<
+  Required<
+    Omit<typeof organizations.$inferInsert, 'ownerId' | 'dateCreated' | 'id'>
+  >
+>;
+
+type OrgUpdateSchema = z.ZodSchema<
+  Partial<
+    Omit<typeof organizations.$inferInsert, 'ownerId' | 'dateCreated' | 'id'>
+  >
+>;
+
+type InviteInsertSchema = z.ZodSchema<
+  Required<
+    Omit<typeof invites.$inferInsert, 'id' | 'inviterId' | 'existingUser'>
+  >
+>;
 
 export const createInviteInput = z.object({
   orgId: z.string().uuid(),
-  emailAddress: z.string().email(),
+  email: z.string().email(),
   role: z.nativeEnum(RoleEnum)
-});
+}) satisfies InviteInsertSchema;
 
 export const signUpInput = z
   .object({
@@ -24,8 +43,16 @@ export const signUpInput = z
   });
 
 export const createOrgInput = z.object({
-  name: z.string()
-});
+  name: z.string(),
+  addressLines: z.string().min(1).array().min(1),
+  locality: z.string().min(1, 'City is required'),
+  administrativeArea: z.string(),
+  postalCode: z.string(),
+  countryCode: z.string().length(2)
+}) satisfies OrgInsertSchema;
+
+export const updateOrgInput =
+  createOrgInput.partial() satisfies Partial<OrgUpdateSchema>;
 
 export const loginInput = z.object({
   email: z.string().email(),

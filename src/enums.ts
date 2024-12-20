@@ -1,3 +1,10 @@
+export enum RoleEnum {
+  OWNER = 'Owner',
+  ADMIN = 'Admin',
+  EDITOR = 'Editor',
+  USER = 'User'
+}
+
 export enum RiskLevelEnum {
   LOW = 'low',
   MED = 'med',

@@ -3,7 +3,8 @@ import 'server-only';
 import { type User } from '@supabase/supabase-js';
 import { and, eq, inArray } from 'drizzle-orm';
 import { db } from '#/db';
-import { RoleEnum, roles } from '#/db/schema';
+import { roles } from '#/db/schema';
+import { RoleEnum } from '#/enums';
 import { createClient } from '#/lib/supabase/server';
 
 type ActionRes<D> = { ok: true; data: D } | { ok: false; message: string };
