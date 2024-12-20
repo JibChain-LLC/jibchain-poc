@@ -1,19 +1,19 @@
-"use client"
+'use client';
 import Image from 'next/image';
 import React from 'react';
 
-const NotFoundPage = () => {
+const ErrorPage = () => {
   return (
     <div className='flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-6'>
       <h1 className='text-[20px] font-bold text-green-600'>
-        404 PAGE NOT FOUND
+        500 INTERNAL ERROR{' '}
       </h1>
-      <p className='mb-6 text-center text-[36px] text-black font-semibold'>
-        Doh! This page doesn't exist.
+      <p className='mb-6 text-center text-[36px] font-semibold text-black'>
+        Whoops! We got in a bit of a pickle!{' '}
       </p>
 
       <Image
-        src='/error404.jpg'
+        src='/error500.jpg'
         alt='Error illustration'
         width={300}
         height={300}
@@ -31,4 +31,4 @@ const NotFoundPage = () => {
   );
 };
 
-export default NotFoundPage;
+export default ErrorPage;
