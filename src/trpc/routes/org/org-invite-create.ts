@@ -14,7 +14,7 @@ export const createInvite = authProcedure
   .input(createInviteInput)
   .mutation(async (opts) => {
     const { user: u } = opts.ctx;
-    const { orgId, emailAddress, role } = opts.input;
+    const { orgId, email: emailAddress, role } = opts.input;
 
     const auth = await authCheck({
       user: u,

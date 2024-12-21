@@ -2,13 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
-import { cloneElement } from 'react';
-import { FieldPath, FieldValues, useForm, useFormState } from 'react-hook-form';
+import { useForm, useFormState } from 'react-hook-form';
 import { Button } from '#/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -24,95 +22,11 @@ import {
   SelectValue
 } from '#/components/ui/select';
 import { useGoTo } from '#/hooks';
-import { cn } from '#/lib/utils';
 import { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
 import { createOrgInput } from '#/trpc/schemas';
 
 type CreateOrgSchema = RouterInputs['org']['create'];
-
-type FormFieldWrapperProps<
-  TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>
-> = Pick<
-  React.ComponentProps<typeof FormField<TFieldValues, TName>>,
-  'control' | 'name'
-> & {
-  label: string;
-  required?: boolean;
-  desc?: string;
-} & (
-    | {
-        type?: 'input';
-        props?: React.ComponentProps<typeof Input>;
-      }
-    | {
-        type: 'select';
-        props?: React.ComponentProps<typeof Select>;
-        items: { label: string; value: string }[];
-      }
-  );
-
-function FormFieldWrapper<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
->(props: FormFieldWrapperProps<TFieldValues, TName>) {
-  const {
-    control,
-    name,
-    label,
-    required = false,
-    desc,
-    type = 'input',
-    props: p,
-    items
-  } = props;
-
-  return (
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel
-            className={cn(
-              required && 'after:ml-1 after:text-red-700 after:content-["*"]'
-            )}>
-            {label}
-          </FormLabel>
-          {(() => {
-            switch (type) {
-              case 'select':
-                return (
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder='sdfsdsdf' defaultValue={''} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {items.map(({ label, value }) => (
-                        <SelectItem value={value}>{label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                );
-              default:
-                return (
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                );
-            }
-          })()}
-
-          {desc && <FormDescription>{desc}</FormDescription>}
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  );
-}
 
 export default function CreateOrgForm() {
   const goTo = useGoTo();
@@ -142,9 +56,7 @@ export default function CreateOrgForm() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((d) => {
-          console.log(d);
-        })}
+        onSubmit={form.handleSubmit((d) => mutate(d))}
         className='flex flex-col gap-4'>
         <FormField
           control={form.control}
@@ -153,8 +65,9 @@ export default function CreateOrgForm() {
             <FormItem>
               <FormLabel>Organization Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder='Acme Co. LLC' />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -163,33 +76,84 @@ export default function CreateOrgForm() {
           name='addressLines.0'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>Street Address</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder='123 Main Street' />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
-        <FormFieldWrapper control={form.control} name='locality' label='City' />
-        <FormFieldWrapper
+        <FormField
           control={form.control}
-          name='administrativeArea'
-          label='State'
+          name='locality'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>City</FormLabel>
+              <FormControl>
+                <Input placeholder='New York' {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
+
         <div className='flex gap-4'>
-          <FormFieldWrapper
+          <FormField
             control={form.control}
             name='postalCode'
-            label='Zip Code'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Zip Code</FormLabel>
+                <FormControl>
+                  <Input placeholder='1235' {...field} />
+                </FormControl>
+              </FormItem>
+            )}
           />
-          <FormFieldWrapper
-            type='select'
-            items={[{ label: 'United States', value: 'US' }]}
+          <FormField
             control={form.control}
-            name='countryCode'
-            label='Country'
+            name='administrativeArea'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>State/Province</FormLabel>
+                <FormControl>
+                  <Input placeholder='NY' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name='countryCode'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Country</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder='Select a country' />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value='US'>United States</SelectItem>
+                  <SelectItem value='CA'>Canada</SelectItem>
+                  <SelectItem value='GB'>United Kingdom</SelectItem>
+                  <SelectItem value='AU'>Australia</SelectItem>
+                  <SelectItem value='DE'>Germany</SelectItem>
+                  <SelectItem value='FR'>France</SelectItem>
+                  <SelectItem value='JP'>Japan</SelectItem>
+                  <SelectItem value='CN'>China</SelectItem>
+                  <SelectItem value='IN'>India</SelectItem>
+                  <SelectItem value='BR'>Brazil</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormRootError />
         <Button type='submit' disabled={isPending || isSuccess || !isValid}>

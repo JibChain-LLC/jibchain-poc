@@ -43,12 +43,15 @@ export const signUpInput = z
   });
 
 export const createOrgInput = z.object({
-  name: z.string(),
-  addressLines: z.string().min(1).array().min(1),
+  name: z.string().min(1, 'Organization name is required'),
+  addressLines: z.string().min(1, 'Address is required').array().min(1),
   locality: z.string().min(1, 'City is required'),
-  administrativeArea: z.string(),
-  postalCode: z.string(),
-  countryCode: z.string().length(2)
+  administrativeArea: z.string().min(1, 'State/Province is required'),
+  postalCode: z.string().min(1, 'Zip Code is required'),
+  countryCode: z
+    .string()
+    .min(1, 'Country is required')
+    .length(2, 'Country must be two letter code (eg. US)')
 }) satisfies OrgInsertSchema;
 
 export const updateOrgInput =

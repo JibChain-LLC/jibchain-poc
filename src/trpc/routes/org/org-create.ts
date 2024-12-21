@@ -11,14 +11,29 @@ export const createOrg = authProcedure
   .input(createOrgInput)
   .mutation(async (opts) => {
     const { user } = opts.ctx;
-    const { name } = opts.input;
+    const {
+      name,
+      addressLines,
+      locality,
+      administrativeArea,
+      postalCode,
+      countryCode
+    } = opts.input;
 
     const cookieStore = await cookies();
 
     const orgId = await db.transaction(async (tx) => {
       const [org] = await tx
         .insert(organizations)
-        .values({ name, ownerId: user.id })
+        .values({
+          name,
+          ownerId: user.id,
+          addressLines,
+          locality,
+          administrativeArea,
+          postalCode,
+          countryCode
+        })
         .returning({ orgId: organizations.id });
 
       await tx
