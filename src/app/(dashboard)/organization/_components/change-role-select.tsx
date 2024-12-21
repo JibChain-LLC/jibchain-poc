@@ -7,7 +7,7 @@ import {
   SelectValue
 } from '#/components/ui/select';
 import { toast } from '#/components/ui/use-toast';
-import { RoleEnum } from '#/db/schema';
+import { RoleEnum } from '#/enums';
 import { trpc, vanillaTRPC } from '#/trpc/query-clients/client';
 
 interface ChangeRoleSelectProps {

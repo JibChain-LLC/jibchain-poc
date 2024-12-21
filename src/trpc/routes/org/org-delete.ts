@@ -2,7 +2,8 @@ import { eq } from 'drizzle-orm';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
 import { db } from '#/db';
-import { organizations, RoleEnum } from '#/db/schema';
+import { organizations } from '#/db/schema';
+import { RoleEnum } from '#/enums';
 import authCheck from '#/lib/server/shared/auth-check';
 import { authProcedure } from '#/trpc/init';
 
