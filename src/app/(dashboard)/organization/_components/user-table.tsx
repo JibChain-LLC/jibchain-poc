@@ -6,7 +6,7 @@ import { Building } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { Badge } from '#/components/ui/badge';
 import { DataTable } from '#/components/ui/data-table';
-import { RoleEnum } from '#/db/schema';
+import { RoleEnum } from '#/enums';
 import { cn } from '#/lib/utils';
 import { trpc } from '#/trpc/query-clients/client';
 import ChangeRoleSelect from './change-role-select';

@@ -30,7 +30,7 @@ import {
   SelectValue
 } from '#/components/ui/select';
 import { useToast } from '#/components/ui/use-toast';
-import { RoleEnum } from '#/db/schema';
+import { RoleEnum } from '#/enums';
 import type { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
 import { createInviteInput } from '#/trpc/schemas';
@@ -46,7 +46,7 @@ export default function InviteDialog(props: { orgId: string }) {
   const form = useForm<InviteSchema>({
     resolver: zodResolver(inviteSchema),
     defaultValues: {
-      emailAddress: '',
+      email: '',
       role: RoleEnum.USER
     }
   });
@@ -89,7 +89,7 @@ export default function InviteDialog(props: { orgId: string }) {
             <div className='flex flex-row gap-3'>
               <FormField
                 control={form.control}
-                name='emailAddress'
+                name='email'
                 render={({ field }) => (
                   <FormItem className='flex-1'>
                     <FormControl>

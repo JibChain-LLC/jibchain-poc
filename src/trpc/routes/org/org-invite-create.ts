@@ -4,7 +4,8 @@ import { TRPCError } from '@trpc/server';
 import { and, eq } from 'drizzle-orm';
 import { db } from '#/db';
 import { users } from '#/db/auth-schema';
-import { invites, RoleEnum, roles } from '#/db/schema';
+import { invites, roles } from '#/db/schema';
+import { RoleEnum } from '#/enums';
 import authCheck from '#/lib/server/shared/auth-check';
 import { authProcedure } from '#/trpc/init';
 import { createInviteInput } from '../../schemas';
@@ -13,7 +14,7 @@ export const createInvite = authProcedure
   .input(createInviteInput)
   .mutation(async (opts) => {
     const { user: u } = opts.ctx;
-    const { orgId, emailAddress, role } = opts.input;
+    const { orgId, email: emailAddress, role } = opts.input;
 
     const auth = await authCheck({
       user: u,

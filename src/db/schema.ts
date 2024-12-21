@@ -1,4 +1,5 @@
-// import { relations } from 'drizzle-orm';
+import 'server-only';
+
 import { sql } from 'drizzle-orm';
 import {
   boolean,
@@ -9,14 +10,8 @@ import {
   uuid,
   varchar
 } from 'drizzle-orm/pg-core';
+import { RoleEnum } from '#/enums';
 import { users } from './auth-schema';
-
-export enum RoleEnum {
-  OWNER = 'Owner',
-  ADMIN = 'Admin',
-  EDITOR = 'Editor',
-  USER = 'User'
-}
 
 export const roleEnum = pgEnum(
   'role_enums',
@@ -26,9 +21,16 @@ export const roleEnum = pgEnum(
 export const organizations = pgTable('organizations', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar('name', { length: 256 }).notNull(),
-  ownerId: uuid('owner_id').references(() => users.id, {
-    onDelete: 'set null'
-  }),
+  ownerId: uuid('owner_id')
+    .references(() => users.id, {
+      onDelete: 'set null'
+    })
+    .notNull(),
+  addressLines: text('address_lines').array(),
+  locality: text('locality'),
+  administrativeArea: text('administrative_area'),
+  postalCode: text('postal_code'),
+  countryCode: varchar('country_code', { length: 2 }),
   dateCreated: timestamp('date_created')
     .default(sql`now()`)
     .notNull()
