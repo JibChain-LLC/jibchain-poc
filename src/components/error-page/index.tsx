@@ -36,7 +36,7 @@ export default function ErrorPage(props: ErrorProps) {
   const { message, label, image: SVGElement } = messages[code];
 
   return (
-    <div className='flex h-screen w-full items-center justify-center'>
+    <div className='flex h-screen w-full items-center justify-center bg-gray-100'>
       <div className='flex flex-col items-center text-center'>
         <h1 className='text-xl font-extrabold uppercase text-green-500'>
           {code} {message}
