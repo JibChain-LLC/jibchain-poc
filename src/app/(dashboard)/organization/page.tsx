@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { withAuthUser } from '#/components/auth-wrapper';
 import { db } from '#/db';
-import { roles } from '#/db/schema';
+import { roles } from '#/db/schema/public';
 import { RoleEnum } from '#/enums';
 import { ROUTE_MAP } from '#/routes';
 import { HydrateClient, trpc } from '#/trpc/query-clients/server';

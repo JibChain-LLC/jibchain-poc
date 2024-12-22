@@ -4,7 +4,7 @@ import { and, eq, ne } from 'drizzle-orm';
 import { Building } from 'lucide-react';
 import { cookies } from 'next/headers';
 import { db } from '#/db';
-import { organizations, roles } from '#/db/schema';
+import { organizations, roles } from '#/db/schema/public';
 import { trpc } from '#/trpc/query-clients/server';
 import { withAuthUser } from './auth-wrapper';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';

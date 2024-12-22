@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import AuthWrapper from '#/components/auth-wrapper';
 import { db } from '#/db';
-import { invites, organizations } from '#/db/schema';
+import { invites, organizations } from '#/db/schema/public';
 import NoUser from './_components/no-user';
 import NotUser from './_components/not-user';
 import SameUser from './_components/same-user';

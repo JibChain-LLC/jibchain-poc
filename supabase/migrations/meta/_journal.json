@@ -64,6 +64,13 @@
       "when": 1734646035476,
       "tag": "0008_fluffy_raider",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1734826434930,
+      "tag": "0009_funny_boom_boom",
+      "breakpoints": true
     }
   ]
 }
