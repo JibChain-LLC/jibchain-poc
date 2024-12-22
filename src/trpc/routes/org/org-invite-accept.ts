@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
 import { db } from '#/db';
-import { invites, roles } from '#/db/schema';
+import { invites, roles } from '#/db/schema/public';
 import { authProcedure } from '#/trpc/init';
 
 export const acceptInvite = authProcedure

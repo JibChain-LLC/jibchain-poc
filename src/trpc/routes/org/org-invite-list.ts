@@ -4,7 +4,7 @@ import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '#/db';
-import { invites } from '#/db/schema';
+import { invites } from '#/db/schema/public';
 import authCheck from '#/lib/server/shared/auth-check';
 import { authProcedure } from '#/trpc/init';
 

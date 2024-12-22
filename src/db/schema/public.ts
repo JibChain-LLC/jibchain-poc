@@ -1,5 +1,3 @@
-import 'server-only';
-
 import { sql } from 'drizzle-orm';
 import {
   boolean,
@@ -11,7 +9,7 @@ import {
   varchar
 } from 'drizzle-orm/pg-core';
 import { RoleEnum } from '#/enums';
-import { users } from './auth-schema';
+import { users } from './auth';
 
 export const roleEnum = pgEnum(
   'role_enums',

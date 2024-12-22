@@ -2,7 +2,7 @@ import 'server-only';
 
 import { cookies } from 'next/headers';
 import { db } from '#/db';
-import { organizations, roles } from '#/db/schema';
+import { organizations, roles } from '#/db/schema/public';
 import { RoleEnum } from '#/enums';
 import { authProcedure } from '#/trpc/init';
 import { createOrgInput } from '#/trpc/schemas';

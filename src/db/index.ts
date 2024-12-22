@@ -2,8 +2,8 @@ import 'server-only';
 
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
-import * as authSchema from './auth-schema';
-import * as schema from './schema';
+import * as authSchema from './schema/auth';
+import * as schema from './schema/public';
 
 const { DATABASE_URL } = process.env;
 

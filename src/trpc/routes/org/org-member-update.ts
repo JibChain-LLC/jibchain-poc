@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server';
 import { and, eq } from 'drizzle-orm';
 import { createSelectSchema } from 'drizzle-zod';
 import { db } from '#/db';
-import { roles } from '#/db/schema';
+import { roles } from '#/db/schema/public';
 import { RoleEnum } from '#/enums';
 import authCheck from '#/lib/server/shared/auth-check';
 import { authProcedure } from '#/trpc/init';

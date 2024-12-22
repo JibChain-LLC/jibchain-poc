@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 import Link from 'next/link';
 import { withAuthUser } from '#/components/auth-wrapper';
 import { db } from '#/db';
-import { invites, organizations } from '#/db/schema';
+import { invites, organizations } from '#/db/schema/public';
 
 export default withAuthUser(
   async function NoMemberPage(props) {

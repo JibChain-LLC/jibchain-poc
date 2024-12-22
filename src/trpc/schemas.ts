@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { invites, organizations } from '#/db/schema';
+import type { invites, organizations } from '#/db/schema/public';
 import { RoleEnum } from '#/enums';
 
 type OrgInsertSchema = z.ZodSchema<
