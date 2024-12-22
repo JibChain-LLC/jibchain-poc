@@ -41,6 +41,12 @@ export enum IndustryEnum {
   LOGISTICS = 'Logistics and Transportation'
 }
 
+export enum ScenarioLevelEnum {
+  ASPIRATIONAL = 'Aspirational',
+  EXPLORATORY = 'Exploratory',
+  REMEDIATION = 'Remediation'
+}
+
 export enum RegionEnum {
   AF = 'Africa',
   AN = 'Antartica',
