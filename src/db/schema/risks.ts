@@ -1,4 +1,3 @@
-import { sql, SQL } from 'drizzle-orm';
 import {
   boolean,
   geometry,
@@ -65,7 +64,7 @@ export const risks = risksSchema.table('risk_entries', {
   mitigation: text(),
   justification: text(),
   created: timestamp('created_at').defaultNow(),
-  updated: timestamp('updated_at').generatedAlwaysAs((): SQL => sql`now()`),
+  updated: timestamp('updated_at').defaultNow(),
   verified: boolean().default(false)
 });
 
@@ -86,7 +85,7 @@ export const scenarioPlanning = risksSchema.table('scenario_planning', {
 export const suppliers = risksSchema.table('suppliers', {
   id: uuid().primaryKey().defaultRandom(),
   name: text(),
-  category: industryEnum(),
+  category: industryEnum('category'),
   addressLines: text('address_lines').array(),
   locality: text('locality'),
   administrativeArea: text('administrative_area'),

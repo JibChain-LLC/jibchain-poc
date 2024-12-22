@@ -71,6 +71,20 @@
       "when": 1734826434930,
       "tag": "0009_funny_boom_boom",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1734827390955,
+      "tag": "0010_loose_tarantula",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1734827914853,
+      "tag": "0011_blue_texas_twister",
+      "breakpoints": true
     }
   ]
 }
