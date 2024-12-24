@@ -61,3 +61,26 @@ export const loginInput = z.object({
   email: z.string().email(),
   password: z.string()
 });
+
+export const updateUserInput = z
+  .object({
+    firstName: z.string().min(1, { message: 'First name is required' }).optional(),
+    lastName: z.string().min(1, { message: 'Last name is required' }).optional(),
+    jobRole: z.string().min(1, { message: 'Job role is required' }).optional(),
+    email: z
+      .string({ required_error: 'Email address is required' })
+      .email('This is not a valid email')
+      .optional(),
+    password: z.string().min(10, { message: 'Password must be at least 10 characters' }).optional(),
+    confirmPassword: z.string().optional(),
+  })
+  .refine(
+    (data) => !data.password || data.password === data.confirmPassword,
+    {
+      message: 'Passwords must match',
+      path: ['confirmPassword'],
+    }
+  );
+
+
+
