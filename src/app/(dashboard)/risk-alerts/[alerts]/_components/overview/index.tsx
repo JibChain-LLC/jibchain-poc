@@ -1,10 +1,34 @@
 'use client';
 
 import { Button } from '#/components/ui/button';
-import { mitigationBestPractices, overviewCardData } from '#/utils/utils';
+import { formatNumber, formatPercentage, mitigationBestPractices, overviewCardData } from '#/utils/utils';
+import { usePathname } from 'next/navigation';
 import OverviewCard from './overview-card';
+import { RouteOutputs, trpc } from '#/trpc/query-clients/client';
+import { useState } from 'react';
+import { TimeValue } from '#/components/defaul-components/time-frame';
+import { useRouter } from 'next/navigation';
+
+type RiskListRes = RouteOutputs['dash']['risks']['list'];
+interface TimeProps {
+  timeValue?: TimeValue;
+  startDate: number;
+  endDate: number;
+}
+const ONE_DAY_MS = 86_400_000;
+
 
 export default function OverviewComponent() {
+  // const { timeValue: t, startDate: s, endDate } = props;
+  const router = useRouter();
+  const pathname = usePathname();
+  const parts = pathname.split("/");
+  const id = parts[parts.length - 1];
+  // const [startDate, setStartDate] = useState<number>(s);
+  // const [timeValue, setTimeValue] = useState<TimeValue>(t ?? 'live');
+  // const [riskList, setRiskList] = useState<RiskListRes>();
+  const { data } = trpc.dash.risks.read.useQuery(id)
+  console.log('data',data)
   return (
     <div>
       <div className='mb-6 grid gap-4 lg:mb-12 lg:grid-cols-3'>
@@ -12,17 +36,17 @@ export default function OverviewComponent() {
           header={overviewCardData[0].title}
           src={overviewCardData[0].icon}
           alt={overviewCardData[0].alt}
-          subHeader={overviewCardData[0].value}
+          subHeader={formatNumber(data?.financialImpact)}
         />
         <OverviewCard
           header={overviewCardData[1].title}
-          subHeader={overviewCardData[1].value}
+          subHeader={formatPercentage(data?.probability)}
           src={overviewCardData[1].icon}
           alt={overviewCardData[1].alt}
         />
         <OverviewCard
           header={overviewCardData[2].title}
-          subHeader={overviewCardData[2].value}
+          subHeader={data?.impactedSuppliers?.length!}
           src={overviewCardData[2].icon}
           onClick={() => console.log('test')}
           alt={overviewCardData[2].alt}
@@ -32,11 +56,10 @@ export default function OverviewComponent() {
       <div className='grid grid-cols-1 gap-4 lg:grid-cols-3'>
         <div className='lg:col-span-2 lg:pr-5'>
           <p className='mb-0.5 text-xs font-semibold text-gray-500'>
-            Article Summary
+              {data?.summary?.title}
           </p>
           <p className='mb-4 text-xl font-normal'>
-            Ransomware attacks continue to evolve and target organizations
-            across various sectors
+            {data?.summary?.bodyText}
           </p>
 
           <img
@@ -44,33 +67,28 @@ export default function OverviewComponent() {
             alt='article image'
             className='mb-4 h-48 w-full rounded-xl object-cover'></img>
 
-          <p className='mb-4 text-base font-normal'>
+          {/* <p className='mb-4 text-base font-normal'>
             Implement robust backup systems, conduct regular security awareness
             training, and develop a comprehensive incident response plan that
             doesn&apos;t involve paying ransoms.
-          </p>
+          </p> */}
 
-          <Button variant={'outline'} className='mb-8'>
+          <Button variant={'outline'} onClick={()=> router.push(`${data?.summary?.url}`)} className='mb-8'>
             Read Full Article
           </Button>
 
           <p className='mb-0.5 text-xs font-semibold text-gray-500'>
-            Risk Mitigation Best Practice
+            {data?.category} Best Practice
           </p>
           <p className='mb-6 text-base font-normal'>
-            Implement robust backup systems, conduct regular security awareness
-            training, and develop a comprehensive incident response plan that
-            doesn&apos;t involve paying ransoms.
+           {data?.bestPractice}
           </p>
 
           <p className='mb-0.5 text-xs font-semibold text-gray-500'>
             Justification
           </p>
           <p className='text-base font-normal'>
-            The Verizon 2023 Data Breach Investigations Report indicates that
-            ransomware has maintained its prevalence, involved in 24% of all
-            breaches. The report also notes a 13% increase in ransomware
-            incidents compared to the previous year.
+            {data?.justification}
           </p>
         </div>
         <div className='order-first flex h-fit flex-col gap-5 rounded-lg border border-gray-200 p-6 lg:order-last lg:col-span-1'>

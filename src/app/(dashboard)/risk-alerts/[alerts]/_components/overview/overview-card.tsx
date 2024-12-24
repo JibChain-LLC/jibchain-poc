@@ -6,7 +6,7 @@ import { cn } from '#/lib/utils';
 
 interface OverviewCardProps {
   header: string;
-  subHeader: string;
+  subHeader: string | number;
   src?: string;
   alt?: string;
   className?: string;

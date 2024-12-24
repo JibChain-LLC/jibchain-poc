@@ -539,3 +539,15 @@ export const paymentMethods = [
     description: ''
   }
 ];
+export function formatNumber(value:any) {
+  if (value >= 1_000_000) {
+      return `${(value / 1_000_000).toFixed(1)}m`;
+  } else if (value >= 1_000) {
+      return `${Math.round(value / 1_000)}k`;
+  } else {
+      return value
+  }
+}
+export function formatPercentage(value:any) {
+  return `${(value * 100).toFixed(1)}%`;
+}

@@ -1,62 +1,80 @@
 import { type ColumnDef } from '@tanstack/react-table';
 import { Badge } from '#/components/ui/badge';
 import { DataTable } from '#/components/ui/data-table';
-import { supplierTable } from '#/utils/utils';
 
-type Supplier = {
-  supplier: string;
-  region: string;
-  exposureToRisk: 'Low' | 'Medium' | 'High';
-  impactOperation: 'Low' | 'Medium' | 'High';
+export type ImpactedSupplier = {
+  name: string;
+  regions: string[];
+  exposure: 'low' | 'med' | 'high';
+  impact: 'low' | 'med' | 'high';
+  email: string;
+  phone: string;
 };
 
-const columns: ColumnDef<Supplier>[] = [
+const columns: ColumnDef<ImpactedSupplier>[] = [
   {
-    accessorKey: 'supplier',
+    accessorKey: 'name',
     header: 'Supplier',
     cell: ({ row }) => (
-      <div className='capitalize'>{row.getValue('supplier')}</div>
-    )
+      <div className='capitalize'>{row.getValue('name')}</div>
+    ),
   },
   {
-    accessorKey: 'exposureToRisk',
+    accessorKey: 'exposure',
     header: 'Exposure To Risk',
     cell: ({ row }) => {
-      const riskStatus = row.getValue<string>('exposureToRisk');
+      const riskStatus = row.getValue<string>('exposure');
       const riskColor =
-        riskStatus === 'Low'
+        riskStatus === 'low'
           ? 'default'
-          : riskStatus === 'Medium'
-            ? 'warning'
-            : 'destructive';
+          : riskStatus === 'med'
+          ? 'warning'
+          : 'destructive';
       return (
         <div className='capitalize'>
           <Badge variant={riskColor}>{riskStatus}</Badge>
         </div>
       );
-    }
+    },
   },
   {
-    accessorKey: 'region',
-    header: 'Region',
+    accessorKey: 'regions',
+    header: 'Regions',
     cell: ({ row }) => (
-      <div className='capitalize'>{row.getValue('region')}</div>
-    )
+      <div className='capitalize'>{row.getValue<string[]>('regions').join(', ')}</div>
+    ),
   },
   {
-    accessorKey: 'impactOperation',
-    header: 'Impact to Operation'
-  }
+    accessorKey: 'impact',
+    header: 'Impact to Operation',
+    cell: ({ row }) => (
+      <div className='capitalize'>{row.getValue('impact')}</div>
+    ),
+  },
+  {
+    accessorKey: 'email',
+    header: 'Email',
+    cell: ({ row }) => (
+      <div>{row.getValue('email')}</div>
+    ),
+  },
+  {
+    accessorKey: 'phone',
+    header: 'Phone',
+    cell: ({ row }) => (
+      <div>{row.getValue('phone')}</div>
+    ),
+  },
 ];
 
-export default function GlobalImpactTable() {
+export default function GlobalImpactTable({ data }: { data: { impactedSuppliers: ImpactedSupplier[] } }) {
   return (
     <DataTable
       columns={columns}
-      data={supplierTable}
+      data={data.impactedSuppliers || []}
       pagination={{
         manual: false,
-        pageSize: 10
+        pageSize: 10,
       }}
       tableClassName='bg-white'
       wrapperClassName='mt-6'
