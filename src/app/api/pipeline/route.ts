@@ -1,8 +1,13 @@
+import assert from 'assert';
+import { inArray } from 'drizzle-orm';
 import { EventRegistry, TopicPage, type ER } from 'eventregistry';
-import { merge } from 'lodash';
-import { batcher } from './_helpers/batcher';
+import { db } from '#/db';
+import { risks, scenarioPlanning } from '#/db/schema/risks';
+import { ScenarioLevelEnum } from '#/enums';
 import riskCategorizer from './_helpers/categorizer';
-import generateBestPractices from './_helpers/gen-best-practices';
+import generateAllItems from './_helpers/gen-all';
+import PerformanceMarker from './_helpers/performance-marker';
+import { batcher } from './_helpers/shared';
 import summarizeText from './_helpers/summarizer';
 
 const { NEWS_API_KEY, NEWS_API_TOPIC_URI } = process.env;
@@ -23,58 +28,157 @@ export async function POST() {
     allowUseOfArchive: false
   });
 
+  const articleTimer = new PerformanceMarker();
+  const summaryTimer = new PerformanceMarker();
+  const categoryTimer = new PerformanceMarker();
+  const generationTimer = new PerformanceMarker();
+
   try {
     const topic = new TopicPage(er);
     await topic.loadTopicPageFromER(NEWS_API_TOPIC_URI as string);
 
     // pull relevant articles through topic page
     console.log('GETTING ARTICLES');
-    const {
-      articles: { results: articleList }
-    } = (await topic.getArticles({
-      page: 1,
-      count: 25
-    })) as TopicGetArticleRes;
+    articleTimer.start();
+    const articleList = (
+      (await topic.getArticles({
+        page: 1,
+        count: 25
+      })) as TopicGetArticleRes
+    ).articles.results.filter((article) => article.body !== undefined);
+    articleTimer.end();
+
+    // filter articles that are already in DB
+    console.log('CULLING PRE-EXISTING ARTICLES');
+    const alreadyExisting = new Set(
+      (
+        await db
+          .select({ url: risks.url })
+          .from(risks)
+          .where(
+            inArray(
+              risks.url,
+              articleList.map((a) => a.url).filter((u) => u !== undefined)
+            )
+          )
+      )
+        .map(({ url }) => url)
+        .filter((url) => url !== null)
+    );
+
+    const filteredArticleList = articleList.filter(
+      (a) => !alreadyExisting.has(a.url ?? '')
+    );
 
     console.log('ARTICLES PULLED', articleList.length);
+    console.log('NEW ARTICLES', filteredArticleList.length);
+    if (filteredArticleList.length === 0)
+      return Response.json({
+        total: 0,
+        data: [],
+        message: 'No new articles to process'
+      });
 
     // summarize articles
     console.log('SUMMARIZING ARTICLES');
-    const summaries = await batcher(articleList, async (e) => {
-      const { body } = e;
-      if (!body) return null;
-      return summarizeText(body);
+    summaryTimer.start();
+    const summaries = await batcher(filteredArticleList, async (article) => {
+      return summarizeText(article.body as string);
     });
+    summaryTimer.end();
 
     // categorize summaries
     console.log('CATEGORIZING ARTICLES');
-    const categories = await riskCategorizer(
-      summaries.map((s) => (s === null ? '' : s))
-    );
+    categoryTimer.start();
+    const categories = await riskCategorizer(summaries.map((s) => s ?? ''));
+    categoryTimer.end();
 
-    const mergedData = merge(
-      articleList.map(({ url, title }) => ({ title, url })),
-      summaries.map((s) => ({ summary: s })),
-      categories.map(([c, p]) => ({ category: c, prob: Math.max(...p) }))
-    );
-
-    // generate text copy
+    // generate best practices
     console.log('GENERATING BEST PRACTICES');
-    const bestPractices = await batcher(mergedData, async (e) => {
-      if (!('summary' in e))
-        return { justification: null, best_practices: null };
-      return generateBestPractices({
-        summary: e.summary as string,
-        category: e.category
+    generationTimer.start();
+    const bestPractices = await batcher(summaries, async (summary) => {
+      if (!summary) return null;
+      return generateAllItems({ summary });
+    });
+    generationTimer.end();
+
+    // collect all data for insertion
+    const riskRecords: (typeof risks.$inferInsert)[] = [];
+    filteredArticleList.forEach((article, idx) => {
+      const { url, title, date, image, source } = article;
+
+      if (!url || !summaries[idx] || !bestPractices[idx]) return;
+
+      const summary = summaries[idx];
+      const { justification, best_practices, financial_impact, risk_level } =
+        bestPractices[idx];
+      const [category, probability] = categories[idx];
+
+      riskRecords.push({
+        title: title,
+        url: url,
+        articleDate: new Date(date || Date.now()),
+        image: image,
+        source: source?.title,
+        summary: summary,
+        riskCategory: category,
+        probability: Math.max(...probability),
+        riskLevel: risk_level,
+        finanicalImpact: financial_impact,
+        mitigation: best_practices,
+        justification: justification,
+        modelUsed: 'ibm/granite-3-8b-instruct',
+        verified: false
       });
     });
 
-    return Response.json(
-      {
-        data: merge(mergedData, bestPractices)
+    // insert into database
+    const inserted = await db.transaction(async (tx) => {
+      const insertedRisks = await tx
+        .insert(risks)
+        .values(riskRecords)
+        .returning({ id: risks.id });
+
+      assert(insertedRisks.length === bestPractices.length);
+
+      const scenarioPlanningRecords: (typeof scenarioPlanning.$inferInsert)[] =
+        insertedRisks.flatMap(({ id }, idx) => {
+          const { scenario_planning } = bestPractices[idx]!;
+          return Object.entries(scenario_planning).map(([level, data]) => ({
+            riskId: id,
+            level: level as ScenarioLevelEnum,
+            confidence: data.confidence_level,
+            cost: data.cost,
+            implementationTime: data.implementation_time,
+            scenario: data.scenario,
+            strategy: data.mitigation_strategy
+          }));
+        });
+
+      const insertedScenarios = await tx
+        .insert(scenarioPlanning)
+        .values(scenarioPlanningRecords)
+        .returning({ id: scenarioPlanning.id });
+
+      return {
+        risks: insertedRisks.map((r) => r.id),
+        scenarios: insertedScenarios.map((s) => s.id)
+      };
+    });
+
+    return Response.json({
+      totals: {
+        risks: inserted.risks.length,
+        scenarios: inserted.scenarios.length
       },
-      { status: 200 }
-    );
+      inserted,
+      performance: {
+        sourcing: articleTimer.measure(),
+        summarization: summaryTimer.measure() / summaries.length,
+        categorization: categoryTimer.measure() / categories.length,
+        generation: generationTimer.measure() / bestPractices.length
+      }
+    });
   } catch (err) {
     console.log(err);
     return Response.json({ message: 'Internal Error' }, { status: 500 });

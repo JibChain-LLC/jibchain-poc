@@ -58,14 +58,18 @@ export const risks = risksSchema.table('risk_entries', {
   source: text(),
   image: text('image_url'),
   articleDate: timestamp('article_date'),
-  riskCategory: riskCategoryEnum('risk_category'),
+  riskCategory: text('risk_category'),
+  riskLevel: riskLevelEnum('risk_level'),
+  probability: real(),
   finanicalImpact: bigint('financial_impact', { mode: 'number' }),
   summary: text(),
   mitigation: text(),
   justification: text(),
+  modelUsed: text('model_used'),
   created: timestamp('created_at').defaultNow(),
   updated: timestamp('updated_at').defaultNow(),
-  verified: boolean().default(false)
+  verified: boolean().default(false),
+  orgMapped: boolean('mapped_to_org').default(false)
 });
 
 export const scenarioPlanning = risksSchema.table('scenario_planning', {

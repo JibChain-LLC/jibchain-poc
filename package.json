@@ -26,6 +26,7 @@
     "@amcharts/amcharts5": "^5.10.7",
     "@amcharts/amcharts5-geodata": "^5.1.4",
     "@hookform/resolvers": "^3.9.1",
+    "@huggingface/transformers": "^3.2.3",
     "@ibm-cloud/watsonx-ai": "^1.0.1",
     "@json2csv/node": "^7.0.6",
     "@langchain/community": "^0.3.13",
