@@ -1,6 +1,6 @@
 'use client';
 
-import { LoaderCircle, SquareCheckBig } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '#/components/ui/button';
 import invalidateAll from '#/revalidate-path';
@@ -19,18 +19,12 @@ export default function SameUser(props: { inviteId: string }) {
   });
 
   return (
-    <div className='flex flex-row items-center justify-center gap-3 p-4'>
-      <Button
-        size={'sm'}
-        onClick={() => mutate(inviteId)}
-        disabled={isPending || isSuccess}>
-        {isPending || isSuccess ? (
-          <LoaderCircle className='animate-spin' />
-        ) : (
-          <SquareCheckBig />
-        )}
-        {!isSuccess ? 'Join Organization' : 'Redirecting'}
-      </Button>
-    </div>
+    <Button
+      className='w-full'
+      onClick={() => mutate(inviteId)}
+      disabled={isPending || isSuccess}>
+      {isPending || (isSuccess && <LoaderCircle className='animate-spin' />)}
+      {!isSuccess ? 'Join Team' : 'Redirecting'}
+    </Button>
   );
 }

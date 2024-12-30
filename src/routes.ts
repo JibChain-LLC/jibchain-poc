@@ -20,6 +20,8 @@ type NestedKeysWithParent<T, P extends string = ''> = T extends object
 const ROUTE_TREE = {
   slug: '',
   children: {
+    JOIN: { slug: 'join', auth: false, org: false },
+    GET_STARTED: { slug: 'getting-started', auth: true, org: false },
     LOGIN: { slug: 'login' },
     SIGNUP: { slug: 'signup' },
     LOGOUT: { slug: 'logout', auth: true },
@@ -33,17 +35,17 @@ const ROUTE_TREE = {
           slug: 'create',
           auth: true,
           org: false
-        },
-        JOIN: {
-          slug: 'join',
-          auth: false,
-          org: false
-        },
-        NO_MEMBER: {
-          slug: 'no-member',
-          auth: true,
-          org: false
         }
+        // JOIN: {
+        //   slug: 'join',
+        //   auth: false,
+        //   org: false
+        // },
+        // NO_MEMBER: {
+        //   slug: 'no-member',
+        //   auth: true,
+        //   org: false
+        // }
       }
     },
     RISKS: {
