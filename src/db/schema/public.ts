@@ -34,6 +34,17 @@ export const organizations = pgTable('organizations', {
     .notNull()
 });
 
+export const profiles = pgTable('profiles', {
+  id: uuid()
+    .notNull()
+    .primaryKey()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  firstName: text('first_name'),
+  lastName: text('last_name'),
+  jobRole: text('job_role'),
+  isSuperUser: boolean('is_super_user').default(false)
+});
+
 export const roles = pgTable('roles', {
   id: uuid('id').primaryKey().defaultRandom(),
   userId: uuid('user_id')

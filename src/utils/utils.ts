@@ -1,6 +1,4 @@
 import * as am5 from '@amcharts/amcharts5';
-import { UsersGroup } from 'flowbite-react-icons/solid';
-import { Bell, Grid, Truck } from 'flowbite-react-icons/solid';
 import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
@@ -69,12 +67,6 @@ export const formUserFields = [
   { id: 'confirm-password', label: 'Confirm Password', type: 'password' }
 ];
 
-export const sidebarLinks = [
-  { name: 'Dashboard', icon: Grid, link: '/dashboard' },
-  { name: 'Risk Alerts', icon: Bell, link: '/risk-alerts' },
-  { name: 'Suppliers', icon: Truck, link: '/suppliers' },
-  { name: 'My Team', icon: UsersGroup, link: '/organization' }
-];
 export const chartData = [
   { status: 'Risk', value: 3, fill: '#FF5722' },
   { status: 'Medium', value: 7, fill: '#ff916f' },
