@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest) {
     // user has no membership in any org
     if (!orgId)
       return NextResponse.redirect(
-        new URL(ROUTE_MAP['ORG.NO_MEMBER'], request.url)
+        new URL(ROUTE_MAP['GET_STARTED'], request.url)
       );
     response.cookies.set('current-org', orgId);
   }

@@ -25,7 +25,7 @@ export default function LogoutPage() {
   });
 
   return (
-    <div className='flex flex-col items-center gap-2 rounded-md border border-gray-200 bg-white px-6 py-8 text-center text-gray-900'>
+    <div className='flex flex-col items-center text-center'>
       <p className='mb-3 text-3xl font-bold'>
         {isPending && 'Logging out'}
         {isSuccess && 'Logged out'}

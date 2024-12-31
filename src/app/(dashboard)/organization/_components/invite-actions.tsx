@@ -19,7 +19,7 @@ export default function InviteActions(props: { id: string }) {
   const [_, copyToClipboard] = useCopyToClipboard();
 
   const copyInviteLink = () => {
-    const url = new URL('/organization/join', window.location.origin);
+    const url = new URL('/join', window.location.origin);
     url.searchParams.set('inviteId', id);
     copyToClipboard(url.toString());
   };
