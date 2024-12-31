@@ -1,0 +1,1 @@
+ALTER TABLE "risks"."risk_entries" ADD COLUMN "model_used" text;
