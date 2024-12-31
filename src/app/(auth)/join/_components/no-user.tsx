@@ -3,7 +3,7 @@ import { Button } from '#/components/ui/button';
 
 export default function NoUser() {
   return (
-    <div className='grid w-full grid-cols-2 gap-7'>
+    <div className='grid w-full grid-cols-2 gap-4'>
       <Button asChild variant={'outline'}>
         <Link href={'/login'}>Sign in</Link>
       </Button>

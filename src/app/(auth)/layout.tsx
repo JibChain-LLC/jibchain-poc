@@ -13,7 +13,7 @@ export default function AuthLayout(props: AuthLayoutProps) {
   return (
     <div className='flex h-screen w-screen items-center justify-center'>
       <Image
-        className='fixed -z-10 h-full object-cover brightness-50'
+        className='fixed -z-10 size-full object-cover brightness-50'
         src={'/shipping-containers.jpg'}
         width={1880}
         height={1253}

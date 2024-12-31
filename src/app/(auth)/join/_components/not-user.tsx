@@ -16,7 +16,7 @@ export default function NotUser(props: { email: string }) {
         Once signed out, create a new account or sign in using the email address
         associated with this invite.
       </p>
-      <Button variant={'destructive'} className='w-full'>
+      <Button variant={'destructive'} className='w-full' asChild>
         <Link href={'/logout'}>Sign Out</Link>
       </Button>
     </>
