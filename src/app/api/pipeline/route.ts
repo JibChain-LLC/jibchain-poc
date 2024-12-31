@@ -103,6 +103,7 @@ export async function POST() {
     generationTimer.end();
 
     // collect all data for insertion
+    console.log('COLLECTING RECORDS');
     const riskRecords: (typeof risks.$inferInsert)[] = [];
     filteredArticleList.forEach((article, idx) => {
       const { url, title, date, image, source } = article;

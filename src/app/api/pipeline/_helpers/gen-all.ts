@@ -26,7 +26,7 @@ const bestPracticesSchema = z.object({
   best_practices: z.string(),
   justification: z.string(),
   risk_level: z.nativeEnum(RiskLevelEnum),
-  financial_impact: z.number().int().positive(),
+  financial_impact: z.number().int().gte(0),
   scenario_planning: planningSchema
 });
 
@@ -36,7 +36,7 @@ You are Granite, developed by IBM. You are a helpful AI assistant designed to he
 1) \`best_practices\`: A paragraph of detailed best practices based on the article summary to help mitigate this possible risk.
 2)  \`justification\`:  A paragraph as a detailed justification for why the best practices are applicable.
 3) \`risk_level\`: Threat level that this possible risk poses to a company as \`hi\`, \`med\`, or \`low\`.
-4) \`financial_impact\`: Number representing possible cost to a company the event in the article summary may cause as a dollar amount.
+4) \`financial_impact\`: Positive integer representing possible cost to a company the event in the article summary may cause as a dollar amount.
 5) \`scenario_planning\`: detailed scenario planning for companies from news article summaries.
 
 For \`scenario_planning\` you are to generate with these tiers in mind:
@@ -100,7 +100,10 @@ export default async function generateAllItems(
       throw new Error(`Failed to parse json object from: ${generated_text}`);
 
     const { success, data, error } = bestPracticesSchema.safeParse(jsonObject);
-    if (!success) throw new Error(error.message);
+    if (!success) {
+      console.log(jsonObject);
+      throw new Error(error.message);
+    }
 
     return data;
   } catch (error) {
