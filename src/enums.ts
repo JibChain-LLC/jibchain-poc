@@ -23,23 +23,9 @@ export enum RiskCategoryEnum {
   COMPLIANCE = 'Compliance Risk',
   PHISHING = 'Phishing & Social Engineering',
   BRAND = 'Brand & Reputation',
-  COUNTERFEIT = 'Counterfeit Parts'
-  // CLOUD = 'Cloud Service',
-  // COUNTERFEIT = 'Counterfeit Parts',
-  // CYBERSECURITY = 'Cybersecurity',
-  // ECON_DOWNTURN = 'Economic Downturn',
-  // INTERNAL_SECURITY_FAILURES = 'Internal Security Failures',
-  // LABOR = 'Labor Strike',
-  // RANSOMEWARE = 'Ransomware Attack',
-  // NATURAL_DISASTER = 'Natural Disaster',
-  // TERRORISM = 'Terrorism',
-  // TECH_FAILURE = 'Technology Failure',
-  // PUBLIC_HEALTH = 'Public Health',
-  // ENVIRONMENT = 'Environmental',
-  // SUPPLY_CHAIN = 'Supply Chain',
-  // REGULATORY = 'Regulatory Changes',
-  // POLITICAL = 'Political',
-  // SDLC = 'SDLC Processes'
+  COUNTERFEIT = 'Counterfeit Parts',
+  LABAR = 'Labor Practices/Human Rights',
+  FIELD_ISSUES = 'Field Issues'
 }
 
 export enum IndustryEnum {

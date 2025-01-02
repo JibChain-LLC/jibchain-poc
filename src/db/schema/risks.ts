@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   geometry,
@@ -72,6 +73,10 @@ export const risks = risksSchema.table('risk_entries', {
   orgMapped: boolean('mapped_to_org').default(false)
 });
 
+export const riskRelations = relations(risks, ({ many }) => ({
+  scenarios: many(scenarioPlanning)
+}));
+
 export const scenarioPlanning = risksSchema.table('scenario_planning', {
   id: uuid().primaryKey().defaultRandom(),
   riskId: uuid('risk_id').references(() => risks.id, {
@@ -85,6 +90,13 @@ export const scenarioPlanning = risksSchema.table('scenario_planning', {
   scenario: text(),
   strategy: text('mitigation_strategy')
 });
+
+export const scenarioRelations = relations(scenarioPlanning, ({ one }) => ({
+  risk: one(risks, {
+    fields: [scenarioPlanning.riskId],
+    references: [risks.id]
+  })
+}));
 
 export const suppliers = risksSchema.table('suppliers', {
   id: uuid().primaryKey().defaultRandom(),

@@ -37,66 +37,69 @@ function OrgItem(props: { dateCreated?: Date; name?: string }) {
   );
 }
 
-export default withAuthUser(async function OrgCard(props) {
-  const { user } = props;
+export default withAuthUser(
+  async (props) => {
+    const { user } = props;
 
-  const cookieStore = await cookies();
-  const orgId = cookieStore.get('current-org')?.value ?? '';
-  if (!orgId) return null;
+    const cookieStore = await cookies();
+    const orgId = cookieStore.get('current-org')?.value ?? '';
+    if (!orgId) return null;
 
-  const org = await trpc.org.read(orgId);
-  const orgList = await db
-    .select({
-      name: organizations.name,
-      id: organizations.id,
-      dateCreated: organizations.dateCreated
-    })
-    .from(roles)
-    .where(
-      and(
-        eq(roles.userId, user.id),
-        eq(roles.active, true),
-        ne(roles.orgId, orgId)
+    const org = await trpc.org.read(orgId);
+    const orgList = await db
+      .select({
+        name: organizations.name,
+        id: organizations.id,
+        dateCreated: organizations.dateCreated
+      })
+      .from(roles)
+      .where(
+        and(
+          eq(roles.userId, user.id),
+          eq(roles.active, true),
+          ne(roles.orgId, orgId)
+        )
       )
-    )
-    .innerJoin(organizations, eq(roles.orgId, organizations.id));
+      .innerJoin(organizations, eq(roles.orgId, organizations.id));
 
-  if (orgList.length === 0) {
-    return (
-      <Card className='flex'>
-        <CardContent className='flex items-center justify-between gap-3'>
-          <OrgItem dateCreated={org?.dateCreated} name={org?.name} />
-        </CardContent>
-      </Card>
-    );
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
+    if (orgList.length === 0) {
+      return (
         <Card className='flex'>
           <CardContent className='flex items-center justify-between gap-3'>
             <OrgItem dateCreated={org?.dateCreated} name={org?.name} />
           </CardContent>
         </Card>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-[var(--radix-popper-anchor-width)] bg-white'>
-        {orgList.map(({ name, id, dateCreated }) => (
-          <form
-            key={id}
-            action={async () => {
-              'use server';
-              const store = await cookies();
-              store.set('current-org', id);
-            }}>
-            <DropdownMenuItem asChild>
-              <button type='submit' className='w-full hover:cursor-pointer'>
-                <OrgItem dateCreated={dateCreated} name={name} />
-              </button>
-            </DropdownMenuItem>
-          </form>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-});
+      );
+    }
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Card className='flex'>
+            <CardContent className='flex items-center justify-between gap-3'>
+              <OrgItem dateCreated={org?.dateCreated} name={org?.name} />
+            </CardContent>
+          </Card>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className='w-[var(--radix-popper-anchor-width)] bg-white'>
+          {orgList.map(({ name, id, dateCreated }) => (
+            <form
+              key={id}
+              action={async () => {
+                'use server';
+                const store = await cookies();
+                store.set('current-org', id);
+              }}>
+              <DropdownMenuItem asChild>
+                <button type='submit' className='w-full hover:cursor-pointer'>
+                  <OrgItem dateCreated={dateCreated} name={name} />
+                </button>
+              </DropdownMenuItem>
+            </form>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  },
+  { fallback: null }
+);

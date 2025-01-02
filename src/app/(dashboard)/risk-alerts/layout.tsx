@@ -1,3 +1,5 @@
+import 'server-only';
+
 import OrgCard from '#/components/organization-card';
 import { Card, CardContent } from '#/components/ui/card';
 import { HydrateClient, trpc } from '#/trpc/query-clients/server';
@@ -15,8 +17,7 @@ export default async function RiskAlertsLayout(props: RiskAlertsLayoutProps) {
   startDate.setDate(startDate.getDate() - 1);
 
   await trpc.dash.risks.list.prefetch({
-    startDate: startDate.getTime(),
-    endDate: endDate.getTime()
+    range: { startDate: startDate.getTime(), endDate: endDate.getTime() }
   });
 
   return (
