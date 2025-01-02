@@ -56,16 +56,19 @@ export default function RiskNav(props: RiskNavProps) {
   );
 
   const { data } = trpc.dash.risks.list.useQuery({
-    startDate,
-    endDate
+    range: {
+      startDate,
+      endDate
+    }
   });
 
   const map = useMemo(
     () =>
       riskList?.data.reduce(
         (acc, curr) => {
-          const { level, id, category } = curr;
-          acc[level].push({ id, category });
+          const { riskLevel, id, riskCategory } = curr;
+          if (riskLevel === null || riskCategory === null) return acc;
+          acc[riskLevel].push({ id, category: riskCategory });
           return acc;
         },
         { hi: [], med: [], low: [] } as Record<

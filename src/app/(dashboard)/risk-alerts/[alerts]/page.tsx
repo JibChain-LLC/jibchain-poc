@@ -71,8 +71,8 @@ export default async function RiskPage(props: RiskPageProps) {
   return (
     <div className='flex h-full flex-col'>
       <RiskAlertHeader
-        probability={data.probability}
-        category={data.category}
+        probability={data.probability!}
+        category={data.riskCategory!}
       />
       <Tabs
         className='flex w-full flex-col overflow-hidden'

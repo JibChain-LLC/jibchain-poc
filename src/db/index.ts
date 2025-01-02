@@ -4,6 +4,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as authSchema from './schema/auth';
 import * as schema from './schema/public';
+import * as risks from './schema/risks';
 
 const { DATABASE_URL } = process.env;
 
@@ -14,5 +15,5 @@ const pool = new Pool({
 // export const client = postgres(DATABASE_URL as string, { prepare: false });
 export const db = drizzle({
   client: pool,
-  schema: { ...schema, ...authSchema }
+  schema: { ...schema, ...authSchema, ...risks }
 });

@@ -1,8 +1,21 @@
+import 'server-only';
+
 import { type User } from '@supabase/supabase-js';
+import { and, eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
-import { createElement } from 'react';
+import { db } from '#/db';
+import { profiles } from '#/db/schema/public';
 import { createClient } from '#/lib/supabase/server';
 import { type WithAuthOpts } from './types';
+
+async function isSuperUser(uid: string) {
+  const c = await db.$count(
+    profiles,
+    and(eq(profiles.id, uid), eq(profiles.isSuperUser, true))
+  );
+
+  return c > 0;
+}
 
 /**
  * Wrapper function when exporting a server component that requires access to the user object
@@ -22,14 +35,17 @@ export function withAuthUser<P = object>(
       error
     } = await supabase.auth.getUser();
 
-    if (!user || error) {
+    if (
+      !user ||
+      error ||
+      (opts.requireSuperUser === true && !(await isSuperUser(user.id)))
+    ) {
       if ('fallback' in opts) {
-        if (typeof opts.fallback === 'function')
-          return createElement(opts.fallback);
-        else return opts.fallback;
+        if (typeof opts.fallback === 'function') return <opts.fallback />;
+        else return <>{opts.fallback}</>;
       } else return redirect(opts.redirectTo);
     }
 
-    return createElement(Comp, { ...props, user });
+    return <Comp {...props} user={user} />;
   };
 }

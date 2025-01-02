@@ -1,16 +1,23 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { MOCK_RISKS } from '#/lib/server/mocks/mocks';
+import { db } from '#/db';
 import { authProcedure } from '#/trpc/init';
 
-export const readRisk = authProcedure.input(z.string().uuid()).query((opts) => {
-  const riskId = opts.input;
+export const readRisk = authProcedure
+  .input(z.string().uuid())
+  .query(async (opts) => {
+    const riskId = opts.input;
 
-  const r = MOCK_RISKS.find((i) => i.id === riskId);
-  if (!r)
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: 'No such risk item exist'
+    const res = await db.query.risks.findFirst({
+      where: (r, { eq }) => eq(r.id, riskId),
+      with: { scenarios: true }
     });
-  return r;
-});
+
+    if (!res)
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'No such risk item exist'
+      });
+
+    return res;
+  });

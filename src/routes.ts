@@ -26,6 +26,7 @@ const ROUTE_TREE = {
     SIGNUP: { slug: 'signup' },
     LOGOUT: { slug: 'logout', auth: true },
     CONFIRM: { slug: 'confirm' },
+    SUPERUSER: { slug: 'superuser', auth: true, org: false },
     ORG: {
       slug: 'organization',
       auth: true,
@@ -36,16 +37,6 @@ const ROUTE_TREE = {
           auth: true,
           org: false
         }
-        // JOIN: {
-        //   slug: 'join',
-        //   auth: false,
-        //   org: false
-        // },
-        // NO_MEMBER: {
-        //   slug: 'no-member',
-        //   auth: true,
-        //   org: false
-        // }
       }
     },
     RISKS: {

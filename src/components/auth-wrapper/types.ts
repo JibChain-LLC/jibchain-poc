@@ -1,9 +1,10 @@
 import { type User } from '@supabase/supabase-js';
 import { type EmptyObject } from 'type-fest';
 
-export type WithAuthOpts =
+export type WithAuthOpts = { requireSuperUser?: boolean } & (
   | { fallback: React.FC | React.ReactNode }
-  | { redirectTo: string };
+  | { redirectTo: string }
+);
 
 export type AuthWrapperProps = {
   children: React.ReactNode | React.FC<{ user: User }>;
