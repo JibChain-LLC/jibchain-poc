@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { FileText, Globe, ShieldAlert } from 'lucide-react';
 import { createElement } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs';
@@ -6,29 +8,6 @@ import GlobalImpact from './_components/global-impact';
 import OverviewComponent from './_components/overview';
 import RiskAlertHeader from './_components/risks-alerts-header';
 import ScenarioAccordion from './_components/scenario-planning';
-
-export async function generateStaticParams() {
-  return [
-    { alerts: 'internal-security' },
-    { alerts: 'ransomware-attack' },
-    { alerts: 'natural-disaster' },
-    { alerts: 'terrorism' },
-    { alerts: 'cyber-security' },
-    { alerts: 'technological-failure' },
-    { alerts: 'internal-security' },
-    { alerts: 'labor-strike' },
-    { alerts: 'public-health-crisis' },
-    { alerts: 'economic-downturn' },
-    { alerts: 'environmental' },
-    { alerts: 'supply-chain' },
-    { alerts: 'regulatory-changes' },
-    { alerts: 'political' },
-    { alerts: 'counterfeit-parts' },
-    { alerts: 'legal-risks' },
-    { alerts: 'sdlc-processes' },
-    { alerts: 'cloud-service' }
-  ];
-}
 
 const operations = [
   {
@@ -60,7 +39,15 @@ export default async function RiskPage(props: RiskPageProps) {
   const { alerts } = await props.params;
   const { tab } = await props.searchParams;
 
-  const data = await trpc.dash.risks.read(alerts).catch(() => null);
+  const data = await trpc.dash.risks
+    .read(alerts)
+    .then((r) => ({
+      ...r,
+      articleDate: r.articleDate?.toDateString() ?? null,
+      created: r.created?.toDateString() ?? null,
+      updated: r.updated?.toDateString() ?? null
+    }))
+    .catch(() => null);
   if (data === null) return <p>No such risk event</p>;
 
   const defaultTab: (typeof operations)[number]['value'] =
@@ -71,6 +58,8 @@ export default async function RiskPage(props: RiskPageProps) {
   return (
     <div className='flex h-full flex-col'>
       <RiskAlertHeader
+        date={data.articleDate!}
+        level={data.riskLevel!}
         probability={data.probability!}
         category={data.riskCategory!}
       />
@@ -90,7 +79,7 @@ export default async function RiskPage(props: RiskPageProps) {
             const { content: Content, value } = item;
             return (
               <TabsContent value={value} key={value}>
-                <Content />
+                <Content riskEntry={data} />
               </TabsContent>
             );
           })}

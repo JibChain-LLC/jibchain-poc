@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { and, count, eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import AuthWrapper from '#/components/auth-wrapper';
 import Sidebar from '#/components/defaul-components/sidebar';
 import { db } from '#/db';
@@ -23,12 +23,10 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
             user_metadata: { firstName, lastName, jobRole }
           } = user;
 
-          const [{ count: recordCount }] = await db
-            .select({ count: count() })
-            .from(profiles)
-            .where(
-              and(eq(profiles.id, user.id), eq(profiles.isSuperUser, true))
-            );
+          const recordCount = await db.$count(
+            profiles,
+            and(eq(profiles.id, user.id), eq(profiles.isSuperUser, true))
+          );
 
           return (
             <>

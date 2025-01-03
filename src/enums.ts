@@ -24,7 +24,7 @@ export enum RiskCategoryEnum {
   PHISHING = 'Phishing & Social Engineering',
   BRAND = 'Brand & Reputation',
   COUNTERFEIT = 'Counterfeit Parts',
-  LABAR = 'Labor Practices/Human Rights',
+  LABOR = 'Labor Practices/Human Rights',
   FIELD_ISSUES = 'Field Issues'
 }
 

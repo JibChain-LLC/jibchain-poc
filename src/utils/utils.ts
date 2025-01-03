@@ -1,5 +1,4 @@
 import * as am5 from '@amcharts/amcharts5';
-import { DollarSignIcon, Frown, Cloud } from 'lucide-react';
 import { Building } from 'lucide-react';
 import { ChartConfig } from '#/components/ui/chart';
 
@@ -162,31 +161,6 @@ export const colorChartConfig = {
   }
 } satisfies ChartConfig;
 
-export const overviewCardData = [
-  {
-    title: 'Financial Impact',
-    value: '$5m',
-    icon: '/dollar.jpg',
-    alt: 'Money'
-  },
-  {
-    title: 'Probability',
-    value: '75%',
-    icon: '/zoom.jpg',
-    alt: 'Graph'
-  },
-  {
-    title: 'Impacted Suppliers',
-    value: '23',
-    icon: '/overhead-containers.jpg',
-    alt: 'Suppliers'
-  }
-];
-export const mitigationBestPractices = [
-  { icon: Cloud, label: 'Service Availability' },
-  { icon: DollarSignIcon, label: 'Financial Loss' },
-  { icon: Frown, label: 'Public Trust' }
-];
 export const globalImpactCard = [
   { title: 'Global Impact', value: '60%' },
   { title: 'Global Suppliers Affected', value: '15,345' },
