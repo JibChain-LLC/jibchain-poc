@@ -15,8 +15,7 @@ export default function OrganizationRisk(props: {
 
   const { hi, med, low } = data.reduce(
     (acc, curr) => {
-      const { level } = curr;
-      acc[level] += 1;
+      acc[curr.riskLevel!] += 1;
       return acc;
     },
     { hi: 0, med: 0, low: 0 } as Record<RiskLevelEnum, number>
