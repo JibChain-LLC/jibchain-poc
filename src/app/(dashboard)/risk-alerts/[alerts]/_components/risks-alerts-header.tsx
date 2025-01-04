@@ -42,6 +42,9 @@ export default function RiskAlertHeader(props: RiskAlertHeaderProps) {
         </p>
       </div>
       <div className='flex items-center gap-3'>
+        <Button asChild>
+          <a href='mailto:test@mail.com'>Contact ADSS</a>
+        </Button>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

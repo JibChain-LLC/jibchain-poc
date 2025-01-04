@@ -8,7 +8,7 @@ interface SuperuserLayoutProps {
 export default withAuthUser<SuperuserLayoutProps>(
   async (props) => {
     const { children } = props;
-    return <>{children}</>;
+    return <div className='h-[calc(100vh-2.5rem)]'>{children}</div>;
   },
   { requireSuperUser: true, redirectTo: '/' }
 );

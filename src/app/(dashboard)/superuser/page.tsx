@@ -20,8 +20,8 @@ export default async function SuperUserPage() {
 
   return (
     <HydrateClient>
-      <div>
-        <div className='mb-4 grid grid-cols-3 gap-4'>
+      <div className='flex flex-col gap-4'>
+        <div className='grid grid-cols-3 gap-4'>
           <OverviewCard
             header='Last Pipeline Run'
             subHeader={

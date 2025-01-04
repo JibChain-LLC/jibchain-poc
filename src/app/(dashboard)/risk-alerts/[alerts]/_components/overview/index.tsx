@@ -26,7 +26,9 @@ export default function OverviewComponent(props: OverviewComponentProps) {
       <div className='mb-6 grid gap-4 lg:mb-12 lg:grid-cols-3'>
         <OverviewCard
           header='Financial Impact'
-          subHeader={formatUSD.format(riskEntry.finanicalImpact!).toLowerCase()}
+          subHeader={
+            '$' + formatUSD.format(riskEntry.finanicalImpact!).toLowerCase()
+          }
           src='/dollar.jpg'
           alt='Money'
         />

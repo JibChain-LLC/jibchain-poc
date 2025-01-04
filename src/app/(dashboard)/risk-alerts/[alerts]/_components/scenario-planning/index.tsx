@@ -1,7 +1,9 @@
 'use client';
-import { Eye, Shield, Star } from 'lucide-react';
+
+import { Eye, LucideIcon, Shield, Star } from 'lucide-react';
 import React from 'react';
-import { Button } from '#/components/ui/button';
+import { ScenarioLevelEnum } from '#/enums';
+import { type RouteOutputs } from '#/trpc/query-clients/client';
 import {
   Accordion,
   AccordionContent,
@@ -9,67 +11,55 @@ import {
   AccordionTrigger
 } from './scenario-accordion';
 
-export const sectionsScenario = [
-  {
-    title: 'Aspirational',
-    level: 'Level 3',
-    icon: Star,
-    scenario:
-      'Ransomware attacks will become nearly obsolete due to advancements in quantum encryption and AI-Driven threat detection systems making it extremely difficult for attackers to infiltrate systems undetected. Patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities.',
-    strategy:
-      'Invest in quantum encryption and AI-based cybersecurity tools to protect against ransomware attacks. The document highlights strong encryption and proactive risk management patching and poor cybersecurity hygiene within suppliers as essential components of ransomware defense.',
-    confidenceLevel: 'Medium (60%)',
-    implementationTime: '3 Months',
-    cost: '$1.2m'
-  },
-  {
-    title: 'Exploratory',
-    level: 'Level 2',
-    icon: Eye,
-    scenario:
-      'Lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (80%)',
-    implementationTime: '6 Months',
-    cost: '$2.5m'
-  },
-  {
-    title: 'Remediation',
-    level: 'Level 1',
-    icon: Shield,
-    scenario:
-      'The lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (70%)',
-    implementationTime: '2 Months',
-    cost: '$3m'
-  }
-] as const;
+type RiskEntry = RouteOutputs['dash']['risks']['read'];
 
-const ScenarioAccordion = () => {
+interface ScenarioAccordionProps {
+  riskEntry: RiskEntry;
+}
+
+const ICON_MAP: Record<ScenarioLevelEnum, LucideIcon> = {
+  aspirational: Star,
+  exploratory: Eye,
+  remediation: Shield
+};
+
+const formatUSD = new Intl.NumberFormat('en-US', {
+  notation: 'compact'
+});
+
+const ScenarioAccordion = (props: ScenarioAccordionProps) => {
+  const { riskEntry } = props;
+
   return (
     <Accordion
       type='single'
       className='mt-5 w-full'
-      defaultValue={sectionsScenario[0].title}>
-      {sectionsScenario.map((scenarioItem) => {
+      defaultValue={riskEntry.scenarios[0].level!}>
+      {riskEntry.scenarios.map((scenarioItem, idx) => {
         const {
-          title,
           level,
           scenario,
           strategy,
-          confidenceLevel,
+          confidence,
           implementationTime,
-          cost,
-          icon
+          cost
         } = scenarioItem;
 
+        const icon = ICON_MAP[level!];
+
         const sideCard = [
-          { label: 'Confidence level', value: confidenceLevel },
-          { label: 'Time to implemenet', value: implementationTime },
-          { label: 'Cost to implement', value: cost }
+          {
+            label: 'Confidence level',
+            value: Math.ceil(confidence! * 100) + '%'
+          },
+          {
+            label: 'Time to implement',
+            value: implementationTime + ' months'
+          },
+          {
+            label: 'Cost to implement',
+            value: '$' + formatUSD.format(cost!).toLowerCase()
+          }
         ] as const;
 
         const content = [
@@ -78,13 +68,17 @@ const ScenarioAccordion = () => {
         ] as const;
 
         return (
-          <AccordionItem key={title} value={title} icon={icon}>
-            <AccordionTrigger title={level} subTitle={title} />
+          <AccordionItem key={level} value={level!} icon={icon}>
+            <AccordionTrigger
+              title={`Level ${idx + 1}`}
+              subTitle={level!}
+              className='capitalize'
+            />
             <AccordionContent>
               <div className='flex gap-8 px-5'>
-                <div className='flex h-fit w-[208px] shrink-0 flex-col gap-10 rounded-md border border-gray-300 bg-white px-6 py-4'>
+                <div className='flex h-fit w-[208px] shrink-0 flex-col divide-y divide-gray-200 rounded-md border border-gray-300 bg-white px-6 py-4'>
                   {sideCard.map(({ label, value }, idx) => (
-                    <div key={idx}>
+                    <div key={idx} className='py-5 first:pt-0 last:pb-0'>
                       <p className='text-sm font-semibold text-gray-600'>
                         {label}
                       </p>
@@ -103,15 +97,6 @@ const ScenarioAccordion = () => {
                       </div>
                     );
                   })}
-                  <div className='flex flex-col gap-1.5'>
-                    <p className='text-base font-medium'>
-                      In need of further planning?
-                    </p>
-                    <div className='flex gap-1.5'>
-                      <Button>Contact JibChain</Button>
-                      <Button variant={'outline'}>Copy Email Address</Button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </AccordionContent>
