@@ -76,9 +76,9 @@ const ScenarioAccordion = (props: ScenarioAccordionProps) => {
             />
             <AccordionContent>
               <div className='flex gap-8 px-5'>
-                <div className='flex h-fit w-[208px] shrink-0 flex-col gap-10 rounded-md border border-gray-300 bg-white px-6 py-4'>
+                <div className='flex h-fit w-[208px] shrink-0 flex-col divide-y divide-gray-200 rounded-md border border-gray-300 bg-white px-6 py-4'>
                   {sideCard.map(({ label, value }, idx) => (
-                    <div key={idx}>
+                    <div key={idx} className='py-5 first:pt-0 last:pb-0'>
                       <p className='text-sm font-semibold text-gray-600'>
                         {label}
                       </p>
