@@ -1,7 +1,7 @@
 'use client';
+
 import { Eye, LucideIcon, Shield, Star } from 'lucide-react';
 import React from 'react';
-import { Button } from '#/components/ui/button';
 import { ScenarioLevelEnum } from '#/enums';
 import { type RouteOutputs } from '#/trpc/query-clients/client';
 import {
@@ -97,15 +97,6 @@ const ScenarioAccordion = (props: ScenarioAccordionProps) => {
                       </div>
                     );
                   })}
-                  <div className='flex flex-col gap-1.5'>
-                    <p className='text-base font-medium'>
-                      In need of further planning?
-                    </p>
-                    <div className='flex gap-1.5'>
-                      <Button>Contact JibChain</Button>
-                      <Button variant={'outline'}>Copy Email Address</Button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </AccordionContent>
