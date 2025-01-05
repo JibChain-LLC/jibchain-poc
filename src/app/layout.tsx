@@ -11,8 +11,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    template: 'JibChain COEUS - %s',
-    default: 'JibChain COEUS'
+    template: 'COEUS - %s',
+    default: 'COEUS'
   }
 };
 

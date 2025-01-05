@@ -1,4 +1,7 @@
+import 'server-only';
+
 import OrganizationCard from '#/components/organization-card';
+import { Card, CardContent } from '#/components/ui/card';
 import UserContentNav from './_components/user-content-nav';
 
 interface UserLayoutProps {
@@ -14,7 +17,9 @@ export default function UserLayout(props: UserLayoutProps) {
         <OrganizationCard />
         <UserContentNav />
       </div>
-      <div className='overflow-y-hidden shadow-md'>{children}</div>
+      <Card className='h-full'>
+        <CardContent className='overflow-y-auto p-0'>{children}</CardContent>
+      </Card>
     </div>
   );
 }

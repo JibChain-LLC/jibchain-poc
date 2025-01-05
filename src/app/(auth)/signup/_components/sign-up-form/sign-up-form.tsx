@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoaderCircle, SquareCheckBig } from 'lucide-react';
+import { LoaderCircle, MailCheck } from 'lucide-react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { Button } from '#/components/ui/button';
@@ -173,15 +173,15 @@ export default function SignUpForm() {
         </Form>
       )}
       {isSuccess && (
-        <div className='flex flex-row gap-3 text-gray-900'>
-          <SquareCheckBig className='shrink-0' />
-          <div className='flex flex-col gap-3'>
-            <p className='text-lg font-semibold'>Check you email to confirm</p>
-            <p className='text-sm text-gray-500'>
-              You&apos;ve successfully signed up. Please check your email to
-              confirm your account in order to access the dashboard.
-            </p>
-          </div>
+        <div className='flex flex-col items-center text-center'>
+          <MailCheck className='mb-4 text-green-400' />
+          <p className='mb-1 text-2xl font-bold leading-tight'>
+            Confirm your email
+          </p>
+          <p className='text-sm font-medium text-gray-600'>
+            You have successfully signed up. Please check your email to gain
+            access to your account.
+          </p>
         </div>
       )}
     </div>
