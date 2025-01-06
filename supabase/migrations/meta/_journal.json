@@ -141,6 +141,20 @@
       "when": 1735842076035,
       "tag": "0019_unusual_elektra",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1735979254764,
+      "tag": "0020_narrow_maria_hill",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1735983308571,
+      "tag": "0021_steady_energizer",
+      "breakpoints": true
     }
   ]
 }

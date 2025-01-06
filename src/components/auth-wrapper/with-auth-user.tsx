@@ -1,21 +1,10 @@
 import 'server-only';
 
 import { type User } from '@supabase/supabase-js';
-import { and, eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
-import { db } from '#/db';
-import { profiles } from '#/db/schema/public';
+import isSuperUser from '#/lib/server/shared/is-super-user';
 import { createClient } from '#/lib/supabase/server';
 import { type WithAuthOpts } from './types';
-
-async function isSuperUser(uid: string) {
-  const c = await db.$count(
-    profiles,
-    and(eq(profiles.id, uid), eq(profiles.isSuperUser, true))
-  );
-
-  return c > 0;
-}
 
 /**
  * Wrapper function when exporting a server component that requires access to the user object

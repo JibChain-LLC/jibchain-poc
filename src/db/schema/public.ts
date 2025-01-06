@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
   boolean,
   pgEnum,
@@ -10,6 +10,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { RoleEnum } from '#/enums';
 import { users } from './auth';
+import { industryEnum } from './risks';
 
 export const roleEnum = pgEnum(
   'role_enums',
@@ -24,15 +25,23 @@ export const organizations = pgTable('organizations', {
       onDelete: 'set null'
     })
     .notNull(),
-  addressLines: text('address_lines').array(),
-  locality: text('locality'),
-  administrativeArea: text('administrative_area'),
-  postalCode: text('postal_code'),
-  countryCode: varchar('country_code', { length: 2 }),
+  addressLines: text('address_lines').array().notNull(),
+  locality: text('locality').notNull(),
+  administrativeArea: text('administrative_area').notNull(),
+  postalCode: text('postal_code').notNull(),
+  countryCode: varchar('country_code', { length: 2 }).notNull(),
+  category: industryEnum('category').notNull(),
   dateCreated: timestamp('date_created')
     .default(sql`now()`)
     .notNull()
 });
+
+export const orgOwnerRelations = relations(organizations, ({ one }) => ({
+  owner: one(profiles, {
+    fields: [organizations.ownerId],
+    references: [profiles.id]
+  })
+}));
 
 export const profiles = pgTable('profiles', {
   id: uuid()
@@ -44,6 +53,13 @@ export const profiles = pgTable('profiles', {
   jobRole: text('job_role'),
   isSuperUser: boolean('is_super_user').default(false)
 });
+
+export const profileRelations = relations(profiles, ({ one }) => ({
+  user: one(users, {
+    fields: [profiles.id],
+    references: [users.id]
+  })
+}));
 
 export const roles = pgTable('roles', {
   id: uuid('id').primaryKey().defaultRandom(),

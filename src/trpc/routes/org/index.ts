@@ -9,11 +9,13 @@ import { deleteMember } from './org-member-delete';
 import { getMembers } from './org-member-list';
 import { updateRole } from './org-member-update';
 import { readOrg } from './org-read';
+import { updateOrg } from './org-update';
 
 const orgRoutes = {
   create: createOrg,
   read: readOrg,
   delete: deleteOrg,
+  update: updateOrg,
   member: {
     list: getMembers,
     update: updateRole,

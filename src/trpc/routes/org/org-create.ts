@@ -17,7 +17,8 @@ export const createOrg = authProcedure
       locality,
       administrativeArea,
       postalCode,
-      countryCode
+      countryCode,
+      category
     } = opts.input;
 
     const cookieStore = await cookies();
@@ -27,6 +28,7 @@ export const createOrg = authProcedure
         .insert(organizations)
         .values({
           name,
+          category,
           ownerId: user.id,
           addressLines,
           locality,

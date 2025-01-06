@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { invites, organizations } from '#/db/schema/public';
-import { RoleEnum } from '#/enums';
+import { IndustryEnum, RoleEnum } from '#/enums';
 
 type OrgInsertSchema = z.ZodSchema<
   Required<
@@ -11,7 +11,7 @@ type OrgInsertSchema = z.ZodSchema<
 type OrgUpdateSchema = z.ZodSchema<
   Partial<
     Omit<typeof organizations.$inferInsert, 'ownerId' | 'dateCreated' | 'id'>
-  >
+  > & { id: string }
 >;
 
 type InviteInsertSchema = z.ZodSchema<
@@ -44,6 +44,7 @@ export const signUpInput = z
 
 export const createOrgInput = z.object({
   name: z.string().min(1, 'Organization name is required'),
+  category: z.nativeEnum(IndustryEnum),
   addressLines: z.string().min(1, 'Address is required').array().min(1),
   locality: z.string().min(1, 'City is required'),
   administrativeArea: z.string().min(1, 'State/Province is required'),
@@ -54,8 +55,10 @@ export const createOrgInput = z.object({
     .length(2, 'Country must be two letter code (eg. US)')
 }) satisfies OrgInsertSchema;
 
-export const updateOrgInput =
-  createOrgInput.partial() satisfies Partial<OrgUpdateSchema>;
+export const updateOrgInput = createOrgInput
+  .partial()
+  .strict()
+  .extend({ id: z.string().uuid() }) satisfies Partial<OrgUpdateSchema>;
 
 export const loginInput = z.object({
   email: z.string().email(),

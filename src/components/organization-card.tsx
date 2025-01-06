@@ -2,6 +2,7 @@ import 'server-only';
 
 import { and, eq, ne } from 'drizzle-orm';
 import { Building } from 'lucide-react';
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { db } from '#/db';
 import { organizations, roles } from '#/db/schema/public';
@@ -88,7 +89,8 @@ export default withAuthUser(
               action={async () => {
                 'use server';
                 const store = await cookies();
-                store.set('current-org', id);
+                await store.set('current-org', id);
+                revalidatePath('/', 'layout');
               }}>
               <DropdownMenuItem asChild>
                 <button type='submit' className='w-full hover:cursor-pointer'>

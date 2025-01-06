@@ -1,0 +1,1 @@
+ALTER TABLE "organizations" ADD COLUMN "category" "risks"."industry_enums";

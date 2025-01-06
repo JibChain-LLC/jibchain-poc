@@ -1,15 +1,23 @@
 'use client';
-import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
-import { formOrganizationFields } from '#/utils/utils';
-import { Button } from '../../../../../components/ui/button';
-import { Input } from '../../../../../components/ui/input';
 
-export default function OrganizationComponent() {
+import { trpc } from '#/trpc/query-clients/client';
+import UpdateOrgForm from './update-org-form';
+
+interface OrganizationComponentProps {
+  orgId: string;
+}
+
+export default function OrganizationComponent(
+  props: OrganizationComponentProps
+) {
+  const { orgId } = props;
+
+  const { isPending, data } = trpc.org.read.useQuery(orgId);
+
   return (
-    <div className='max-h-screen w-full overflow-y-auto bg-transparent'>
-      <div className='min-h-[95vh] rounded-lg bg-white text-black shadow-md'>
-        <h1 className='mb-4 text-[30px] font-bold'>Shell USA, Inc.</h1>
-        <div className='flex flex-col gap-2 lg:flex-row'>
+    <div className='w-full'>
+      <h1 className='mb-4 text-[30px] font-bold'>{data?.name}</h1>
+      {/* <div className='flex flex-col gap-2 lg:flex-row'>
           <div className='flex flex-col gap-2'>
             <p className='min-w-[120px]'>Company Logo</p>
             <Avatar className='size-20'>
@@ -30,46 +38,8 @@ export default function OrganizationComponent() {
               </span>
             </label>
           </div>
-        </div>
-
-        <form className='mt-8'>
-          <div className='grid grid-cols-1 gap-4 xl:grid-cols-2'>
-            {formOrganizationFields.map((field) => (
-              <div
-                key={field.id}
-                className={field.id === 'address' ? 'col-span-2' : ''}>
-                <label htmlFor={field.id}>{field.label}</label>
-                <Input
-                  id={field.id}
-                  type='text'
-                  defaultValue={field.defaultValue || ''}
-                />
-              </div>
-            ))}
-          </div>
-          <div className='mt-8'>
-            <p className='text-lg font-semibold'>Owner</p>
-            <div className='flex items-center gap-4'>
-              <Avatar>
-                <AvatarImage
-                  src='https://github.com/shadcn.png'
-                  alt='@shadcn'
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div>
-                <p className='font-bold'>Jamie Smith</p>
-                <p className='text-gray-500'>jsmith@shell.com</p>
-              </div>
-            </div>
-          </div>
-          <div className='mt-4 flex gap-4'>
-            <Button className='bg-green-700 text-white hover:bg-green-600'>
-              Save Changes
-            </Button>
-          </div>
-        </form>
-      </div>
+        </div> */}
+      {!isPending && data && <UpdateOrgForm org={data} />}
     </div>
   );
 }

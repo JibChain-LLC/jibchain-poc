@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '#/components/ui/select';
+import { IndustryEnum } from '#/enums';
 import { useGoTo } from '#/hooks';
 import { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
@@ -67,6 +68,30 @@ export default function CreateOrgForm() {
               <FormControl>
                 <Input {...field} placeholder='Acme Co. LLC' />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='category'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Industry</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder='Select an industry' />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {Object.values(IndustryEnum).map((ind) => (
+                    <SelectItem key={ind} value={ind}>
+                      {ind}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
