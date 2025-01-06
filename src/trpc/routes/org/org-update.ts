@@ -28,6 +28,5 @@ export const updateOrg = authProcedure
     }
 
     await db.update(organizations).set(rest).where(eq(organizations.id, id));
-
     return { ok: true };
   });
