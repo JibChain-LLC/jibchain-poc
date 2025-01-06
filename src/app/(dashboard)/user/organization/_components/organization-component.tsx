@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { trpc } from '#/trpc/query-clients/client';
 import UpdateOrgForm from './update-org-form';
 
@@ -14,10 +13,6 @@ export default function OrganizationComponent(
   const { orgId } = props;
 
   const { isPending, data } = trpc.org.read.useQuery(orgId);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <div className='w-full'>

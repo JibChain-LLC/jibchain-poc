@@ -102,7 +102,6 @@ export default function UpdateOrgForm(props: UpdateOrgFormProps) {
   });
 
   useEffect(() => {
-    console.log('est');
     form.reset({
       id: org.id,
       name: org.name,
