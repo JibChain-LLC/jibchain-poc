@@ -1,19 +1,19 @@
 'use client';
 import { Eye, Shield, Star } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 import { Button } from '#/components/ui/button';
+import { trpc } from '#/trpc/query-clients/client';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
 } from './scenario-accordion';
-import { usePathname } from 'next/navigation';
-import { trpc } from '#/trpc/query-clients/client';
 
 const ScenarioAccordion = () => {
   const pathname = usePathname();
-  const parts = pathname.split("/");
+  const parts = pathname.split('/');
   const id = parts[parts.length - 1];
   const { data, isLoading } = trpc.dash.risks.read.useQuery(id);
 

@@ -32,7 +32,7 @@ const columns: ColumnDef<Supplier>[] = [
           <Badge variant={badgeVariant}>{riskStatus}</Badge>
         </div>
       );
-    },
+    }
   },
   {
     accessorKey: 'regions',

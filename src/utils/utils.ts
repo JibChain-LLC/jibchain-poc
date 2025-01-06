@@ -539,15 +539,18 @@ export const paymentMethods = [
     description: ''
   }
 ];
-export function formatNumber(value:any) {
+export function formatNumber(value: number | null | undefined) {
+  if (value == null) return '0';
   if (value >= 1_000_000) {
-      return `${(value / 1_000_000).toFixed(1)}m`;
+    return `${(value / 1_000_000).toFixed(1)}m`;
   } else if (value >= 1_000) {
-      return `${Math.round(value / 1_000)}k`;
+    return `${Math.round(value / 1_000)}k`;
   } else {
-      return value
+    return value.toString();
   }
 }
-export function formatPercentage(value:any) {
+
+export function formatPercentage(value: number | null | undefined) {
+  if (value == null) return '0%';
   return `${(value * 100).toFixed(1)}%`;
 }

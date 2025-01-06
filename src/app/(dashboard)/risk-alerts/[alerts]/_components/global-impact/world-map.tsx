@@ -83,10 +83,13 @@ const BulletTooltip = ({ supplier }: { supplier: Supplier }) => {
 const WorldMap = ({ data }: WorldMapProps) => {
   useLayoutEffect(() => {
     if (!data?.impactedSuppliers) return;
-    
+
     const root = am5.Root.new('chartdiv');
-    root.setThemes([am5themes_Responsive.new(root), am5themes_Animated.new(root)]);
-  
+    root.setThemes([
+      am5themes_Responsive.new(root),
+      am5themes_Animated.new(root)
+    ]);
+
     const chart = root.container.children.push(
       am5map.MapChart.new(root, {
         projection: geoCylindricalStereographic().parallel(0),
@@ -95,9 +98,9 @@ const WorldMap = ({ data }: WorldMapProps) => {
         wheelY: 'none'
       })
     );
-  
+
     if (root._logo) root._logo.dispose();
-  
+
     chart.series.push(
       am5map.MapPolygonSeries.new(root, {
         fill: am5.color(0xf3f4f6),
@@ -106,25 +109,27 @@ const WorldMap = ({ data }: WorldMapProps) => {
         exclude: ['AQ']
       })
     );
-  
+
     const pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
     pointSeries.data.setAll(
       data.impactedSuppliers.map((supplier) => ({
         geometry: {
           type: 'Point',
           coordinates: [
-            supplier.address.latLong[1], 
-            supplier.address.latLong[0]  
+            supplier.address.latLong[1],
+            supplier.address.latLong[0]
           ]
         },
         color: getColorFromImpact(supplier.impact),
         supplier: supplier // Pass the entire supplier object
       }))
     );
-  
+
     pointSeries.bullets.push((root, series, dataItem) => {
-      const context = dataItem.dataContext as BubbleData & { supplier: Supplier };
-  
+      const context = dataItem.dataContext as BubbleData & {
+        supplier: Supplier;
+      };
+
       const tooltip = am5.Tooltip.new(root, {
         pointerOrientation: 'horizontal',
         getFillFromSprite: false,
@@ -135,12 +140,12 @@ const WorldMap = ({ data }: WorldMapProps) => {
         keepTargetHover: true,
         background: am5.PointedRectangle.new(root, { cornerRadius: 6 })
       });
-  
+
       tooltip.get('background')?.setAll({
         fill: am5.color(0x111928),
         fillOpacity: 1
       });
-  
+
       const mainCircle = am5.Circle.new(root, {
         radius: 8,
         fill: context.color,
@@ -148,10 +153,12 @@ const WorldMap = ({ data }: WorldMapProps) => {
         strokeWidth: 2,
         tooltip: tooltip
       });
-  
+
       mainCircle.set(
         'tooltipHTML',
-        ReactDOMServer.renderToString(<BulletTooltip supplier={context.supplier} />)
+        ReactDOMServer.renderToString(
+          <BulletTooltip supplier={context.supplier} />
+        )
       );
       mainCircle.animate({
         key: 'strokeWidth',
@@ -161,10 +168,10 @@ const WorldMap = ({ data }: WorldMapProps) => {
         loops: Infinity,
         easing: am5.ease.yoyo(am5.ease.linear)
       });
-  
+
       return am5.Bullet.new(root, { sprite: mainCircle });
     });
-  
+
     return () => root.dispose();
   }, [data]);
 
