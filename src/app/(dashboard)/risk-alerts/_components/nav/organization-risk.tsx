@@ -13,13 +13,13 @@ export default function OrganizationRisk(props: {
 }) {
   const { data, selected } = props;
 
-  const { hi, med, low } = data.reduce(
+  const { high, medium, low } = data.reduce(
     (acc, curr) => {
       const { level } = curr;
       acc[level] += 1;
       return acc;
     },
-    { hi: 0, med: 0, low: 0 } as Record<RiskLevelEnum, number>
+    { high: 0, medium: 0, low: 0 } as Record<RiskLevelEnum, number>
   );
 
   return (
@@ -40,13 +40,13 @@ export default function OrganizationRisk(props: {
             data={[
               {
                 status: 'High',
-                value: hi,
-                fill: selected === 'hi' ? '#E02424' : '#F3F4F6'
+                value: high,
+                fill: selected === 'high' ? '#E02424' : '#F3F4F6'
               },
               {
                 status: 'Medium',
-                value: med,
-                fill: selected === 'med' ? '#FF5A1F' : '#E5E7EB'
+                value: medium,
+                fill: selected === 'medium' ? '#FF5A1F' : '#E5E7EB'
               },
               {
                 status: 'Low',

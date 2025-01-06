@@ -28,11 +28,11 @@ const riskLabels: Record<
     variant: React.ComponentProps<typeof TabsTrigger>['variant'];
   }
 > = {
-  hi: {
+  high: {
     label: 'High',
     variant: 'destructive'
   },
-  med: {
+  medium: {
     label: 'Medium',
     variant: 'warning'
   },
@@ -68,7 +68,7 @@ export default function RiskNav(props: RiskNavProps) {
           acc[level].push({ id, category });
           return acc;
         },
-        { hi: [], med: [], low: [] } as Record<
+        { high: [], medium: [], low: [] } as Record<
           RiskLevelEnum,
           { id: string; category: string }[]
         >

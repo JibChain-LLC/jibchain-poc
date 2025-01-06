@@ -8,53 +8,46 @@ import {
   AccordionItem,
   AccordionTrigger
 } from './scenario-accordion';
-
-export const sectionsScenario = [
-  {
-    title: 'Aspirational',
-    level: 'Level 3',
-    icon: Star,
-    scenario:
-      'Ransomware attacks will become nearly obsolete due to advancements in quantum encryption and AI-Driven threat detection systems making it extremely difficult for attackers to infiltrate systems undetected. Patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities.',
-    strategy:
-      'Invest in quantum encryption and AI-based cybersecurity tools to protect against ransomware attacks. The document highlights strong encryption and proactive risk management patching and poor cybersecurity hygiene within suppliers as essential components of ransomware defense.',
-    confidenceLevel: 'Medium (60%)',
-    implementationTime: '3 Months',
-    cost: '$1.2m'
-  },
-  {
-    title: 'Exploratory',
-    level: 'Level 2',
-    icon: Eye,
-    scenario:
-      'Lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (80%)',
-    implementationTime: '6 Months',
-    cost: '$2.5m'
-  },
-  {
-    title: 'Remediation',
-    level: 'Level 1',
-    icon: Shield,
-    scenario:
-      'The lack of regular patching and poor cybersecurity hygiene within suppliers will result in easily exploitable vulnerabilities, increasing the frequency of data leaks and security breaches.',
-    strategy:
-      'The document emphasizes the importance of enforcing basic cyber hygiene, such as regular patching, security training, and monitoring of internal systems. Implement mandatory patch management schedules and train staff on security awareness to mitigate vulnerabilities.',
-    confidenceLevel: 'High (70%)',
-    implementationTime: '2 Months',
-    cost: '$3m'
-  }
-] as const;
+import { usePathname } from 'next/navigation';
+import { trpc } from '#/trpc/query-clients/client';
 
 const ScenarioAccordion = () => {
+  const pathname = usePathname();
+  const parts = pathname.split("/");
+  const id = parts[parts.length - 1];
+  const { data, isLoading } = trpc.dash.risks.read.useQuery(id);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data?.planning) return null;
+
+  const icons = {
+    1: Shield,
+    2: Eye,
+    3: Star
+  } as const;
+
+  const levels = {
+    1: 'Remediation',
+    2: 'Exploratory',
+    3: 'Aspirational'
+  } as const;
+
+  const planningArray = Object.entries(data.planning).map(([key, value]) => ({
+    title: levels[Number(key) as 1 | 2 | 3],
+    level: `Level ${key}`,
+    icon: icons[Number(key) as 1 | 2 | 3],
+    scenario: value.scenario,
+    strategy: value.strategy,
+    confidenceLevel: `${Math.round(value.confidence * 100)}%`,
+    implementationTime: `${value.implementationTime} Months`,
+    cost: `$${(value.cost / 1000000).toFixed(1)}m`
+  }));
   return (
     <Accordion
       type='single'
       className='mt-5 w-full'
-      defaultValue={sectionsScenario[0].title}>
-      {sectionsScenario.map((scenarioItem) => {
+      defaultValue={planningArray[0].title}>
+      {planningArray.map((scenarioItem) => {
         const {
           title,
           level,
@@ -68,7 +61,7 @@ const ScenarioAccordion = () => {
 
         const sideCard = [
           { label: 'Confidence level', value: confidenceLevel },
-          { label: 'Time to implemenet', value: implementationTime },
+          { label: 'Time to implement', value: implementationTime },
           { label: 'Cost to implement', value: cost }
         ] as const;
 

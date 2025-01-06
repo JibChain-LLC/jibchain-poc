@@ -8,11 +8,13 @@ import am5geodata_worldLow from '@amcharts/amcharts5-geodata/worldLow';
 /* @ts-expect-error no available typings */
 import { geoCylindricalStereographic } from 'd3-geo-projection';
 import { Building } from 'lucide-react';
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { cn } from '#/lib/utils';
 import { bubble_data, BubbleData } from '#/utils/utils';
+import { usePathname } from 'next/navigation';
+import { trpc } from '#/trpc/query-clients/client';
 
 const BulletTooltip = () => {
   return (
@@ -47,69 +49,18 @@ const BulletTooltip = () => {
   );
 };
 
-const createPointSeries = (chart: am5map.MapChart, root: am5.Root) => {
-  const pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
-
-  // Set the data for the point series
-  pointSeries.data.setAll(
-    bubble_data.map((data) => ({
-      geometry: { type: 'Point', coordinates: [data.longitude, data.latitude] },
-      color: data.color
-    }))
-  );
-
-  pointSeries.bullets.push((root, series, dataItem) => {
-    const context = dataItem.dataContext as BubbleData;
-
-    const tooltip = am5.Tooltip.new(root, {
-      pointerOrientation: 'horizontal',
-      getFillFromSprite: false,
-      autoTextColor: false,
-      animationDuration: 0,
-      stateAnimationDuration: 0,
-      showTooltipOn: 'hover',
-      keepTargetHover: true,
-      background: am5.PointedRectangle.new(root, { cornerRadius: 6 })
-    });
-
-    tooltip.get('background')?.setAll({
-      fill: am5.color(0x111928),
-      fillOpacity: 1
-    });
-
-    const mainCircle = am5.Circle.new(root, {
-      radius: 8,
-      fill: context.color,
-      stroke: am5.Color.lighten(context.color, 0.6),
-      strokeWidth: 2,
-      tooltip: tooltip
-    });
-
-    mainCircle.set(
-      'tooltipHTML',
-      ReactDOMServer.renderToString(<BulletTooltip />)
-    );
-    mainCircle.animate({
-      key: 'strokeWidth',
-      from: 2,
-      to: 8,
-      duration: 3500,
-      loops: Infinity,
-      easing: am5.ease.yoyo(am5.ease.linear)
-    });
-
-    return am5.Bullet.new(root, { sprite: mainCircle });
-  });
-};
-
 const WorldMap = () => {
-  useLayoutEffect(() => {
-    const root = am5.Root.new('chartdiv');
-    root.setThemes([
-      am5themes_Responsive.new(root),
-      am5themes_Animated.new(root)
-    ]);
+  const pathname = usePathname();
+  const id = pathname.split('/').pop();
+  const { data } = trpc.dash.risks.read.useQuery(id ?? '');
 
+  useLayoutEffect(() => {
+    if (!data?.impactedSuppliers) return;
+    console.log('coordinates:', data.impactedSuppliers[0].address.latLong);
+  
+    const root = am5.Root.new('chartdiv');
+    root.setThemes([am5themes_Responsive.new(root), am5themes_Animated.new(root)]);
+  
     const chart = root.container.children.push(
       am5map.MapChart.new(root, {
         projection: geoCylindricalStereographic().parallel(0),
@@ -118,9 +69,9 @@ const WorldMap = () => {
         wheelY: 'none'
       })
     );
-
+  
     if (root._logo) root._logo.dispose();
-
+  
     chart.series.push(
       am5map.MapPolygonSeries.new(root, {
         fill: am5.color(0xf3f4f6),
@@ -129,19 +80,85 @@ const WorldMap = () => {
         exclude: ['AQ']
       })
     );
-
-    createPointSeries(chart, root);
-
-    return () => {
-      root.dispose();
-    };
-  }, []);
+  
+   
+    const pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+    pointSeries.data.setAll(
+      data.impactedSuppliers.map((supplier) => ({
+        geometry: {
+          type: 'Point',
+          coordinates: [
+            supplier.address.latLong[1], 
+            supplier.address.latLong[0]  
+          ]
+        },
+        color: getColorFromImpact(supplier.impact)
+      }))
+    );
+  
+    pointSeries.bullets.push((root, series, dataItem) => {
+      const context = dataItem.dataContext as BubbleData;
+  
+      const tooltip = am5.Tooltip.new(root, {
+        pointerOrientation: 'horizontal',
+        getFillFromSprite: false,
+        autoTextColor: false,
+        animationDuration: 0,
+        stateAnimationDuration: 0,
+        showTooltipOn: 'hover',
+        keepTargetHover: true,
+        background: am5.PointedRectangle.new(root, { cornerRadius: 6 })
+      });
+  
+      tooltip.get('background')?.setAll({
+        fill: am5.color(0x111928),
+        fillOpacity: 1
+      });
+  
+      const mainCircle = am5.Circle.new(root, {
+        radius: 8,
+        fill: context.color,
+        stroke: am5.Color.lighten(context.color, 0.6),
+        strokeWidth: 2,
+        tooltip: tooltip
+      });
+  
+      mainCircle.set(
+        'tooltipHTML',
+        ReactDOMServer.renderToString(<BulletTooltip />)
+      );
+      mainCircle.animate({
+        key: 'strokeWidth',
+        from: 2,
+        to: 8,
+        duration: 3500,
+        loops: Infinity,
+        easing: am5.ease.yoyo(am5.ease.linear)
+      });
+  
+      return am5.Bullet.new(root, { sprite: mainCircle });
+    });
+  
+    return () => root.dispose();
+  }, [data]);
+  
 
   return (
     <div className='relative mt-1'>
-      <div id='chartdiv' className={cn('h-auto min-h-[450px] w-full')}></div>
+      <div id='chartdiv' className={cn('min-h-screen w-full')}></div>
     </div>
   );
+};
+
+const getColorFromImpact = (impact: string) => {
+  switch (impact) {
+    case 'high':
+      return am5.color(0xff0000);
+    case 'medium':
+      return am5.color(0xffa500);
+    default:
+      return am5.color(0x00ff00);
+  }
 };
 
 export default WorldMap;

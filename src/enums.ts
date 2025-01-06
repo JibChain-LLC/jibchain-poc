@@ -7,8 +7,8 @@ export enum RoleEnum {
 
 export enum RiskLevelEnum {
   LOW = 'low',
-  MED = 'med',
-  HI = 'hi'
+  MED = 'medium',
+  HI = 'high'
 }
 
 export enum RiskCategoryEnum {
