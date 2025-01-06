@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Button } from '#/components/ui/button';
 import { mitigationBestPractices, overviewCardData } from '#/utils/utils';
 import OverviewCard from './overview-card';
@@ -39,10 +40,13 @@ export default function OverviewComponent() {
             across various sectors
           </p>
 
-          <img
+          <Image
             src='/laptop.jpg'
             alt='article image'
-            className='mb-4 h-48 w-full rounded-xl object-cover'></img>
+            width={300}
+            height={400}
+            className='mb-4 h-48 w-full rounded-xl object-cover'
+          />
 
           <p className='mb-4 text-base font-normal'>
             Implement robust backup systems, conduct regular security awareness

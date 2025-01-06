@@ -21,7 +21,7 @@ export const updateUser = authProcedure
 
     const { error } = await supabase.auth.updateUser({
       email,
-      password:sanitizedPassword,
+      password: sanitizedPassword,
       data: {
         firstName,
         lastName,
