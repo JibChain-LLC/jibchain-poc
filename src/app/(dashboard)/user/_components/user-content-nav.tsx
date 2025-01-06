@@ -1,6 +1,5 @@
 import 'server-only';
 
-import { fa } from '@faker-js/faker';
 import { LogOut } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
