@@ -64,23 +64,42 @@ export const loginInput = z.object({
 
 export const updateUserInput = z
   .object({
-    firstName: z.string().min(1, { message: 'First name is required' }).optional(),
-    lastName: z.string().min(1, { message: 'Last name is required' }).optional(),
+    firstName: z
+      .string()
+      .min(1, { message: 'First name is required' })
+      .optional(),
+    lastName: z
+      .string()
+      .min(1, { message: 'Last name is required' })
+      .optional(),
     jobRole: z.string().min(1, { message: 'Job role is required' }).optional(),
     email: z
       .string({ required_error: 'Email address is required' })
       .email('This is not a valid email')
       .optional(),
-    password: z.string().min(10, { message: 'Password must be at least 10 characters' }).optional(),
-    confirmPassword: z.string().optional(),
+    password: z
+      .union([
+        z
+          .string()
+          .min(10, { message: 'Password must be at least 10 characters' }),
+        z.literal('')
+      ])
+      .optional()
+      .nullable(),
+    confirmPassword: z
+      .union([z.string(), z.literal('')])
+      .optional()
+      .nullable()
   })
   .refine(
-    (data) => !data.password || data.password === data.confirmPassword,
+    (data) => {
+      if (data.password && data.password !== '') {
+        return data.password === data.confirmPassword;
+      }
+      return true;
+    },
     {
       message: 'Passwords must match',
-      path: ['confirmPassword'],
+      path: ['confirmPassword']
     }
   );
-
-
-

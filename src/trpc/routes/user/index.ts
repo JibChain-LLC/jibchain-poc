@@ -1,4 +1,3 @@
-import {updateUser} from "./user-update"
+import { updateUser } from './user-update';
 
-export {updateUser};
-
+export { updateUser };
