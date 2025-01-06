@@ -8,15 +8,44 @@ import am5geodata_worldLow from '@amcharts/amcharts5-geodata/worldLow';
 /* @ts-expect-error no available typings */
 import { geoCylindricalStereographic } from 'd3-geo-projection';
 import { Building } from 'lucide-react';
-import { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { cn } from '#/lib/utils';
-import { bubble_data, BubbleData } from '#/utils/utils';
-import { usePathname } from 'next/navigation';
-import { trpc } from '#/trpc/query-clients/client';
+import { BubbleData } from '#/utils/utils';
 
-const BulletTooltip = () => {
+interface Address {
+  administrativeArea: string;
+  country: string;
+  latLong: [number, number];
+  locality: string;
+  postalCode: string;
+  premise: string;
+  thoroughfare: string;
+}
+
+interface Contact {
+  email: string;
+  phone: string;
+}
+
+interface Supplier {
+  id: string;
+  name: string;
+  address: Address;
+  regions: string[];
+  contact: Contact;
+  exposure: string;
+  impact: string;
+}
+
+interface WorldMapProps {
+  data: {
+    impactedSuppliers: Supplier[];
+  };
+}
+
+const BulletTooltip = ({ supplier }: { supplier: Supplier }) => {
   return (
     <div className='flex flex-col gap-4 p-1.5'>
       <div className='flex flex-col gap-1'>
@@ -26,22 +55,24 @@ const BulletTooltip = () => {
             <Building size={16} />
           </AvatarFallback>
         </Avatar>
-        <p className='text-sm font-semibold text-white'>Dynamic Capital</p>
-        <p className='text-sm font-thin text-gray-400'>South America +2</p>
+        <p className='text-sm font-semibold text-white'>{supplier.name}</p>
+        <p className='text-sm font-thin text-gray-400'>
+          {supplier.address.country} +{supplier.regions.length - 1}
+        </p>
       </div>
 
       <div className='flex flex-col gap-1'>
         <p className='text-sm font-normal leading-none text-gray-200'>
-          Accounting software and services
+          {supplier.address.administrativeArea}, {supplier.address.locality}
         </p>
         <div className='flex gap-2.5 text-sm font-semibold text-white'>
           <div className='flex'>
             <p>Exposure: </p>
-            <p>Low</p>
+            <p className='capitalize'>{supplier.exposure}</p>
           </div>
           <div className='flex'>
             <p>Impact: </p>
-            <p>Medium</p>
+            <p className='capitalize'>{supplier.impact}</p>
           </div>
         </div>
       </div>
@@ -49,15 +80,10 @@ const BulletTooltip = () => {
   );
 };
 
-const WorldMap = () => {
-  const pathname = usePathname();
-  const id = pathname.split('/').pop();
-  const { data } = trpc.dash.risks.read.useQuery(id ?? '');
-
+const WorldMap = ({ data }: WorldMapProps) => {
   useLayoutEffect(() => {
     if (!data?.impactedSuppliers) return;
-    console.log('coordinates:', data.impactedSuppliers[0].address.latLong);
-  
+    
     const root = am5.Root.new('chartdiv');
     root.setThemes([am5themes_Responsive.new(root), am5themes_Animated.new(root)]);
   
@@ -81,7 +107,6 @@ const WorldMap = () => {
       })
     );
   
-   
     const pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
     pointSeries.data.setAll(
       data.impactedSuppliers.map((supplier) => ({
@@ -92,12 +117,13 @@ const WorldMap = () => {
             supplier.address.latLong[0]  
           ]
         },
-        color: getColorFromImpact(supplier.impact)
+        color: getColorFromImpact(supplier.impact),
+        supplier: supplier // Pass the entire supplier object
       }))
     );
   
     pointSeries.bullets.push((root, series, dataItem) => {
-      const context = dataItem.dataContext as BubbleData;
+      const context = dataItem.dataContext as BubbleData & { supplier: Supplier };
   
       const tooltip = am5.Tooltip.new(root, {
         pointerOrientation: 'horizontal',
@@ -125,7 +151,7 @@ const WorldMap = () => {
   
       mainCircle.set(
         'tooltipHTML',
-        ReactDOMServer.renderToString(<BulletTooltip />)
+        ReactDOMServer.renderToString(<BulletTooltip supplier={context.supplier} />)
       );
       mainCircle.animate({
         key: 'strokeWidth',
@@ -141,7 +167,6 @@ const WorldMap = () => {
   
     return () => root.dispose();
   }, [data]);
-  
 
   return (
     <div className='relative mt-1'>

@@ -13,17 +13,18 @@ const GlobalImpact = () => {
   const id = parts[parts.length - 1];
   const { data, isLoading } = trpc.dash.risks.read.useQuery(id);
   
-console.log('data22',data)
-if (isLoading) return <p>LOading..</p>
-if (data?.impactedSuppliers) {
-  return (
-    <div className='min-w-full'>
-      <CountryRiskProbability />
-      <GlobalImpactCards />
-      <GlobalImpactTable data={data} />
-    </div>
-  );
-}
+  console.log('data22', data);
+  
+  if (isLoading) return <p>Loading..</p>;
+  if (data?.impactedSuppliers) {
+    return (
+      <div className='min-w-full'>
+        <CountryRiskProbability data={data} />
+        <GlobalImpactCards />
+        <GlobalImpactTable data={data} />
+      </div>
+    );
+  }
 };
 
 export default GlobalImpact;
