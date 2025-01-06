@@ -10,6 +10,7 @@ export const updateUser = authProcedure
     const supabase = await createClient();
 
     const { firstName, lastName, email, jobRole, password } = opts.input;
+    const sanitizedPassword = password ?? undefined;
 
     if (!user) {
       throw new TRPCError({
@@ -20,7 +21,7 @@ export const updateUser = authProcedure
 
     const { error } = await supabase.auth.updateUser({
       email,
-      password,
+      password:sanitizedPassword,
       data: {
         firstName,
         lastName,

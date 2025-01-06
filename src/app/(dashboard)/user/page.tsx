@@ -5,7 +5,7 @@ import UserFormUpdate from './user-update/user-form';
 export default function AccountPage() {
   return (
     <div className='h-screen overflow-y-auto bg-white text-black shadow-md'>
-  <AuthWrapper fallback={<Loading />}>
+      <AuthWrapper fallback={<Loading />}>
         {({ user }) => {
           if (!user) return <Loading />;
           const transformedUser = {
@@ -14,8 +14,8 @@ export default function AccountPage() {
             user_metadata: {
               firstName: user.user_metadata?.firstName || '',
               lastName: user.user_metadata?.lastName || '',
-              jobRole: user.user_metadata?.jobRole || '',
-            },
+              jobRole: user.user_metadata?.jobRole || ''
+            }
           };
 
           return <UserFormUpdate user={transformedUser} />;
