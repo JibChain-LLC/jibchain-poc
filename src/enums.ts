@@ -25,7 +25,8 @@ export enum RiskCategoryEnum {
   BRAND = 'Brand & Reputation',
   COUNTERFEIT = 'Counterfeit Parts',
   LABOR = 'Labor Practices/Human Rights',
-  FIELD_ISSUES = 'Field Issues'
+  POLITICAL = 'Political',
+  HEALTH = 'Public Health'
 }
 
 export enum IndustryEnum {

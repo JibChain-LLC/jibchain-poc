@@ -1,0 +1,1 @@
+ALTER TABLE "risks"."suppliers" ADD COLUMN "url" text;

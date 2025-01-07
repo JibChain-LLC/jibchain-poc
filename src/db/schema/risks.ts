@@ -110,6 +110,7 @@ export const suppliers = risksSchema.table('suppliers', {
   regions: regionEnums().array(),
   coord: geometry('coord', { type: 'point', mode: 'tuple', srid: 4326 }),
   contactName: text('contact_name'),
+  url: text(),
   email: text(),
   phone: text()
 });
