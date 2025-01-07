@@ -2,7 +2,7 @@ const { WATSONX_AI_APIKEY, WATSONX_AI_SERVICE_URL } = process.env;
 
 const AUTH_URL = 'https://iam.cloud.ibm.com/identity/token';
 const ML_MODEL_URL = new URL(
-  '/ml/v4/deployments/6b2fbae0-25b4-4ee8-a0d9-3325bd6aeb82/predictions?version=2021-05-01',
+  '/ml/v4/deployments/71930c50-4388-41ac-bf06-d0ba666f34b2/predictions?version=2021-05-01',
   WATSONX_AI_SERVICE_URL
 );
 

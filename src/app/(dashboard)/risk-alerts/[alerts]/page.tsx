@@ -3,6 +3,8 @@ import 'server-only';
 import { FileText, Globe, ShieldAlert } from 'lucide-react';
 import { createElement } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/components/ui/tabs';
+import { db } from '#/db';
+import { suppliers } from '#/db/schema/risks';
 import { trpc } from '#/trpc/query-clients/server';
 import GlobalImpact from './_components/global-impact';
 import OverviewComponent from './_components/overview';
@@ -50,6 +52,8 @@ export default async function RiskPage(props: RiskPageProps) {
     .catch(() => null);
   if (data === null) return <p>No such risk event</p>;
 
+  const totalSuppliers = await db.$count(suppliers);
+
   const defaultTab: (typeof operations)[number]['value'] =
     tab && !Array.isArray(tab) && operations.some((o) => o.value === tab)
       ? (tab as (typeof operations)[number]['value'])
@@ -79,7 +83,7 @@ export default async function RiskPage(props: RiskPageProps) {
             const { content: Content, value } = item;
             return (
               <TabsContent value={value} key={value}>
-                <Content riskEntry={data} />
+                <Content riskEntry={data} totalSuppliers={totalSuppliers} />
               </TabsContent>
             );
           })}

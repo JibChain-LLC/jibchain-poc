@@ -40,7 +40,7 @@ export default function OverviewComponent(props: OverviewComponentProps) {
         />
         <OverviewCard
           header='Impacted Suppliers'
-          subHeader={'0'}
+          subHeader={riskEntry.impactedSuppliers.length.toString()}
           src='/overhead-containers.jpg'
           onClick={() => console.log('test')}
           alt='Suppliers'

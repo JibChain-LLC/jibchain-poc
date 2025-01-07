@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "license": "UNLICENSED",
   "private": true,
+  "type": "module",
   "contributors": [
     "Jake Bukuts <jake@jibchain.com> (https://jbukuts.com)"
   ],
@@ -116,6 +117,7 @@
     "serve": "^14.2.3",
     "storybook": "^8.4.4",
     "tailwindcss": "3.4.13",
+    "tsx": "^4.19.2",
     "type-fest": "^4.26.1",
     "typescript": "^5"
   },

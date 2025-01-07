@@ -1,0 +1,2 @@
+DROP TYPE "risks"."risk_category_enums";--> statement-breakpoint
+CREATE TYPE "risks"."risk_category_enums" AS ENUM('Financial', 'Environmental', 'Cybersecurity', 'Ransomware', 'Data Breaches', 'Insider Threats', 'Third-Party Vendor Risk', 'Network Security', 'Compliance Risk', 'Phishing & Social Engineering', 'Brand & Reputation', 'Counterfeit Parts', 'Labor Practices/Human Rights', 'Political', 'Public Health');

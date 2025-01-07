@@ -1,14 +1,20 @@
 import { eq } from 'drizzle-orm';
 import { Building, Shield } from 'lucide-react';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { withAuthUser } from '#/components/auth-wrapper';
 import { Button } from '#/components/ui/button';
 import { db } from '#/db';
 import { invites, organizations } from '#/db/schema/public';
+import getUserCurrentOrg from '#/lib/server/shared/get-current-org';
 
 export default withAuthUser(
   async function NoMemberPage(props) {
     const { user } = props;
+
+    const alreadyUser = (await getUserCurrentOrg(user.id)) !== '';
+    if (alreadyUser) return redirect('/dashboard');
+
     const pendingInv = await db
       .select({
         id: invites.id,
