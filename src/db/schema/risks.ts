@@ -74,7 +74,8 @@ export const risks = risksSchema.table('risk_entries', {
 });
 
 export const riskRelations = relations(risks, ({ many }) => ({
-  scenarios: many(scenarioPlanning)
+  scenarios: many(scenarioPlanning),
+  impactedSuppliers: many(supplierExposure)
 }));
 
 export const scenarioPlanning = risksSchema.table('scenario_planning', {
@@ -131,3 +132,17 @@ export const supplierExposure = risksSchema.table('supplier_exposure', {
     }),
   exposure: riskLevelEnum().notNull()
 });
+
+export const supplierExposureRelations = relations(
+  supplierExposure,
+  ({ one }) => ({
+    risk: one(risks, {
+      fields: [supplierExposure.riskId],
+      references: [risks.id]
+    }),
+    supplier: one(suppliers, {
+      fields: [supplierExposure.supplierId],
+      references: [suppliers.id]
+    })
+  })
+);
