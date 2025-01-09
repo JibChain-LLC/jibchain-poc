@@ -116,6 +116,10 @@ export const suppliers = risksSchema.table('suppliers', {
   phone: text()
 });
 
+export const supplierRelations = relations(suppliers, ({ many }) => ({
+  riskEvents: many(supplierExposure)
+}));
+
 export const supplierExposure = risksSchema.table('supplier_exposure', {
   id: uuid().primaryKey().defaultRandom(),
   supplierId: uuid('supplier_id')

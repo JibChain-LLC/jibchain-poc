@@ -1,137 +1,109 @@
 'use client';
-import { ColumnDef, Table as TableType } from '@tanstack/react-table';
+
+import { Building } from 'lucide-react';
 import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
 import { Badge } from '#/components/ui/badge';
-import { Checkbox } from '#/components/ui/checkbox';
 import { DataTable } from '#/components/ui/data-table';
-import { Input } from '#/components/ui/input';
-import { Suppliers, supplierTableInvoices } from '#/utils/utils';
+import { RegionEnum, RiskLevelEnum } from '#/enums';
+import { RouteOutputs } from '#/trpc/query-clients/client';
 import SupplierModal from './supplier-modal';
 
-interface ControlsProps {
-  table: TableType<Suppliers>;
+interface SupplierTableProps {
+  supplierList: RouteOutputs['dash']['suppliers']['list'];
 }
 
-export default function SuppliersTable() {
+const BADGE_MAP: Record<
+  RiskLevelEnum,
+  { variant: React.ComponentProps<typeof Badge>['variant']; text: string }
+> = {
+  hi: { variant: 'destructive', text: 'High' },
+  med: { variant: 'warning', text: 'Medium' },
+  low: { variant: 'default', text: 'Low' }
+};
+
+export default function SuppliersTable(props: SupplierTableProps) {
+  const { supplierList } = props;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [supplierId, setSupplierId] = useState<string>();
 
-  const handleColumnClick = () => {
+  const handleColumnClick = (id: string) => {
     setIsModalOpen(true);
+    setSupplierId(id);
   };
-  const columns: ColumnDef<Suppliers>[] = [
-    {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label='Select all'
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          onClick={(e) => e.stopPropagation()}
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label='Select row'
-        />
-      ),
-      enableSorting: false
-    },
-    {
-      accessorKey: 'image',
-      header: '',
-      cell: () => (
-        <Avatar>
-          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      )
-    },
-    {
-      accessorKey: 'supplier',
-      header: 'Supplier',
-      cell: ({ row }) => row.getValue('supplier')
-    },
-    {
-      accessorKey: 'riskStatus',
-      header: 'Risk Status',
-      cell: ({ row }) => {
-        const riskStatus = row.getValue('riskStatus') as string;
-        const riskColor =
-          riskStatus === 'Low'
-            ? 'default'
-            : riskStatus === 'Medium'
-              ? 'warning'
-              : 'destructive';
-
-        return <Badge variant={riskColor}>{riskStatus}</Badge>;
-      }
-    },
-    {
-      accessorKey: 'topRisk',
-      header: 'Top Risk',
-      cell: ({ row }) => row.getValue('topRisk')
-    },
-    {
-      accessorKey: 'impactOperation',
-      header: 'Impact to Operation',
-      cell: ({ row }) => {
-        const impact = row.getValue('impactOperation') as string;
-        const dotColor =
-          impact === 'High'
-            ? 'bg-red-500'
-            : impact === 'Medium'
-              ? 'bg-yellow-500'
-              : 'bg-green-500';
-
-        return (
-          <div className='flex items-center'>
-            <span className={`mr-2 size-2 rounded-full ${dotColor}`}></span>
-            {impact}
-          </div>
-        );
-      }
-    },
-    {
-      accessorKey: 'region',
-      header: 'Region',
-      cell: ({ row }) => row.getValue('region')
-    }
-  ];
-
-  const Controls = ({ table }: ControlsProps) => (
-    <div className='flex items-center py-4'>
-      <Input
-        placeholder='Filter suppliers...'
-        value={(table.getColumn('supplier')?.getFilterValue() as string) ?? ''}
-        onChange={(event) =>
-          table.getColumn('supplier')?.setFilterValue(event.target.value)
-        }
-        className='max-w-sm'
-      />
-    </div>
-  );
 
   return (
     <>
       <DataTable
-        columns={columns}
-        data={supplierTableInvoices}
-        controls={Controls}
+        columns={[
+          {
+            id: 'supplier',
+            header: 'Supplier',
+            cell: ({ row }) => (
+              <div className='flex items-center gap-2.5'>
+                <Avatar className='size-8'>
+                  <AvatarImage src='' alt='@shadcn' />
+                  <AvatarFallback>
+                    <Building size={16} />
+                  </AvatarFallback>
+                </Avatar>
+                <p className='text-base font-medium leading-none'>
+                  {row.original.name}
+                </p>
+              </div>
+            )
+          },
+          {
+            id: 'riskStatus',
+            header: 'Risk Status',
+            cell: ({ row }) => {
+              if (row.original.riskEvents.length === 0)
+                return <Badge variant={'secondary'}>None</Badge>;
+
+              const riskStatus = row.original.riskEvents[0].risk.riskLevel;
+              return (
+                <Badge variant={BADGE_MAP[riskStatus!].variant}>
+                  {BADGE_MAP[riskStatus!].text}
+                </Badge>
+              );
+            }
+          },
+          {
+            id: 'topRisk',
+            header: 'Top Risk',
+            cell: ({ row }) => (
+              <p className='text-sm font-medium'>
+                {row.original.riskEvents[0].risk.riskCategory ?? 'No Risk'}
+              </p>
+            )
+          },
+          {
+            id: 'region',
+            header: 'Region',
+            cell: ({ row }) => (
+              <p className='text-sm font-medium'>
+                {row.original.regions
+                  ? RegionEnum[row.original.regions[0]]
+                  : 'N/A'}
+              </p>
+            )
+          }
+        ]}
+        data={supplierList}
         pagination={{
           manual: false,
           pageSize: 10
         }}
-        onColumnClick={handleColumnClick}
+        onColumnClick={({ id }) => handleColumnClick(id)}
         wrapperClassName='py-4'
       />
-      {isModalOpen && (
-        <SupplierModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
+      {supplierId && (
+        <SupplierModal
+          isOpen={isModalOpen}
+          setOpen={setIsModalOpen}
+          supplierId={supplierId}
+        />
       )}
     </>
   );
