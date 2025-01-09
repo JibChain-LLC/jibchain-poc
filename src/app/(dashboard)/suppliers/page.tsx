@@ -13,7 +13,7 @@ export default async function SuppliersPage() {
 
   return (
     <div>
-      <SuppliersHeader />
+      <SuppliersHeader supplierList={supplierList} />
       <SuppliersTable supplierList={supplierList} />
     </div>
   );
