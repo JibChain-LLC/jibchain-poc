@@ -3,7 +3,6 @@ import 'server-only';
 import { and, between, eq, isNotNull, sql } from 'drizzle-orm';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import React from 'react';
-import TimeFrame from '#/components/defaul-components/time-frame';
 import OrgCard from '#/components/organization-card';
 import { Card, CardContent } from '#/components/ui/card';
 import { Progress } from '#/components/ui/progress';
@@ -13,6 +12,7 @@ import { RiskLevelEnum } from '#/enums';
 import { cn } from '#/lib/utils';
 import { RouteOutputs } from '#/trpc/query-clients/client';
 import MiniMap from './mini-map';
+import TimeFrameRisks from './time-frame-risks';
 
 interface SuppliersHeaderProps {
   supplierList: RouteOutputs['dash']['suppliers']['list'];
@@ -90,27 +90,7 @@ const SuppliersHeader = async (props: SuppliersHeaderProps) => {
     <div className='row-span-1 grid w-full auto-rows-[255px] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
       <div className='flex w-auto flex-col gap-4'>
         <OrgCard />
-        <Card className='flex w-full grow flex-col items-center justify-center'>
-          <CardContent className='flex size-full flex-col gap-7 px-5'>
-            <TimeFrame className='w-full' />
-            <div className='flex w-full justify-between'>
-              <div className='flex flex-col gap-0.5'>
-                <p className='text-xs font-medium leading-tight text-gray-500'>
-                  Overall risk status
-                </p>
-                <p className='text-2xl font-bold leading-tight text-orange-600'>
-                  Medium
-                </p>
-              </div>
-              <div className='flex flex-col gap-0.5'>
-                <p className='text-xs font-medium leading-tight text-gray-500'>
-                  Active risks
-                </p>
-                <p className='text-2xl font-bold leading-tight'>20</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <TimeFrameRisks endDate={Date.now()} />
       </div>
 
       <Card className='w-full'>

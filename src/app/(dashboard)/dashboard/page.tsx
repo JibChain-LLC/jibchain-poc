@@ -1,12 +1,27 @@
+/* eslint-disable @next/next/no-img-element */
+import 'server-only';
+
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import AuthWrapper from '#/components/auth-wrapper';
 import { Button } from '#/components/ui/button';
 import { Card } from '#/components/ui/card';
-import { dashboardCardData } from '#/utils/utils';
+import { db } from '#/db';
 import RiskContainer from './_components/risk-container';
 
 export default async function DashboardPage() {
+  const latestNews = await db.query.risks.findMany({
+    columns: {
+      title: true,
+      image: true,
+      id: true,
+      articleDate: true
+    },
+    orderBy: (r, { desc }) => desc(r.articleDate),
+    limit: 3
+  });
+
   return (
     <div>
       <AuthWrapper fallback={<p>Loading...</p>}>
@@ -25,21 +40,21 @@ export default async function DashboardPage() {
           <div className='flex flex-col items-start gap-2'>
             <h3 className='text-base font-medium'>Featured News</h3>
             <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-              {dashboardCardData.map((card, index) => (
-                <Card key={index} className='overflow-hidden'>
-                  <Image
-                    src={card.image}
+              {latestNews.map((card) => (
+                <Card key={card.id} className='flex flex-col overflow-hidden'>
+                  <img
+                    src={card.image!}
                     alt='Feature'
                     className='h-32 w-full object-cover lg:h-48'
                     width={400}
                     height={400}
                   />
-                  <div className='flex flex-col p-4'>
+                  <div className='flex grow flex-col justify-between p-4'>
                     <p className='mb-4 text-base font-medium leading-tight'>
-                      {card.description}
+                      {card.title}
                     </p>
-                    <Button className='w-fit' variant='outline'>
-                      {card.buttonText}
+                    <Button className='w-fit' variant='outline' asChild>
+                      <Link href={`/risk-alerts/${card.id}`}>Read More</Link>
                     </Button>
                   </div>
                 </Card>
@@ -62,11 +77,10 @@ export default async function DashboardPage() {
                   Operational Resilience with AI
                 </h1>
                 <p className='mx-auto max-w-4xl text-sm font-normal text-gray-300 sm:text-base md:text-lg lg:text-xl'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Molestiae fugit possimus sunt nobis doloremque consequuntur!
+                  Intelligently designed risk management for the future
                 </p>
-                <Button variant='default' className='w-fit'>
-                  Learn More
+                <Button variant='default' className='w-fit' asChild>
+                  <a href='https://coeusrisk.ai/'>Learn More</a>
                 </Button>
               </div>
             </div>

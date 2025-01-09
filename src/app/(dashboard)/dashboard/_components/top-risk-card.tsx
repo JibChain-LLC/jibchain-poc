@@ -16,7 +16,7 @@ const TopRiskCard: React.FC<TopRiskCardProps> = ({ percentage, label }) => {
       <div
         className={cn(
           'flex flex-row items-center gap-0.5',
-          isPositive ? 'text-green-500' : 'text-red-600'
+          isPositive ? 'text-red-600' : 'text-green-500'
         )}>
         <p className='text-sm font-bold'>{Math.abs(percentage)}%</p>
         {React.createElement(isPositive ? ArrowUp : ArrowDown, { size: 16 })}
