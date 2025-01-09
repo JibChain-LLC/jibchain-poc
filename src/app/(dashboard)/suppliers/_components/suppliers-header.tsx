@@ -1,15 +1,29 @@
+import 'server-only';
+
+import { isNotNull, sql } from 'drizzle-orm';
 import { ArrowUp } from 'lucide-react';
 import React from 'react';
 import TimeFrame from '#/components/defaul-components/time-frame';
 import OrgCard from '#/components/organization-card';
 import { Card, CardContent } from '#/components/ui/card';
 import { Progress } from '#/components/ui/progress';
+import { db } from '#/db';
+import { suppliers } from '#/db/schema/risks';
 import { cn } from '#/lib/utils';
-import { suppliersData } from '#/utils/utils';
 import { supplierRiskLevels } from '#/utils/utils';
 import MiniMap from './mini-map';
 
-const SuppliersHeader = () => {
+const SuppliersHeader = async () => {
+  const totalSuppliers = await db.$count(suppliers);
+  const distinctCountries = await db
+    .select({
+      count: sql<number>`cast(count(${suppliers.countryCode}) as int)`,
+      countryCode: suppliers.countryCode
+    })
+    .from(suppliers)
+    .where(isNotNull(suppliers.countryCode))
+    .groupBy(suppliers.countryCode);
+
   return (
     <div className='row-span-1 grid w-full auto-rows-[255px] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
       <div className='flex w-auto flex-col gap-4'>
@@ -42,22 +56,22 @@ const SuppliersHeader = () => {
           <div className='flex gap-16'>
             <div className='flex flex-col'>
               <h3 className='text-base font-normal leading-tight text-gray-600'>
-                {suppliersData[0].label}
+                Total Suppliers
               </h3>
               <p className='text-4xl font-bold leading-tight'>
-                {suppliersData[0].value}
+                {totalSuppliers}
               </p>
             </div>
             <div className='flex flex-col'>
               <h3 className='text-base font-normal leading-tight text-gray-600'>
-                {suppliersData[1].label}
+                Countries
               </h3>
               <p className='text-4xl font-normal leading-tight'>
-                {suppliersData[1].value}
+                {distinctCountries.length}
               </p>
             </div>
           </div>
-          <MiniMap />
+          <MiniMap distinctCountries={distinctCountries} />
         </CardContent>
       </Card>
 

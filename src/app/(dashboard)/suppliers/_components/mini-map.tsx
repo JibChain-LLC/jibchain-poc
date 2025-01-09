@@ -8,30 +8,20 @@ import am5geodata_worldLow from '@amcharts/amcharts5-geodata/worldLow';
 /* @ts-expect-error no available typings */
 import { geoCylindricalStereographic } from 'd3-geo-projection';
 import { useLayoutEffect } from 'react';
-import { CountryDataContext, risk_data } from '#/utils/utils';
 
-const getFillColor = (
-  dataContext: CountryDataContext | undefined,
-  fallback: am5.Color
-) => {
-  const country = risk_data.find((data) => data.id === dataContext?.id);
-  if (country) {
-    switch (country.risk) {
-      case 'High':
-        return am5.color(0x046c4e); // Red for High Risk
-      case 'Moderate':
-        return am5.color(0x0e9f6e); // Orange for Moderate Risk
-      case 'Low':
-        return am5.color(0x84e1bc); // Green for Low Risk
-      default:
-        return fallback; // Default gray
-    }
-  }
-  return fallback; // Default for countries without data
-};
+interface MiniMapProps {
+  distinctCountries: { countryCode: string | null; count: number }[];
+}
 
-export default function MiniMap() {
+export default function MiniMap(props: MiniMapProps) {
+  const { distinctCountries } = props;
+
   useLayoutEffect(() => {
+    const distinctMap = new Map<string, number>();
+    distinctCountries.forEach(({ countryCode, count }) => {
+      distinctMap.set(countryCode!, count);
+    });
+
     const root = am5.Root.new('chartdiv');
     root.setThemes([
       am5themes_Responsive.new(root),
@@ -58,14 +48,14 @@ export default function MiniMap() {
       })
     );
 
-    // className = 'text-gray-500';
-
-    polygonSeries.mapPolygons.template.adapters.add('fill', (fill, target) =>
-      getFillColor(
-        target.dataItem?.dataContext as CountryDataContext,
-        fill ?? am5.color(0xd1d5db)
-      )
-    );
+    polygonSeries.mapPolygons.template.adapters.add('fill', (_, target) => {
+      const cc = (target.dataItem?.dataContext as { id: string }).id;
+      const count = distinctMap.get(cc);
+      if (count === undefined) return am5.color(0xd1d5db);
+      if (count > 30) return am5.color(0x046c4e);
+      else if (count > 10) return am5.color(0x0e9f6e);
+      else return am5.color(0x84e1bc);
+    });
 
     return () => {
       root.dispose();
