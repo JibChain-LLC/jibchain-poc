@@ -27,6 +27,7 @@ const ROUTE_TREE = {
     LOGOUT: { slug: 'logout', auth: true },
     CONFIRM: { slug: 'confirm' },
     SUPERUSER: { slug: 'superuser', auth: true, org: false },
+    DASH: { slug: 'dashboard', auth: true, org: true },
     ORG: {
       slug: 'organization',
       auth: true,
