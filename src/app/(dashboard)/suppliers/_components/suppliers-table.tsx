@@ -55,6 +55,11 @@ export default function SuppliersTable(props: SupplierTableProps) {
             )
           },
           {
+            id: 'industry',
+            header: 'Industry',
+            cell: ({ row }) => row.original.category
+          },
+          {
             id: 'riskStatus',
             header: 'Risk Status',
             cell: ({ row }) => {

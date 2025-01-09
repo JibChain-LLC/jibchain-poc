@@ -1,14 +1,14 @@
 import 'server-only';
 
-import { isNotNull, sql } from 'drizzle-orm';
-import { ArrowUp } from 'lucide-react';
+import { and, between, eq, isNotNull, sql } from 'drizzle-orm';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 import React from 'react';
 import TimeFrame from '#/components/defaul-components/time-frame';
 import OrgCard from '#/components/organization-card';
 import { Card, CardContent } from '#/components/ui/card';
 import { Progress } from '#/components/ui/progress';
 import { db } from '#/db';
-import { suppliers } from '#/db/schema/risks';
+import { risks, suppliers } from '#/db/schema/risks';
 import { RiskLevelEnum } from '#/enums';
 import { cn } from '#/lib/utils';
 import { RouteOutputs } from '#/trpc/query-clients/client';
@@ -23,6 +23,24 @@ const BADGE_MAP: Record<RiskLevelEnum, { text: string; color: string }> = {
   med: { text: 'Medium', color: 'bg-yellow-400' },
   hi: { text: 'High', color: 'bg-red-400' }
 };
+
+function getDistinctCount(start: Date, end: Date, cat?: string) {
+  return db
+    .select({
+      count: sql<number>`cast(count(${risks.riskCategory}) as int)`.as('count'),
+      riskCategory: risks.riskCategory
+    })
+    .from(risks)
+    .where(
+      and(
+        isNotNull(risks.riskCategory),
+        between(risks.articleDate, start, end),
+        ...(cat ? [eq(risks.riskCategory, cat)] : [])
+      )
+    )
+    .groupBy(risks.riskCategory)
+    .orderBy(sql<number>`cast(count(${risks.riskCategory}) as int) DESC`);
+}
 
 const SuppliersHeader = async (props: SuppliersHeaderProps) => {
   const { supplierList } = props;
@@ -49,6 +67,24 @@ const SuppliersHeader = async (props: SuppliersHeaderProps) => {
       low: 0
     } as Record<RiskLevelEnum, number>
   );
+
+  const now = Date.now();
+  const [thisWeek, ...rest] = await getDistinctCount(
+    new Date(now - 7 * 86_400_000),
+    new Date(now)
+  );
+
+  const [lastWeek] = await getDistinctCount(
+    new Date(now - 14 * 86_400_000),
+    new Date(now - 7 * 86_400_000),
+    thisWeek.riskCategory!
+  );
+
+  const change = Math.floor(
+    ((thisWeek.count - lastWeek.count) / lastWeek.count) * 100
+  );
+
+  const sum = [thisWeek, ...rest].reduce((acc, curr) => acc + curr.count, 0);
 
   return (
     <div className='row-span-1 grid w-full auto-rows-[255px] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
@@ -157,12 +193,19 @@ const SuppliersHeader = async (props: SuppliersHeaderProps) => {
               Top Risk
             </h3>
             <p className='text-2xl font-bold leading-tight'>
-              Ransomware Attack
+              {thisWeek.riskCategory}
             </p>
           </div>
           <div className='mb-5'>
-            <p className='flex items-center gap-0.5 text-sm font-bold text-red-500'>
-              1.45% <ArrowUp className='size-3' />
+            <p
+              className={cn(
+                'flex items-center gap-0.5 text-sm font-bold text-red-500',
+                change <= 0 && 'text-green-600'
+              )}>
+              {Math.abs(change)}%{' '}
+              {React.createElement(change > 0 ? ArrowUp : ArrowDown, {
+                className: 'size-3'
+              })}
             </p>
             <p className='text-sm font-medium'>Increase since last week</p>
           </div>
@@ -170,14 +213,20 @@ const SuppliersHeader = async (props: SuppliersHeaderProps) => {
           <div className='flex flex-col gap-1'>
             <div className='flex w-full items-center gap-1'>
               <Progress
-                indicatorColor='bg-red-500'
-                value={9}
+                indicatorColor={change > 0 ? 'bg-red-500' : 'bg-green-600'}
+                value={(thisWeek.count / sum) * 100}
                 className='h-1.5 rounded-sm bg-gray-200'
               />
-              <p className='text-xs font-medium text-gray-500'>22/243</p>
+              <p className='text-xs font-medium text-gray-500'>
+                {thisWeek.count}/{sum}
+              </p>
             </div>
             <p className='text-sm font-medium'>
-              <span className='font-bold'>9% </span>of total suppliers impacted
+              <span className='font-bold'>
+                {Math.floor((thisWeek.count / sum) * 100)}
+                {'% '}
+              </span>
+              of total risk events
             </p>
           </div>
         </CardContent>
