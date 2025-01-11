@@ -29,8 +29,9 @@ export default function UserTable(props: UserTableProps) {
   const memberQuery = trpc.org.member.list.useQuery({ orgId });
   const inviteQuery = trpc.org.invite.list.useQuery({ orgId });
 
-  const hasAdminPriv =
-    ADMIN_SET.intersection(new Set(currentUserRoles)).size >= 1;
+  const currentRoleSet = new Set(currentUserRoles);
+  const hasAdminPriv = ADMIN_SET.intersection(currentRoleSet).size >= 1;
+  const isOwner = currentRoleSet.has(RoleEnum.OWNER);
 
   return (
     <DataTable
@@ -94,6 +95,7 @@ export default function UserTable(props: UserTableProps) {
                 type={row.original.type}
                 id={row.original.id}
                 currentRole={row.original.role}
+                allowOwnerSelect={isOwner}
               />
             ) : (
               <p className='font-normal text-gray-500'>{row.original.role}</p>
