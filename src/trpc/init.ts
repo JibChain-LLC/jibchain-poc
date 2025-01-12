@@ -17,7 +17,10 @@ export const authProcedure = t.procedure.use(async (opts) => {
     });
 
   return opts.next({
-    ctx: opts.ctx
+    ctx: {
+      ...opts.ctx,
+      user
+    }
   });
 });
 
