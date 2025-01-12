@@ -42,8 +42,8 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Source risk events
-        run: tsx --conditions=react-server ./src/pipeline/aggregate/index.ts
+        run: ./node_modules/.bin/tsx --conditions=react-server ./src/pipeline/aggregator/index.ts
 
       - name: Map risk events to suppliers
-        run: tsx --conditions=react-server ./src/pipeline/map-relations/index.ts
+        run: ./node_modules/.bin/tsx --conditions=react-server ./src/pipeline/map-relations/index.ts
 
