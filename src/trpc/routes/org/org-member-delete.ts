@@ -21,18 +21,24 @@ export const deleteMember = authProcedure
     const { userId, orgId } = opts.input;
 
     const cookieStore = await cookies();
+    const isSameUser = userId === user.id;
+    const auth = await authCheck({
+      user,
+      orgId,
+      rolesNeeded: [RoleEnum.ADMIN, RoleEnum.OWNER]
+    });
 
-    if (user.id !== userId) {
-      const auth = await authCheck({
-        user,
-        orgId,
-        rolesNeeded: [RoleEnum.ADMIN, RoleEnum.OWNER]
+    if (!isSameUser && !auth.ok) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: auth.message
       });
-      if (!auth.ok)
-        throw new TRPCError({
-          code: 'UNAUTHORIZED',
-          message: auth.message
-        });
+    } else if (isSameUser && auth.ok && auth.data.roles.has(RoleEnum.OWNER)) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message:
+          'User must first transfer ownership before leaving an organization.'
+      });
     }
 
     await db
@@ -40,7 +46,7 @@ export const deleteMember = authProcedure
       .where(and(eq(roles.orgId, orgId), eq(roles.userId, userId)));
 
     const currOrgId = cookieStore.get('current-org')?.value;
-    if (user.id === userId && currOrgId === orgId) {
+    if (isSameUser && currOrgId === orgId) {
       cookieStore.delete('current-org');
       revalidatePath('/');
     }

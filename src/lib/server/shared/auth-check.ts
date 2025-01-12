@@ -1,30 +1,22 @@
 import 'server-only';
 
 import { type User } from '@supabase/supabase-js';
-import { and, eq, inArray } from 'drizzle-orm';
 import { db } from '#/db';
-import { roles } from '#/db/schema/public';
 import { RoleEnum } from '#/enums';
 import { createClient } from '#/lib/supabase/server';
 
 type ActionRes<D> = { ok: true; data: D } | { ok: false; message: string };
 
-type AuthMiddleOpts = Omit<
-  Parameters<typeof doesUserHaveRoles>[0],
-  'userId'
-> & { user?: User | null };
-
-interface DoesUserHaveRolesOpts {
-  /**
-   * Roles to check for.
-   * If left empty will only check if they are a member of the organization
-   */
-  rolesNeeded?: RoleEnum[];
-  /** user to check access for */
-  userId: string;
-  /** organization to check against */
+type AuthCheckOpts = {
+  user?: User | null;
   orgId: string;
-}
+  rolesNeeded?: RoleEnum[];
+};
+
+async function authCheck(
+  opts: AuthCheckOpts
+): Promise<ActionRes<{ user: User; roles: Set<RoleEnum> }>>;
+async function authCheck(): Promise<ActionRes<{ user: User }>>;
 
 /**
  * Helper to perform basic auth checks for server actions
@@ -34,56 +26,53 @@ interface DoesUserHaveRolesOpts {
  *
  * @param opts parameters for checking roles
  */
-export default async function authCheck(
-  opts?: AuthMiddleOpts
-): Promise<ActionRes<{ user: User }>> {
-  let user = opts?.user;
-  if (!user) {
-    const supabase = await createClient();
-    const {
-      error,
-      data: { user: authUser }
-    } = await supabase.auth.getUser();
+async function authCheck(
+  opts?: AuthCheckOpts
+): Promise<ActionRes<{ user: User; roles?: Set<RoleEnum> }>> {
+  try {
+    let user = opts?.user;
+    if (!user) {
+      const supabase = await createClient();
+      const {
+        error,
+        data: { user: authUser }
+      } = await supabase.auth.getUser();
 
-    if (error || !authUser)
-      return { ok: false, message: 'No user authenticated' };
+      if (error || !authUser) throw new Error('No user authenticated');
+      user = authUser;
+    }
 
-    user = authUser;
-  }
+    // return only user data
+    // just ensures login
+    if (!opts) return { ok: true, data: { user } };
 
-  if (opts) {
     const { rolesNeeded, orgId } = opts;
-    const hasRole = await doesUserHaveRoles({
-      rolesNeeded,
-      orgId,
-      userId: user.id
-    });
-    if (!hasRole)
-      return {
-        ok: false,
-        message: 'User does not have sufficient roles'
-      };
+    const roleSet = new Set(
+      (
+        await db.query.roles.findMany({
+          columns: { role: true },
+          where: (r, { eq, and, inArray }) =>
+            and(
+              eq(r.orgId, orgId),
+              eq(r.userId, user.id),
+              eq(r.active, true),
+              rolesNeeded ? inArray(r.role, rolesNeeded) : undefined
+            )
+        })
+      ).map((o) => o.role)
+    );
+
+    if (roleSet.size <= 0)
+      throw new Error(
+        'User does not have sufficient roles to perform this action'
+      );
+
+    return { ok: true, data: { user, roles: roleSet } };
+  } catch (err) {
+    let message = 'Internal Error';
+    if (err instanceof Error) message = err.message;
+    return { ok: false, message };
   }
-
-  return { ok: true, data: { user } };
 }
 
-/**
- * Helper to ensure a given user has certain roles within an organization
- */
-async function doesUserHaveRoles(
-  opts: DoesUserHaveRolesOpts
-): Promise<boolean> {
-  const { orgId, userId, rolesNeeded } = opts;
-
-  const userRoles = await db.$count(
-    roles,
-    and(
-      eq(roles.orgId, orgId),
-      eq(roles.userId, userId),
-      rolesNeeded ? inArray(roles.role, rolesNeeded) : undefined
-    )
-  );
-
-  return userRoles >= 1;
-}
+export default authCheck;
