@@ -9,6 +9,7 @@ import {
 } from '#/components/ui/select';
 import { toast } from '#/components/ui/use-toast';
 import { RoleEnum } from '#/enums';
+import { cn } from '#/lib/utils';
 import revalidateAllPath from '#/revalidate-path';
 import { trpc, vanillaTRPC } from '#/trpc/query-clients/client';
 
@@ -55,9 +56,9 @@ export default function ChangeRoleSelect(props: ChangeRoleSelectProps) {
         description: `${type.slice(0, 1).toUpperCase() + type.slice(1)} role updated to ${role}`
       });
     },
-    onSettled: () => {
+    onSettled: (r) => {
       utils.org[type].list.invalidate();
-      revalidateAllPath();
+      if (r === RoleEnum.OWNER) revalidateAllPath();
     }
   });
 
@@ -73,11 +74,11 @@ export default function ChangeRoleSelect(props: ChangeRoleSelectProps) {
         <SelectItem value={RoleEnum.USER}>{RoleEnum.USER}</SelectItem>
         <SelectItem value={RoleEnum.EDITOR}>{RoleEnum.EDITOR}</SelectItem>
         <SelectItem value={RoleEnum.ADMIN}>{RoleEnum.ADMIN}</SelectItem>
-        {type === 'member' && (
-          <SelectItem disabled={!allowOwnerSelect} value={RoleEnum.OWNER}>
-            {RoleEnum.OWNER}
-          </SelectItem>
-        )}
+        <SelectItem
+          className={cn((!allowOwnerSelect || type === 'invite') && 'hidden')}
+          value={RoleEnum.OWNER}>
+          {RoleEnum.OWNER}
+        </SelectItem>
       </SelectContent>
     </Select>
   );
