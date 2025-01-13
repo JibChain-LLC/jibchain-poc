@@ -11,8 +11,6 @@ type SendEmailOpts = { to: string[]; subject: string } & (
 export default async function sendEmail(opts: SendEmailOpts) {
   const { text, html, to, subject } = opts;
 
-  console.log('TEST', EMAIL_USER, EMAIL_PASSWORD);
-
   const transporter = createTransport({
     host: 'smtp.mailgun.org',
     port: 465,
