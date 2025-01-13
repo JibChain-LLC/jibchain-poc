@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse, type NextRequest } from 'next/server';
-import getUserCurrentOrg from './lib/server/shared/get-current-org';
+import getOrgMembership from './lib/server/shared/get-org-membership';
 import { FLAT_ROUTE_TREE, ROUTE_MAP } from './routes';
 
 // routes that need no user logged in
@@ -77,17 +77,23 @@ export async function middleware(request: NextRequest) {
   // if theres a authed user we can route as no org check is needed
   if (user && noOrgNeeded) return response;
 
-  // if trying to access a route that needs an authed user
-  // with no current org cookie
-  if (user && needsOrg && !currentOrg) {
-    const orgId = await getUserCurrentOrg(user.id);
+  if (user && needsOrg) {
+    const membership = await getOrgMembership(user.id);
 
-    // user has no membership in any org
-    if (!orgId)
+    // has no membership
+    if (membership.size === 0) {
+      response.cookies.delete('current-org');
       return NextResponse.redirect(
         new URL(ROUTE_MAP['GET_STARTED'], request.url)
       );
-    response.cookies.set('current-org', orgId);
+    }
+
+    // if not a member of current cookie value
+    // or there is no cookie value
+    // set it to the fist org found
+    if ((currentOrg && !membership.has(currentOrg)) || !currentOrg) {
+      response.cookies.set('current-org', [...membership][0]);
+    }
   }
 
   return response;

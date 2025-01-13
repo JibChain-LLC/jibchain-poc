@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { type EmailOtpType } from '@supabase/supabase-js';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '#/lib/supabase/server';
 
@@ -30,5 +31,6 @@ export default async function ConfirmPage(props: ConfirmPageProps) {
   });
 
   if (error) throw new Error(error.message);
+  revalidatePath('/', 'layout');
   return redirect(next);
 }

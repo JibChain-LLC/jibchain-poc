@@ -1,15 +1,13 @@
 import React from 'react';
 import { cn } from '#/lib/utils';
-import { globalImpactCard } from '#/utils/utils';
-
 interface ImpactCardProps {
   title: string;
-  subTitle: string;
+  subTitle: string | number;
   active?: boolean;
   className?: React.ComponentProps<'div'>['className'];
 }
 
-const ImpactCard = (props: ImpactCardProps) => {
+export default function ImpactCard(props: ImpactCardProps) {
   const { title, subTitle, active = false, className } = props;
 
   return (
@@ -37,22 +35,4 @@ const ImpactCard = (props: ImpactCardProps) => {
       </p>
     </div>
   );
-};
-
-const GlobalImpactCards = () => {
-  return (
-    <div className='mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3'>
-      {globalImpactCard.map((item, index) => (
-        <ImpactCard
-          key={index}
-          title={item.title}
-          subTitle={item.value}
-          active={index === 0}
-          className={cn(index === 0 && 'order-last lg:order-first')}
-        />
-      ))}
-    </div>
-  );
-};
-
-export default GlobalImpactCards;
+}

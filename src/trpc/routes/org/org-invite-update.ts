@@ -10,7 +10,10 @@ import { authProcedure } from '#/trpc/init';
 const updateInviteInput = z.object({
   inviteId: z.string().uuid(),
   orgId: z.string().uuid(),
-  role: z.nativeEnum(RoleEnum).optional()
+  role: z
+    .nativeEnum(RoleEnum)
+    .optional()
+    .refine((v) => v !== RoleEnum.OWNER, 'Invite cannot be set to Owner')
 });
 
 export const updateInvite = authProcedure

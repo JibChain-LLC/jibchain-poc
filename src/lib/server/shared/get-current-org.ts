@@ -40,6 +40,7 @@ export default async function getUserCurrentOrg(
     .from('roles')
     .select('org_id')
     .eq('user_id', uid)
+    .eq('active', true)
     .limit(1);
 
   const orgId =

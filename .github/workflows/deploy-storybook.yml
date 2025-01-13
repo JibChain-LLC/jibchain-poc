@@ -2,6 +2,9 @@ name: Deploy Storybook
 on:
   workflow_dispatch:
   push:
+    paths: 
+      - src/components/**
+      - src/stories/**
     branches:
       - main
 

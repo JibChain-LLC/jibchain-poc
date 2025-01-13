@@ -1,4 +1,5 @@
 import { initTRPC, TRPCError } from '@trpc/server';
+import { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
 import { createClient } from '#/lib/supabase/server';
 
 const t = initTRPC.context<Context>().create();
@@ -17,20 +18,22 @@ export const authProcedure = t.procedure.use(async (opts) => {
 
   return opts.next({
     ctx: {
+      ...opts.ctx,
       user
     }
   });
 });
 
-export async function createTRPCContext() {
+export const createTRPCContext = async (opts?: FetchCreateContextFnOptions) => {
   const supabase = await createClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();
 
   return {
-    user
+    user,
+    req: opts?.req
   };
-}
+};
 
 export type Context = Awaited<ReturnType<typeof createTRPCContext>>;

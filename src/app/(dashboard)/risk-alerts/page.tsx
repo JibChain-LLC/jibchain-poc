@@ -1,9 +1,11 @@
 import { redirect } from 'next/navigation';
-import { trpc } from '#/trpc/query-clients/server';
+import { db } from '#/db';
 
 export default async function Dashboard() {
-  const { data } = await trpc.dash.risks.list({
-    limit: 1
+  const newest = await db.query.risks.findFirst({
+    columns: { id: true },
+    orderBy: (r, { desc }) => [desc(r.articleDate)]
   });
-  redirect(`/risk-alerts/${data[0].id}`);
+
+  redirect(`/risk-alerts/${newest?.id ?? 'none'}`);
 }

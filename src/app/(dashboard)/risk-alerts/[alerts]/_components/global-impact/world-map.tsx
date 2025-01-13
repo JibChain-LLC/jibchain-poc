@@ -11,10 +11,33 @@ import { Building } from 'lucide-react';
 import { useLayoutEffect } from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { Avatar, AvatarFallback, AvatarImage } from '#/components/ui/avatar';
+import { RegionEnum, RiskLevelEnum } from '#/enums';
 import { cn } from '#/lib/utils';
-import { bubble_data, BubbleData } from '#/utils/utils';
+import { RouteOutputs } from '#/trpc/query-clients/client';
 
-const BulletTooltip = () => {
+type ImpactedSuppliers =
+  RouteOutputs['dash']['risks']['read']['impactedSuppliers'];
+
+interface WorldMapProps {
+  impactedSuppliers: ImpactedSuppliers;
+}
+
+interface BulletTooltipProps {
+  name: string;
+  exposure: ImpactedSuppliers[number]['exposure'];
+  category: ImpactedSuppliers[number]['supplier']['category'];
+  regions: ImpactedSuppliers[number]['supplier']['regions'];
+}
+
+const BULLET_MAP: Record<RiskLevelEnum, { color: am5.Color; text: string }> = {
+  low: { color: am5.color(0x0e9f6e), text: 'Low' },
+  med: { color: am5.color(0xc27803), text: 'Medium' },
+  hi: { color: am5.color(0xf05252), text: 'High' }
+};
+
+function BulletTooltip(props: BulletTooltipProps) {
+  const { name, exposure, category, regions } = props;
+
   return (
     <div className='flex flex-col gap-4 p-1.5'>
       <div className='flex flex-col gap-1'>
@@ -24,85 +47,32 @@ const BulletTooltip = () => {
             <Building size={16} />
           </AvatarFallback>
         </Avatar>
-        <p className='text-sm font-semibold text-white'>Dynamic Capital</p>
-        <p className='text-sm font-thin text-gray-400'>South America +2</p>
+        <p className='text-sm font-semibold text-white'>{name}</p>
+        {regions !== null && regions.length > 0 && (
+          <p className='text-sm font-thin text-gray-400'>
+            {RegionEnum[regions[0]]}
+          </p>
+        )}
       </div>
 
       <div className='flex flex-col gap-1'>
         <p className='text-sm font-normal leading-none text-gray-200'>
-          Accounting software and services
+          {category}
         </p>
         <div className='flex gap-2.5 text-sm font-semibold text-white'>
-          <div className='flex'>
-            <p>Exposure: </p>
-            <p>Low</p>
-          </div>
-          <div className='flex'>
-            <p>Impact: </p>
-            <p>Medium</p>
+          <div className='flex gap-1'>
+            <p>Exposure:</p>
+            <p>{BULLET_MAP[exposure].text}</p>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
-const createPointSeries = (chart: am5map.MapChart, root: am5.Root) => {
-  const pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+const WorldMap = (props: WorldMapProps) => {
+  const { impactedSuppliers } = props;
 
-  // Set the data for the point series
-  pointSeries.data.setAll(
-    bubble_data.map((data) => ({
-      geometry: { type: 'Point', coordinates: [data.longitude, data.latitude] },
-      color: data.color
-    }))
-  );
-
-  pointSeries.bullets.push((root, series, dataItem) => {
-    const context = dataItem.dataContext as BubbleData;
-
-    const tooltip = am5.Tooltip.new(root, {
-      pointerOrientation: 'horizontal',
-      getFillFromSprite: false,
-      autoTextColor: false,
-      animationDuration: 0,
-      stateAnimationDuration: 0,
-      showTooltipOn: 'hover',
-      keepTargetHover: true,
-      background: am5.PointedRectangle.new(root, { cornerRadius: 6 })
-    });
-
-    tooltip.get('background')?.setAll({
-      fill: am5.color(0x111928),
-      fillOpacity: 1
-    });
-
-    const mainCircle = am5.Circle.new(root, {
-      radius: 8,
-      fill: context.color,
-      stroke: am5.Color.lighten(context.color, 0.6),
-      strokeWidth: 2,
-      tooltip: tooltip
-    });
-
-    mainCircle.set(
-      'tooltipHTML',
-      ReactDOMServer.renderToString(<BulletTooltip />)
-    );
-    mainCircle.animate({
-      key: 'strokeWidth',
-      from: 2,
-      to: 8,
-      duration: 3500,
-      loops: Infinity,
-      easing: am5.ease.yoyo(am5.ease.linear)
-    });
-
-    return am5.Bullet.new(root, { sprite: mainCircle });
-  });
-};
-
-const WorldMap = () => {
   useLayoutEffect(() => {
     const root = am5.Root.new('chartdiv');
     root.setThemes([
@@ -130,7 +100,69 @@ const WorldMap = () => {
       })
     );
 
-    createPointSeries(chart, root);
+    // createPointSeries(chart, root);
+    const pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+    const pointList = impactedSuppliers.map((data) => ({
+      exposure: data.exposure,
+      ...data.supplier,
+      geometry: {
+        type: 'Point',
+        coordinates: [data.supplier.y, data.supplier.x]
+      },
+      color: BULLET_MAP[data.exposure].color
+    }));
+
+    // Set the data for the point series
+    pointSeries.data.setAll(pointList);
+    pointSeries.bullets.push((root, series, dataItem) => {
+      const context = dataItem.dataContext as (typeof pointList)[number];
+
+      const tooltip = am5.Tooltip.new(root, {
+        pointerOrientation: 'horizontal',
+        getFillFromSprite: false,
+        autoTextColor: false,
+        animationDuration: 0,
+        stateAnimationDuration: 0,
+        showTooltipOn: 'hover',
+        keepTargetHover: true,
+        background: am5.PointedRectangle.new(root, { cornerRadius: 6 })
+      });
+
+      tooltip.get('background')?.setAll({
+        fill: am5.color(0x111928),
+        fillOpacity: 1
+      });
+
+      const mainCircle = am5.Circle.new(root, {
+        radius: 8,
+        fill: context.color,
+        stroke: am5.Color.lighten(context.color, 0.6),
+        strokeWidth: 2,
+        tooltip: tooltip
+      });
+
+      mainCircle.set(
+        'tooltipHTML',
+        ReactDOMServer.renderToString(
+          <BulletTooltip
+            name={context.name!}
+            regions={context.regions}
+            exposure={context.exposure}
+            category={context.category!}
+          />
+        )
+      );
+      mainCircle.animate({
+        key: 'strokeWidth',
+        from: 2,
+        to: 8,
+        duration: 3500,
+        loops: Infinity,
+        easing: am5.ease.yoyo(am5.ease.linear)
+      });
+
+      return am5.Bullet.new(root, { sprite: mainCircle });
+    });
 
     return () => {
       root.dispose();

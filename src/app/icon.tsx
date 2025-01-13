@@ -12,7 +12,8 @@ export default function Icon() {
     (
       <div
         style={{
-          background: '#014737',
+          background:
+            process.env.NODE_ENV === 'development' ? 'orange' : '#014737',
           width: '100%',
           height: '100%',
           display: 'flex',

@@ -1,40 +1,96 @@
-import { ArrowUp } from 'lucide-react';
+import 'server-only';
+
+import { and, between, eq, isNotNull, sql } from 'drizzle-orm';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 import React from 'react';
-import TimeFrame from '#/components/defaul-components/time-frame';
 import OrgCard from '#/components/organization-card';
 import { Card, CardContent } from '#/components/ui/card';
 import { Progress } from '#/components/ui/progress';
+import { db } from '#/db';
+import { risks, suppliers } from '#/db/schema/risks';
+import { RiskLevelEnum } from '#/enums';
 import { cn } from '#/lib/utils';
-import { suppliersData } from '#/utils/utils';
-import { supplierRiskLevels } from '#/utils/utils';
+import { RouteOutputs } from '#/trpc/query-clients/client';
 import MiniMap from './mini-map';
+import TimeFrameRisks from './time-frame-risks';
 
-const SuppliersHeader = () => {
+interface SuppliersHeaderProps {
+  supplierList: RouteOutputs['dash']['suppliers']['list'];
+}
+
+const BADGE_MAP: Record<RiskLevelEnum, { text: string; color: string }> = {
+  low: { text: 'Low', color: 'bg-green-400' },
+  med: { text: 'Medium', color: 'bg-yellow-400' },
+  hi: { text: 'High', color: 'bg-red-400' }
+};
+
+function getDistinctCount(start: Date, end: Date, cat?: string) {
+  return db
+    .select({
+      count: sql<number>`cast(count(${risks.riskCategory}) as int)`.as('count'),
+      riskCategory: risks.riskCategory
+    })
+    .from(risks)
+    .where(
+      and(
+        isNotNull(risks.riskCategory),
+        between(risks.articleDate, start, end),
+        ...(cat ? [eq(risks.riskCategory, cat)] : [])
+      )
+    )
+    .groupBy(risks.riskCategory)
+    .orderBy(sql<number>`cast(count(${risks.riskCategory}) as int) DESC`);
+}
+
+const SuppliersHeader = async (props: SuppliersHeaderProps) => {
+  const { supplierList } = props;
+
+  const totalSuppliers = await db.$count(suppliers);
+  const distinctCountries = await db
+    .select({
+      count: sql<number>`cast(count(${suppliers.countryCode}) as int)`,
+      countryCode: suppliers.countryCode
+    })
+    .from(suppliers)
+    .where(isNotNull(suppliers.countryCode))
+    .groupBy(suppliers.countryCode);
+
+  const atRiskMap = supplierList.reduce(
+    (acc, curr) => {
+      if (!curr.riskEvents[0]) return acc;
+      acc[curr.riskEvents[0].risk.riskLevel!] += 1;
+      return acc;
+    },
+    {
+      hi: 0,
+      med: 0,
+      low: 0
+    } as Record<RiskLevelEnum, number>
+  );
+
+  const now = Date.now();
+  const [thisWeek, ...rest] = await getDistinctCount(
+    new Date(now - 7 * 86_400_000),
+    new Date(now)
+  );
+
+  const [lastWeek] = await getDistinctCount(
+    new Date(now - 14 * 86_400_000),
+    new Date(now - 7 * 86_400_000),
+    thisWeek.riskCategory!
+  );
+
+  const change = Math.floor(
+    ((thisWeek.count - lastWeek.count) / lastWeek.count) * 100
+  );
+
+  const sum = [thisWeek, ...rest].reduce((acc, curr) => acc + curr.count, 0);
+
   return (
     <div className='row-span-1 grid w-full auto-rows-[255px] grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
       <div className='flex w-auto flex-col gap-4'>
         <OrgCard />
-        <Card className='flex w-full grow flex-col items-center justify-center'>
-          <CardContent className='flex size-full flex-col gap-7 px-5'>
-            <TimeFrame className='w-full' />
-            <div className='flex w-full justify-between'>
-              <div className='flex flex-col gap-0.5'>
-                <p className='text-xs font-medium leading-tight text-gray-500'>
-                  Overall risk status
-                </p>
-                <p className='text-2xl font-bold leading-tight text-orange-600'>
-                  Medium
-                </p>
-              </div>
-              <div className='flex flex-col gap-0.5'>
-                <p className='text-xs font-medium leading-tight text-gray-500'>
-                  Active risks
-                </p>
-                <p className='text-2xl font-bold leading-tight'>20</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <TimeFrameRisks endDate={Date.now()} />
       </div>
 
       <Card className='w-full'>
@@ -42,22 +98,22 @@ const SuppliersHeader = () => {
           <div className='flex gap-16'>
             <div className='flex flex-col'>
               <h3 className='text-base font-normal leading-tight text-gray-600'>
-                {suppliersData[0].label}
+                Total Suppliers
               </h3>
               <p className='text-4xl font-bold leading-tight'>
-                {suppliersData[0].value}
+                {totalSuppliers}
               </p>
             </div>
             <div className='flex flex-col'>
               <h3 className='text-base font-normal leading-tight text-gray-600'>
-                {suppliersData[1].label}
+                Countries
               </h3>
               <p className='text-4xl font-normal leading-tight'>
-                {suppliersData[1].value}
+                {distinctCountries.length}
               </p>
             </div>
           </div>
-          <MiniMap />
+          <MiniMap distinctCountries={distinctCountries} />
         </CardContent>
       </Card>
 
@@ -67,36 +123,45 @@ const SuppliersHeader = () => {
             At Risk Suppliers
           </h3>
           <div className='mb-7 flex items-end gap-1'>
-            <p className='text-4xl font-bold leading-none'>65</p>
-            <p className='text-xl font-normal leading-tight'>/243</p>
+            <p className='text-4xl font-bold leading-none'>
+              {Object.values(atRiskMap).reduce((acc, curr) => acc + curr, 0)}
+            </p>
+            <p className='text-xl font-normal leading-tight'>
+              /{totalSuppliers}
+            </p>
           </div>
           <div className='flex flex-row justify-between gap-4'>
-            {supplierRiskLevels.map(
-              ({ label, value, count, indicatorColor }) => (
-                <div key={label} className='flex flex-col'>
+            {Object.entries(atRiskMap).map(([level, count]) => {
+              const { text, color } = BADGE_MAP[level as RiskLevelEnum];
+
+              return (
+                <div key={text} className='flex flex-col'>
                   <div className='flex flex-row items-center'>
                     <span
-                      className={cn(
-                        'mr-2 size-2 rounded-full',
-                        indicatorColor
-                      )}></span>
-                    <p className='text-sm font-medium text-gray-500'>{label}</p>
+                      className={cn('mr-2 size-2 rounded-full', color)}></span>
+                    <p className='text-sm font-medium text-gray-500'>{text}</p>
                   </div>
-                  <p className='text-lg font-bold'>{value}%</p>
+                  <p className='text-lg font-bold'>
+                    {Math.floor((count / totalSuppliers) * 100)}%
+                  </p>
                   <p className='text-sm font-medium text-gray-500'>{count}</p>
                 </div>
-              )
-            )}
+              );
+            })}
           </div>
           <div className='relative mt-4 flex h-5 w-full overflow-hidden rounded-md'>
-            {supplierRiskLevels.map(({ value, indicatorColor }, index) => (
-              <div
-                key={index}
-                className={cn('h-full rounded-none', indicatorColor)}
-                style={{
-                  width: `${value}%`
-                }}></div>
-            ))}
+            {Object.entries(atRiskMap).map(([level, count]) => {
+              const { color } = BADGE_MAP[level as RiskLevelEnum];
+
+              return (
+                <div
+                  key={level}
+                  className={cn('h-full rounded-none', color)}
+                  style={{
+                    width: `${Math.floor((count / totalSuppliers) * 100)}%`
+                  }}></div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
@@ -108,12 +173,19 @@ const SuppliersHeader = () => {
               Top Risk
             </h3>
             <p className='text-2xl font-bold leading-tight'>
-              Ransomware Attack
+              {thisWeek.riskCategory}
             </p>
           </div>
           <div className='mb-5'>
-            <p className='flex items-center gap-0.5 text-sm font-bold text-red-500'>
-              1.45% <ArrowUp className='size-3' />
+            <p
+              className={cn(
+                'flex items-center gap-0.5 text-sm font-bold text-red-500',
+                change <= 0 && 'text-green-600'
+              )}>
+              {Math.abs(change)}%{' '}
+              {React.createElement(change > 0 ? ArrowUp : ArrowDown, {
+                className: 'size-3'
+              })}
             </p>
             <p className='text-sm font-medium'>Increase since last week</p>
           </div>
@@ -121,14 +193,20 @@ const SuppliersHeader = () => {
           <div className='flex flex-col gap-1'>
             <div className='flex w-full items-center gap-1'>
               <Progress
-                indicatorColor='bg-red-500'
-                value={9}
+                indicatorColor={change > 0 ? 'bg-red-500' : 'bg-green-600'}
+                value={(thisWeek.count / sum) * 100}
                 className='h-1.5 rounded-sm bg-gray-200'
               />
-              <p className='text-xs font-medium text-gray-500'>22/243</p>
+              <p className='text-xs font-medium text-gray-500'>
+                {thisWeek.count}/{sum}
+              </p>
             </div>
             <p className='text-sm font-medium'>
-              <span className='font-bold'>9% </span>of total suppliers impacted
+              <span className='font-bold'>
+                {Math.floor((thisWeek.count / sum) * 100)}
+                {'% '}
+              </span>
+              of total risk events
             </p>
           </div>
         </CardContent>

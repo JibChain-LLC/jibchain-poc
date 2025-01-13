@@ -6,6 +6,7 @@ import { db } from '#/db';
 import { users } from '#/db/schema/auth';
 import { invites, roles } from '#/db/schema/public';
 import { RoleEnum } from '#/enums';
+import sendEmail from '#/lib/server/send-email';
 import authCheck from '#/lib/server/shared/auth-check';
 import { authProcedure } from '#/trpc/init';
 import { createInviteInput } from '../../schemas';
@@ -13,11 +14,18 @@ import { createInviteInput } from '../../schemas';
 export const createInvite = authProcedure
   .input(createInviteInput)
   .mutation(async (opts) => {
-    const { user: u } = opts.ctx;
+    const { user } = opts.ctx;
     const { orgId, email: emailAddress, role } = opts.input;
+    const headers = opts.ctx.req?.headers;
+
+    if (user.email === emailAddress)
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'Cannot invite self'
+      });
 
     const auth = await authCheck({
-      user: u,
+      user,
       orgId,
       rolesNeeded: [RoleEnum.ADMIN, RoleEnum.OWNER]
     });
@@ -27,12 +35,16 @@ export const createInvite = authProcedure
         code: 'UNAUTHORIZED',
         message: auth.message
       });
-    const user = auth.data.user;
 
-    if (user.email === emailAddress)
+    const org = await db.query.organizations.findFirst({
+      columns: { name: true },
+      where: (o, { eq }) => eq(o.id, orgId)
+    });
+
+    if (!org)
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: 'Cannot invite self'
+        message: 'Organization does not exist'
       });
 
     const isAlreadyInvited =
@@ -76,6 +88,19 @@ export const createInvite = authProcedure
         orgId
       })
       .returning({ id: invites.id, email: invites.email });
+
+    const reqOrigin = headers?.get('origin') ?? 'https://app.coeusrisk.ai';
+    const inviteURL = new URL('/join', reqOrigin);
+    inviteURL.searchParams.set('inviteId', invite.id);
+
+    await sendEmail({
+      to: [invite.email],
+      subject: "You've been invited!",
+      html: `
+        <h1>You've been invited to join ${org.name}</h1>
+        <p>Dear ${invite.email},<br/>You have been invited to join an organization by ${user.email}.</p>
+        <a disable-tracking=true href="${inviteURL.toString()}">Click here to join</a>`.trim()
+    });
 
     return invite;
   });

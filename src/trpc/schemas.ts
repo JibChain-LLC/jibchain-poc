@@ -27,7 +27,9 @@ type UpdateUserSchema = z.ZodSchema<
 export const createInviteInput = z.object({
   orgId: z.string().uuid(),
   email: z.string().email(),
-  role: z.nativeEnum(RoleEnum)
+  role: z
+    .nativeEnum(RoleEnum)
+    .refine((v) => v !== RoleEnum.OWNER, 'Invite cannot be set to Owner')
 }) satisfies InviteInsertSchema;
 
 export const signUpInput = z

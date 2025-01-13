@@ -1,8 +1,8 @@
+#!/usr/bin/env node
+
 import assert from 'assert';
 import { inArray } from 'drizzle-orm';
 import { EventRegistry, TopicPage, type ER } from 'eventregistry';
-import { NextRequest } from 'next/server';
-import { z } from 'zod';
 import { db } from '#/db';
 import { risks, scenarioPlanning } from '#/db/schema/risks';
 import { ScenarioLevelEnum } from '#/enums';
@@ -24,18 +24,8 @@ interface TopicGetArticleRes {
   topicPage: ER.TopicPage;
 }
 
-const bodySchema = z.object({
-  dry: z.boolean().optional()
-});
-
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const { success, data } = bodySchema.safeParse(body);
-
-  if (!success)
-    return Response.json({ message: 'Invalid request body' }, { status: 400 });
-
-  const { dry: isDryRun = false } = data;
+async function aggregator() {
+  const isDryRun = false;
 
   const er = new EventRegistry({
     apiKey: NEWS_API_KEY,
@@ -148,18 +138,8 @@ export async function POST(req: NextRequest) {
     });
 
     if (isDryRun) {
-      return Response.json({
-        totals: {
-          risks: riskRecords.length
-        },
-        items: riskRecords,
-        performance: {
-          sourcing: articleTimer.measure(),
-          summarization: summaryTimer.measure() / summaries.length,
-          categorization: categoryTimer.measure() / categories.length,
-          generation: generationTimer.measure() / bestPractices.length
-        }
-      });
+      console.log(bestPractices);
+      return;
     }
 
     // insert into database
@@ -196,21 +176,11 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    return Response.json({
-      totals: {
-        risks: inserted.risks.length,
-        scenarios: inserted.scenarios.length
-      },
-      inserted,
-      performance: {
-        sourcing: articleTimer.measure(),
-        summarization: summaryTimer.measure() / summaries.length,
-        categorization: categoryTimer.measure() / categories.length,
-        generation: generationTimer.measure() / bestPractices.length
-      }
-    });
+    console.log(inserted);
+    return;
   } catch (err) {
     console.log(err);
-    return Response.json({ message: 'Internal Error' }, { status: 500 });
   }
 }
+
+await aggregator();

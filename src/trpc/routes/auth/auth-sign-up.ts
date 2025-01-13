@@ -1,5 +1,4 @@
 import { TRPCError } from '@trpc/server';
-import { headers } from 'next/headers';
 import { createClient } from '#/lib/supabase/server';
 import { publicProcedure } from '#/trpc/init';
 import { signUpInput } from '#/trpc/schemas';
@@ -9,8 +8,15 @@ export const signUp = publicProcedure
   .mutation(async (opts) => {
     const { email, password, firstName, lastName, jobRole } = opts.input;
 
+    const headers = opts.ctx.req?.headers;
     const supabase = await createClient();
-    const origin = (await headers()).get('origin');
+    const reqOrigin = headers?.get('origin');
+    const emailRedirectTo = new URL(
+      '/confirm',
+      reqOrigin ?? 'https://app.coeusrisk.ai'
+    ).toString();
+
+    console.log('ORIGIN', reqOrigin);
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -21,7 +27,7 @@ export const signUp = publicProcedure
           lastName,
           jobRole
         },
-        emailRedirectTo: new URL('/confirm', origin as string).toString()
+        emailRedirectTo
       }
     });
 
