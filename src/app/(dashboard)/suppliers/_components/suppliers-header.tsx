@@ -142,7 +142,7 @@ const SuppliersHeader = async (props: SuppliersHeaderProps) => {
                     <p className='text-sm font-medium text-gray-500'>{text}</p>
                   </div>
                   <p className='text-lg font-bold'>
-                    {Math.floor(count / totalSuppliers) * 100}%
+                    {Math.floor((count / totalSuppliers) * 100)}%
                   </p>
                   <p className='text-sm font-medium text-gray-500'>{count}</p>
                 </div>
@@ -158,7 +158,7 @@ const SuppliersHeader = async (props: SuppliersHeaderProps) => {
                   key={level}
                   className={cn('h-full rounded-none', color)}
                   style={{
-                    width: `${Math.floor(count / totalSuppliers) * 100}%`
+                    width: `${Math.floor((count / totalSuppliers) * 100)}%`
                   }}></div>
               );
             })}
