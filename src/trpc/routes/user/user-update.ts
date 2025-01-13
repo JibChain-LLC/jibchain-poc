@@ -6,14 +6,12 @@ import { updateUserInput } from '#/trpc/schemas';
 
 export const updateUser = authProcedure
   .input(updateUserInput)
-  .query(async (opts) => {
+  .mutation(async (opts) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { email, ...rest } = opts.input;
     const user = opts.ctx.user;
 
     await db.update(profiles).set(rest).where(eq(profiles.id, user.id));
-
-    if (email) {
-    }
 
     return { ok: true };
   });

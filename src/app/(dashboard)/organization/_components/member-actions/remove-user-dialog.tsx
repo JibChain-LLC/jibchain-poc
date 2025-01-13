@@ -21,7 +21,6 @@ export default function RemoveUserDialog(props: {
 
   const router = useRouter();
   const { toast } = useToast();
-  const utils = trpc.useUtils();
   const {
     mutate: removeMember,
     isSuccess,
@@ -41,10 +40,6 @@ export default function RemoveUserDialog(props: {
       }
     }
   });
-
-  const refreshQuery = async () => {
-    utils.org.member.list.invalidate();
-  };
 
   return (
     <>
@@ -85,7 +80,7 @@ export default function RemoveUserDialog(props: {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <DialogClose asChild onClick={refreshQuery}>
+            <DialogClose asChild>
               <Button>Continue</Button>
             </DialogClose>
           </DialogFooter>

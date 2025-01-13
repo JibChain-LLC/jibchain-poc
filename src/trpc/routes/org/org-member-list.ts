@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '#/db';
 import { users } from '#/db/schema/auth';
-import { roles } from '#/db/schema/public';
+import { profiles, roles } from '#/db/schema/public';
 import authCheck from '#/lib/server/shared/auth-check';
 import { authProcedure } from '#/trpc/init';
 
@@ -39,22 +39,16 @@ export const getMembers = authProcedure
         role: roles.role,
         active: roles.active,
         lastSignIn: users.lastSignIn,
-        userMetadata: users.userMetadata
+        firstName: profiles.firstName,
+        lastName: profiles.lastName,
+        jobRole: profiles.jobRole
       })
       .from(roles)
       .where(eq(roles.orgId, orgId))
       .innerJoin(users, eq(users.id, roles.userId))
+      .innerJoin(profiles, eq(profiles.id, roles.userId))
       .offset(offset)
       .limit(limit);
 
-    return members.map((m) => {
-      const { userMetadata, ...rest } = m;
-
-      return {
-        ...rest,
-        firstName: userMetadata?.firstName,
-        lastName: userMetadata?.lastName,
-        jobRole: userMetadata?.jobRole
-      };
-    });
+    return members;
   });

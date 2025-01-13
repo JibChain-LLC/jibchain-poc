@@ -1,22 +1,21 @@
 import 'server-only';
 
-import { withAuthUser } from '#/components/auth-wrapper';
+import type { Metadata } from 'next';
 import { HydrateClient, trpc } from '#/trpc/query-clients/server';
 import UpdateUserForm from './_components/update-user-form';
 
-export default withAuthUser(
-  async function AccountPage(props) {
-    const { user } = props;
+export const metadata: Metadata = {
+  title: 'Update Account'
+};
 
-    await trpc.user.read.prefetch(user.id);
+export default async function AccountPage() {
+  await trpc.user.read.prefetch();
 
-    return (
-      <HydrateClient>
-        <div className='flex px-6 py-12 lg:px-12 xl:px-32'>
-          <UpdateUserForm uid={user.id} />
-        </div>
-      </HydrateClient>
-    );
-  },
-  { redirectTo: '/' }
-);
+  return (
+    <HydrateClient>
+      <div className='flex px-6 py-12 lg:px-12 xl:px-32'>
+        <UpdateUserForm />
+      </div>
+    </HydrateClient>
+  );
+}

@@ -20,7 +20,6 @@ export default function ToggleActivationDialog(props: {
   const { orgId, userId, active } = props;
 
   const { toast } = useToast();
-  const utils = trpc.useUtils();
   const {
     mutate: toggleActivation,
     isPending,
@@ -34,10 +33,6 @@ export default function ToggleActivationDialog(props: {
       });
     }
   });
-
-  const refreshQuery = async () => {
-    utils.org.member.list.invalidate();
-  };
 
   return (
     <>
@@ -79,7 +74,7 @@ export default function ToggleActivationDialog(props: {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <DialogClose asChild onClick={refreshQuery}>
+            <DialogClose asChild>
               <Button>Continue</Button>
             </DialogClose>
           </DialogFooter>
