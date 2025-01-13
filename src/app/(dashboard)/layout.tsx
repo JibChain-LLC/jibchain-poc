@@ -1,10 +1,8 @@
 import 'server-only';
 
-import { and, eq } from 'drizzle-orm';
 import AuthWrapper from '#/components/auth-wrapper';
 import Sidebar from '#/components/defaul-components/sidebar';
 import { db } from '#/db';
-import { profiles } from '#/db/schema/public';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -19,21 +17,18 @@ export default async function DashboardLayout(props: DashboardLayoutProps) {
         fallback={<div className='w-full px-8 py-5'>{children}</div>}>
         {async (props) => {
           const { user } = props;
-          const {
-            user_metadata: { firstName, lastName, jobRole }
-          } = user;
 
-          const recordCount = await db.$count(
-            profiles,
-            and(eq(profiles.id, user.id), eq(profiles.isSuperUser, true))
-          );
+          const profile = await db.query.profiles.findFirst({
+            where: (p, { eq }) => eq(p.id, user.id)
+          });
+          if (!profile) return null;
 
           return (
             <>
               <Sidebar
-                fullName={`${firstName} ${lastName}`}
-                jobRole={jobRole}
-                isSuperUser={recordCount > 0}
+                fullName={`${profile.firstName} ${profile.lastName}`}
+                jobRole={profile.jobRole!}
+                isSuperUser={profile.isSuperUser ?? false}
               />
               <div className='ml-16 w-full px-8 py-5'>{children}</div>
             </>

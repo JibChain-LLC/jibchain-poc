@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { invites, organizations } from '#/db/schema/public';
+import type { invites, organizations, profiles } from '#/db/schema/public';
 import { IndustryEnum, RoleEnum } from '#/enums';
 
 type OrgInsertSchema = z.ZodSchema<
@@ -18,6 +18,10 @@ type InviteInsertSchema = z.ZodSchema<
   Required<
     Omit<typeof invites.$inferInsert, 'id' | 'inviterId' | 'existingUser'>
   >
+>;
+
+type UpdateUserSchema = z.ZodSchema<
+  Omit<typeof profiles.$inferInsert, 'id' | 'isSuperUser'>
 >;
 
 export const createInviteInput = z.object({
@@ -66,3 +70,10 @@ export const loginInput = z.object({
   email: z.string().email(),
   password: z.string()
 });
+
+export const updateUserInput = z.object({
+  email: z.string().optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  jobRole: z.string().optional()
+}) satisfies UpdateUserSchema;

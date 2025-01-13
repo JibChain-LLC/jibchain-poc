@@ -56,7 +56,9 @@ const RiskContainer = async () => {
   const riskChanges = Object.keys(thisWeek).reduce(
     (acc, curr) => {
       acc[curr] = Math.floor(
-        ((thisWeek[curr] - lastWeek[curr]) / lastWeek[curr]) * 100
+        (((thisWeek[curr] ?? 0) - (lastWeek[curr] ?? 0)) /
+          (lastWeek[curr] ?? 1)) *
+          100
       );
       return acc;
     },
