@@ -20,7 +20,7 @@ const formatUSD = new Intl.NumberFormat('en-US', {
 });
 
 export default function OverviewComponent(props: OverviewComponentProps) {
-  const { riskEntry,setActiveTab } = props;
+  const { riskEntry, setActiveTab } = props;
 
   return (
     <div>

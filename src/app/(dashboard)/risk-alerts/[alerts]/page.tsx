@@ -1,4 +1,3 @@
-
 import 'server-only';
 import { db } from '#/db';
 import { suppliers } from '#/db/schema/risks';
@@ -20,7 +19,7 @@ export default async function RiskPageServer(props: RiskPageServerProps) {
       ...r,
       articleDate: r.articleDate?.toDateString() ?? null,
       created: r.created?.toDateString() ?? null,
-      updated: r.updated?.toDateString() ?? null,
+      updated: r.updated?.toDateString() ?? null
     }))
     .catch(() => null);
 
@@ -28,5 +27,7 @@ export default async function RiskPageServer(props: RiskPageServerProps) {
 
   const totalSuppliers = await db.$count(suppliers);
 
-  return<RiskPageClient data={data} totalSuppliers={totalSuppliers} tab={tab} />
+  return (
+    <RiskPageClient data={data} totalSuppliers={totalSuppliers} tab={tab} />
+  );
 }
