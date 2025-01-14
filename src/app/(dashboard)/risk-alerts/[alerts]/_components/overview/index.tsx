@@ -12,6 +12,7 @@ type RiskEntry = RouteOutputs['dash']['risks']['read'];
 
 interface OverviewComponentProps {
   riskEntry: RiskEntry;
+  setActiveTab: (value: string) => void;
 }
 
 const formatUSD = new Intl.NumberFormat('en-US', {
@@ -19,7 +20,7 @@ const formatUSD = new Intl.NumberFormat('en-US', {
 });
 
 export default function OverviewComponent(props: OverviewComponentProps) {
-  const { riskEntry } = props;
+  const { riskEntry,setActiveTab } = props;
 
   return (
     <div>
@@ -42,7 +43,7 @@ export default function OverviewComponent(props: OverviewComponentProps) {
           header='Impacted Suppliers'
           subHeader={riskEntry.impactedSuppliers.length.toString()}
           src='/overhead-containers.jpg'
-          onClick={() => console.log('test')}
+          onClick={() => setActiveTab('global-impact')}
           alt='Suppliers'
         />
       </div>
