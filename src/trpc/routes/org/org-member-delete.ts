@@ -41,6 +41,26 @@ export const deleteMember = authProcedure
       });
     }
 
+    const userToDelete = await db.query.roles.findFirst({
+      where: (r, { eq, and }) => and(eq(r.orgId, orgId), eq(r.userId, userId))
+    });
+
+    if (!userToDelete) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: 'Not a valid user.'
+      });
+    } else if (
+      userToDelete.role === RoleEnum.OWNER &&
+      auth.ok &&
+      !auth.data.roles.has(RoleEnum.OWNER)
+    ) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: 'User cannot remove Owner from organization.'
+      });
+    }
+
     await db
       .delete(roles)
       .where(and(eq(roles.orgId, orgId), eq(roles.userId, userId)));
