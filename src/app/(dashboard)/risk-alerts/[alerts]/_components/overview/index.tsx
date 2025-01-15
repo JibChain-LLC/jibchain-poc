@@ -6,12 +6,14 @@ import { Button } from '#/components/ui/button';
 import { RiskCategoryEnum } from '#/enums';
 import { impactAreaMapping } from '#/mappings';
 import { RouteOutputs } from '#/trpc/query-clients/client';
+import { AlertTab } from '../risk-page-client';
 import OverviewCard from './overview-card';
 
 type RiskEntry = RouteOutputs['dash']['risks']['read'];
 
 interface OverviewComponentProps {
   riskEntry: RiskEntry;
+  setActiveTab: (value: AlertTab) => void;
 }
 
 const formatUSD = new Intl.NumberFormat('en-US', {
@@ -19,7 +21,7 @@ const formatUSD = new Intl.NumberFormat('en-US', {
 });
 
 export default function OverviewComponent(props: OverviewComponentProps) {
-  const { riskEntry } = props;
+  const { riskEntry, setActiveTab } = props;
 
   return (
     <div>
@@ -42,7 +44,7 @@ export default function OverviewComponent(props: OverviewComponentProps) {
           header='Impacted Suppliers'
           subHeader={riskEntry.impactedSuppliers.length.toString()}
           src='/overhead-containers.jpg'
-          onClick={() => console.log('test')}
+          onClick={() => setActiveTab('global-impact')}
           alt='Suppliers'
         />
       </div>
