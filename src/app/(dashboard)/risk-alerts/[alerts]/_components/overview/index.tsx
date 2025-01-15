@@ -6,13 +6,14 @@ import { Button } from '#/components/ui/button';
 import { RiskCategoryEnum } from '#/enums';
 import { impactAreaMapping } from '#/mappings';
 import { RouteOutputs } from '#/trpc/query-clients/client';
+import { AlertTab } from '../risk-page-client';
 import OverviewCard from './overview-card';
 
 type RiskEntry = RouteOutputs['dash']['risks']['read'];
 
 interface OverviewComponentProps {
   riskEntry: RiskEntry;
-  setActiveTab: (value: string) => void;
+  setActiveTab: (value: AlertTab) => void;
 }
 
 const formatUSD = new Intl.NumberFormat('en-US', {

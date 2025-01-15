@@ -30,6 +30,8 @@ const operations = [
   }
 ] as const;
 
+export type AlertTab = (typeof operations)[number]['value'];
+
 type RiskEntry = RouteOutputs['dash']['risks']['read'];
 interface RiskPageClientProps {
   data: RiskEntry;
@@ -42,9 +44,9 @@ export default function RiskPageClient({
   totalSuppliers,
   tab
 }: RiskPageClientProps) {
-  const [activeTab, setActiveTab] = useState(
+  const [activeTab, setActiveTab] = useState<AlertTab>(
     tab && !Array.isArray(tab) && operations.some((o) => o.value === tab)
-      ? tab
+      ? (tab as AlertTab)
       : 'overview'
   );
 
@@ -59,7 +61,7 @@ export default function RiskPageClient({
       <Tabs
         className='flex w-full flex-col overflow-hidden'
         value={activeTab}
-        onValueChange={(value) => setActiveTab(value)}>
+        onValueChange={(value) => setActiveTab(value as AlertTab)}>
         <TabsList className='grid h-auto w-full grid-cols-3'>
           {operations.map(({ value, label, icon }) => (
             <TabsTrigger key={value} value={value}>
