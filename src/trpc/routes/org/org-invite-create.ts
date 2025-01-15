@@ -93,7 +93,7 @@ export const createInvite = authProcedure
     const inviteURL = new URL('/join', reqOrigin);
     inviteURL.searchParams.set('inviteId', invite.id);
 
-    await sendEmail({
+    const sentEmail = await sendEmail({
       to: [invite.email],
       subject: "You've been invited!",
       html: `
@@ -101,6 +101,8 @@ export const createInvite = authProcedure
         <p>Dear ${invite.email},<br/>You have been invited to join an organization by ${user.email}.</p>
         <a disable-tracking=true href="${inviteURL.toString()}">Click here to join</a>`.trim()
     });
+
+    console.log('INVITE SENT STATUS:', sentEmail);
 
     return invite;
   });

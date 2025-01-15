@@ -16,6 +16,7 @@ import {
 } from '#/components/ui/form';
 import { Input } from '#/components/ui/input';
 import { useGoTo } from '#/hooks';
+import revalidateAllPath from '#/revalidate-path';
 import { RouterInputs } from '#/trpc';
 import { trpc } from '#/trpc/query-clients/client';
 import { loginInput } from '#/trpc/schemas';
@@ -41,7 +42,10 @@ export default function LoginForm() {
     onError(e) {
       form.setError('root', { type: 'custom', message: e.message });
     },
-    onSuccess: goTo(searchParams.get('redirectTo') ?? '/organization')
+    onSuccess: async () => {
+      await revalidateAllPath();
+      goTo(searchParams.get('redirectTo') ?? '/organization');
+    }
   });
 
   return (
